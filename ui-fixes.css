@@ -1,0 +1,6 @@
+.profile-chip .chevron{display:none!important}
+.dots{display:none!important}
+.grade-menu{z-index:1000;min-width:145px;max-height:60vh;overflow-y:auto;overscroll-behavior:contain;padding:6px;background:var(--paper,#fff);border:1px solid var(--line,#e7ebf0);border-radius:10px;box-shadow:0 12px 30px rgba(31,43,61,.16)}
+.grade-menu button{display:block;width:100%;padding:9px 11px;border:0;border-radius:7px;background:transparent;color:var(--ink,#192433);text-align:left;font:600 12px 'DM Sans',sans-serif;cursor:pointer}
+.grade-menu button:hover,.grade-menu button:focus-visible{background:#efeeff;color:var(--violet,#6658e8);outline:none}
+.video-play{cursor:pointer;touch-action:manipulation}
