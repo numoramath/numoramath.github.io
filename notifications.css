@@ -4,3 +4,6 @@
 .notification-close{float:right;border:0;background:none;color:var(--muted);font-size:20px;line-height:16px;cursor:pointer;padding:0}
 .notification-popover strong{font:700 13px 'Space Grotesk'}
 .notification-popover p{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.45}
+.notification-popover{z-index:2147483000}
+.toast,#toast{position:fixed;left:50%;right:auto;bottom:88px;z-index:2147483001;width:max-content;max-width:calc(100vw - 32px);white-space:normal;text-align:center;line-height:1.45;box-shadow:0 12px 32px rgba(20,30,45,.28);transform:translate(-50%,10px)}
+.toast.show,#toast.show{transform:translate(-50%,0)}
