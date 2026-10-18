@@ -37,6 +37,46 @@
     const target = event.target instanceof Element ? event.target : null;
     if (!target) return;
 
+    const logoutButton = target.closest('.logout-btn');
+    if (logoutButton) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      saveCurrentAccountProgress();
+      localStorage.removeItem('numoraActiveEmail');
+      localStorage.removeItem('numoraUser');
+      localStorage.removeItem('numoraEmail');
+      localStorage.removeItem('numoraPassword');
+      numoraProgressKeys().forEach(key => localStorage.removeItem(key));
+      userName = 'Guest';
+      selectedGrade = 'Pre-K';
+      freshStart = true;
+      completed = 0;
+      streak = 0;
+      accuracyAttempts = 0;
+      accuracyCorrect = 0;
+      todayCompleted = 0;
+      monthCompleted = 0;
+      lessonQuestionCount = 0;
+      activeLesson = '';
+      activeLessonIndex = 0;
+      badgeProgress = { earned: [], practiceDays: [], practicedLessons: [], finishedLessons: [] };
+      window.currentActiveLesson = '';
+      window.currentLessonQuestionCount = 0;
+      document.querySelector('#app-content').innerHTML = '<div class="page-wrap"><section class="card empty-state"><h2>You’re logged out</h2><p>Log in or create an account to continue learning.</p></section></div>';
+      document.querySelector('#page-title').textContent = 'Welcome';
+      document.querySelector('.logout-btn')?.classList.add('hidden');
+      document.querySelector('.login-btn')?.classList.remove('hidden');
+      document.querySelector('.signup-btn')?.classList.remove('hidden');
+      document.querySelector('#email-input').value = '';
+      document.querySelector('#password-input').value = '';
+      document.querySelector('#name-input').value = '';
+      document.querySelector('#auth-modal').classList.add('hidden');
+      syncProfile();
+      openAuth('login');
+      showToast('You have been logged out');
+      return;
+    }
+
     const videoButton = target.closest('.lesson-video .video-play');
     if (videoButton) {
       event.preventDefault();

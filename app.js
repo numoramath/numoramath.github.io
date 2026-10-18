@@ -190,24 +190,39 @@ document.addEventListener('click',e=>{const view=e.target.closest('[data-view]')
 document.addEventListener('click',e=>{const target=e.target instanceof Element?e.target.closest('[data-practice]'):null;if(target){e.preventDefault();practiceView(target.dataset.lesson);}});
 document.addEventListener('click',e=>{const target=e.target instanceof Element?e.target.closest('.continue-card [data-practice],.empty-state [data-practice]'):null;if(target){e.preventDefault();e.stopImmediatePropagation();practiceView(target.dataset.lesson);}},true);
 document.addEventListener('click',e=>{const target=e.target instanceof Element?e.target.closest('.check-btn'):null;if(!target)return;const isNext=target.textContent.includes('Next question');const isFinish=target.textContent.includes('Finish lesson');if(!isNext&&!isFinish)return;e.preventDefault();e.stopImmediatePropagation();if(isFinish||lessonQuestionCount>=10)showLessonComplete();else renderLessonQuestion();},true);
-document.addEventListener('click',e=>{
+document.addEventListener('click',async e=>{
   const submit=e.target instanceof Element?e.target.closest('#auth-submit'):null;
   if(!submit)return;
   e.preventDefault();
   e.stopImmediatePropagation();
+  const migrationReady=await accountMigrationPromise;
+  if(!migrationReady){
+    const error=document.querySelector('#auth-error');
+    if(error){error.textContent='Secure password storage is unavailable. Please open Numora using its secure website.';error.classList.add('show');}
+    document.querySelector('#password-input').value='';
+    return;
+  }
   const email=document.querySelector('#email-input')?.value.trim().toLowerCase()||'';
   const password=document.querySelector('#password-input')?.value||'';
+  const passwordInput=document.querySelector('#password-input');
   const error=document.querySelector('#auth-error');
-  const showAuthError=message=>{if(error){error.textContent=message;error.classList.add('show');}};
+  const showAuthError=message=>{if(error){error.textContent=message;error.classList.add('show');}if(passwordInput)passwordInput.value='';};
   if(error){error.textContent='';error.classList.remove('show');}
   if(authMode==='resetPassword'||authMode==='resetUsername'){
     const account=findNumoraAccount(email);
     if(!account){showAuthError('Enter the email used for your Numora account.');return;}
     if(authMode==='resetPassword'){
       if(password.length<6){showAuthError('Your new password must be at least 6 characters.');return;}
-      account.password=password;
-      if(localStorage.getItem('numoraActiveEmail')?.toLowerCase()===email)localStorage.setItem('numoraPassword',password);
-      showToast('Your new password was saved.');
+      try{account.passwordHash=await hashNumoraPassword(password);delete account.password;}
+      catch{showAuthError('Secure password storage is unavailable in this browser.');if(passwordInput)passwordInput.value='';return;}
+      saveNumoraAccount(email,account);
+      restoreAccountProgress(email,account);
+      userName=account.username||email.split('@')[0]||'Learner';
+      localStorage.setItem('numoraUser',userName);localStorage.setItem('numoraEmail',email);localStorage.removeItem('numoraPassword');
+      authModal.classList.add('hidden');authMode='login';
+      document.querySelector('.logout-btn')?.classList.remove('hidden');document.querySelector('.login-btn')?.classList.add('hidden');document.querySelector('.signup-btn')?.classList.add('hidden');
+      if(passwordInput)passwordInput.value='';document.querySelector('#email-input').value='';document.querySelector('#name-input').value='';
+      syncProfile();homeView();showToast('Password updated. Welcome back, '+firstName()+'!');return;
     }else{
       const newName=document.querySelector('#name-input')?.value.trim();
       if(!newName){showAuthError('Enter a new username.');return;}
@@ -222,21 +237,26 @@ document.addEventListener('click',e=>{
     if(!email||!/^\S+@\S+\.\S+$/.test(email)||password.length<6){showAuthError('Enter a valid email and a password with at least 6 characters.');return;}
     if(findNumoraAccount(email)){showAuthError('An account already uses this email. Please log in instead.');return;}
     userName=document.querySelector('#name-input')?.value.trim()||email.split('@')[0]||'Learner';
-    localStorage.setItem('numoraUser',userName);localStorage.setItem('numoraEmail',email);localStorage.setItem('numoraPassword',password);localStorage.setItem('numoraActiveEmail',email);
-    saveNumoraAccount(email,{username:userName,password,joinedAt:localDateKey(),progress:{}});startFreshAccount();saveCurrentAccountProgress();
+    let passwordHash;try{passwordHash=await hashNumoraPassword(password);}catch{showAuthError('Secure password storage is unavailable in this browser.');if(passwordInput)passwordInput.value='';return;}
+    localStorage.setItem('numoraUser',userName);localStorage.setItem('numoraEmail',email);localStorage.removeItem('numoraPassword');localStorage.setItem('numoraActiveEmail',email);
+    saveNumoraAccount(email,{username:userName,passwordHash,joinedAt:localDateKey(),progress:{}});startFreshAccount();saveCurrentAccountProgress();
   }else{
     const account=findNumoraAccount(email);
-    if(!account||password!==account.password){showAuthError('We could not find an account with those details.');return;}
+    let passwordValid=false;try{passwordValid=!!account&&await verifyNumoraPassword(account,password);}catch{}
+    if(!passwordValid){showAuthError('We could not find an account with those details.');if(passwordInput)passwordInput.value='';return;}
     const previousEmail=(localStorage.getItem('numoraActiveEmail')||'').trim().toLowerCase();
     if(previousEmail&&previousEmail!==email)saveCurrentAccountProgress();
     restoreAccountProgress(email,account);
     userName=account.username||email.split('@')[0]||'Learner';
-    localStorage.setItem('numoraUser',userName);localStorage.setItem('numoraEmail',email);localStorage.setItem('numoraPassword',account.password);
+    localStorage.setItem('numoraUser',userName);localStorage.setItem('numoraEmail',email);localStorage.removeItem('numoraPassword');
   }
   authModal.classList.add('hidden');
   document.querySelector('.logout-btn')?.classList.remove('hidden');
   document.querySelector('.login-btn')?.classList.add('hidden');
   document.querySelector('.signup-btn')?.classList.add('hidden');
+  if(passwordInput)passwordInput.value='';
+  document.querySelector('#email-input').value='';
+  document.querySelector('#name-input').value='';
   syncProfile();homeView();showToast('Welcome to Numora, '+firstName()+'!');
 },true);
 homeView();
@@ -248,7 +268,7 @@ const authCopy=document.querySelector('#auth-copy');
 const authSubmit=document.querySelector('#auth-submit');
 const authSwitch=document.querySelector('#auth-switch');
 let authMode='login';
-function openAuth(mode){authMode=mode;const signup=mode==='signup';authEyebrow.textContent=signup?'GET STARTED':'WELCOME BACK';authTitle.textContent=signup?'Create your Numora account':'Log in to Numora';authCopy.textContent=signup?'Save your progress, streaks, and favorite skills.':'Pick up your learning journey right where you left off.';authSubmit.textContent=signup?'Create account':'Log in';authSwitch.innerHTML=signup?'Already have an account? <button>Log in</button>':'New to Numora? <button>Sign up</button>';document.querySelector('#forgot-password').classList.toggle('hidden',signup);document.querySelector('#forgot-username').classList.add('hidden');document.querySelector('.name-field').classList.toggle('hidden',!signup);document.querySelector('.name-field').childNodes[0].textContent='Your name';document.querySelector('#password-input').parentElement.classList.remove('hidden');document.querySelector('#password-input').parentElement.childNodes[0].textContent='Password';document.querySelector('#password-input').placeholder='••••••••';authModal.classList.remove('hidden')}
+function openAuth(mode){authMode=mode;const signup=mode==='signup';authEyebrow.textContent=signup?'GET STARTED':'WELCOME BACK';authTitle.textContent=signup?'Create your Numora account':'Log in to Numora';authCopy.textContent=signup?'Save your progress, streaks, and favorite skills.':'Pick up your learning journey right where you left off.';authSubmit.textContent=signup?'Create account':'Log in';authSwitch.innerHTML=signup?'Already have an account? <button>Log in</button>':'New to Numora? <button>Sign up</button>';document.querySelector('#forgot-password').classList.toggle('hidden',signup);document.querySelector('#forgot-username').classList.add('hidden');document.querySelector('.name-field').classList.toggle('hidden',!signup);document.querySelector('.name-field').childNodes[0].textContent='Your name';document.querySelector('#password-input').parentElement.classList.remove('hidden');document.querySelector('#password-input').parentElement.childNodes[0].textContent='Password';document.querySelector('#password-input').placeholder='••••••••';document.querySelector('#password-input').value='';document.querySelector('#password-input').setAttribute('autocomplete',signup?'new-password':'current-password');document.querySelector('#email-input').value='';document.querySelector('#email-input').setAttribute('autocomplete','username');document.querySelector('#auth-error').textContent='';document.querySelector('#auth-error').classList.remove('show');authModal.classList.remove('hidden')}
 document.addEventListener('click',e=>{if(e.target.closest('.login-btn'))openAuth('login');if(e.target.closest('.signup-btn'))openAuth('signup');if(e.target.closest('.logout-btn')){saveCurrentAccountProgress();localStorage.removeItem('numoraActiveEmail');localStorage.removeItem('numoraUser');numoraProgressKeys().forEach(key=>localStorage.removeItem(key));userName='Jordan Smith';selectedGrade='Pre-K';freshStart=true;completed=0;streak=0;todayCompleted=0;monthCompleted=0;badgeProgress={earned:[],practiceDays:[],practicedLessons:[],finishedLessons:[]};document.querySelector('.logout-btn').classList.add('hidden');document.querySelector('.login-btn').classList.remove('hidden');document.querySelector('.signup-btn').classList.remove('hidden');showToast('You have been logged out');openAuth('signup');}if(e.target.closest('.modal-close')||e.target===authModal)authModal.classList.add('hidden');if(e.target.closest('#auth-switch button'))openAuth(authTitle.textContent.startsWith('Log')?'signup':'login');if(e.target.closest('#forgot-password'))showToast('Password reset instructions are on the way');if(e.target.closest('#auth-submit')){if(authTitle.textContent.startsWith('Create')){const enteredName=document.querySelector('#name-input').value.trim();if(enteredName){userName=enteredName;localStorage.setItem('numoraUser',userName);}startFreshAccount();saveCurrentAccountProgress();}authModal.classList.add('hidden');document.querySelector('.logout-btn').classList.remove('hidden');document.querySelector('.login-btn').classList.add('hidden');document.querySelector('.signup-btn').classList.add('hidden');syncProfile();homeView();showToast('Welcome to Numora, '+firstName()+'!');}});
 document.addEventListener('click',e=>{const gradeButton=e.target.closest('.secondary-btn');if(!gradeButton||!/^(?:Grade \d+|Pre-K|Kindergarten|College) ⌄$/.test(gradeButton.textContent.trim()))return;document.querySelector('.grade-menu')?.remove();const grades=['Pre-K','Kindergarten','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10','Grade 11','Grade 12','College'];const menu=document.createElement('div');menu.className='grade-menu';grades.forEach(grade=>{const option=document.createElement('button');option.textContent=grade;option.onclick=()=>{selectedGrade=grade;localStorage.setItem('numoraGrade',grade);syncProfile();menu.remove();skillsView();showToast('Now viewing '+grade+' Explorer');};menu.appendChild(option)});document.body.appendChild(menu);const rect=gradeButton.getBoundingClientRect();menu.style.position='fixed';menu.style.top=(rect.bottom+6)+'px';menu.style.left=(rect.right-145)+'px';});
 if(localStorage.getItem('numoraUser')){document.querySelector('.logout-btn').classList.remove('hidden');document.querySelector('.login-btn').classList.add('hidden');document.querySelector('.signup-btn').classList.add('hidden');syncProfile();}else{openAuth('signup');}
@@ -312,3 +332,62 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#forgot-password')){authMode='resetPassword';authEyebrow.textContent='ACCOUNT RECOVERY';authTitle.textContent='Create a new password';authCopy.textContent='Enter your account email and choose a new password.';document.querySelector('.name-field').classList.add('hidden');document.querySelector('#password-input').placeholder='New password';document.querySelector('#password-input').parentElement.childNodes[0].textContent='New password';authSubmit.textContent='Save new password';authSwitch.innerHTML='Back to login <button>Log in</button>';}
   if(e.target.closest('#forgot-username')){authMode='resetUsername';authEyebrow.textContent='ACCOUNT RECOVERY';authTitle.textContent='Create a new username';authCopy.textContent='Enter your account email and choose a new username.';document.querySelector('.name-field').classList.remove('hidden');document.querySelector('.name-field').childNodes[0].textContent='New username';document.querySelector('#password-input').parentElement.classList.add('hidden');authSubmit.textContent='Save new username';authSwitch.innerHTML='Back to login <button>Log in</button>';}
 });
+
+const passwordHashIterations=210000;
+function passwordBytesToBase64(bytes){let binary='';for(const byte of bytes)binary+=String.fromCharCode(byte);return btoa(binary);}
+function passwordBase64ToBytes(value){return Uint8Array.from(atob(value),character=>character.charCodeAt(0));}
+async function deriveNumoraPassword(password,salt,iterations=passwordHashIterations){
+  if(!window.crypto?.subtle)throw new Error('Web Crypto is unavailable');
+  const key=await window.crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);
+  return new Uint8Array(await window.crypto.subtle.deriveBits({name:'PBKDF2',salt,iterations,hash:'SHA-256'},key,256));
+}
+async function hashNumoraPassword(password){
+  const salt=window.crypto.getRandomValues(new Uint8Array(16));
+  const hash=await deriveNumoraPassword(password,salt);
+  return `pbkdf2-sha256$${passwordHashIterations}$${passwordBytesToBase64(salt)}$${passwordBytesToBase64(hash)}`;
+}
+async function verifyNumoraPassword(account,password){
+  if(account?.passwordHash){
+    const [algorithm,iterationText,saltText,hashText]=account.passwordHash.split('$');
+    if(algorithm!=='pbkdf2-sha256'||!saltText||!hashText)return false;
+    const actual=await deriveNumoraPassword(password,passwordBase64ToBytes(saltText),Number(iterationText));
+    const expected=passwordBase64ToBytes(hashText);
+    if(actual.length!==expected.length)return false;
+    let difference=0;for(let index=0;index<actual.length;index++)difference|=actual[index]^expected[index];
+    return difference===0;
+  }
+  if(typeof account?.password!=='string'||password!==account.password)return false;
+  account.passwordHash=await hashNumoraPassword(password);
+  delete account.password;
+  saveNumoraAccount(localStorage.getItem('numoraActiveEmail')||document.querySelector('#email-input').value,account);
+  return true;
+}
+async function migrateStoredAccountPasswords(){
+  if(!window.crypto?.subtle)return false;
+  const accounts=readNumoraAccounts();
+  let changed=false;
+  const legacyEmail=String(localStorage.getItem('numoraEmail')||localStorage.getItem('numoraActiveEmail')||'').trim().toLowerCase();
+  const hasLegacyAccount=legacyEmail&&Object.keys(accounts).some(email=>email.toLowerCase()===legacyEmail);
+  if(legacyEmail&&localStorage.getItem('numoraUser')&&!hasLegacyAccount){
+    accounts[legacyEmail]={username:localStorage.getItem('numoraUser'),password:localStorage.getItem('numoraPassword')||'',progress:Object.fromEntries(numoraProgressKeys().map(key=>[key,localStorage.getItem(key)]))};
+    changed=true;
+  }
+  for(const account of Object.values(accounts)){
+    if(!account)continue;
+    if(account.passwordHash){if(Object.prototype.hasOwnProperty.call(account,'password')){delete account.password;changed=true;}continue;}
+    if(typeof account.password!=='string')continue;
+    account.passwordHash=await hashNumoraPassword(account.password);
+    delete account.password;
+    changed=true;
+  }
+  if(changed)localStorage.setItem('numoraAccounts',JSON.stringify(accounts));
+  localStorage.removeItem('numoraPassword');
+  return true;
+}
+const accountMigrationPromise=migrateStoredAccountPasswords().catch(()=>false);
+document.addEventListener('click',event=>{
+  if(!(event.target instanceof Element)||!event.target.closest('#forgot-password'))return;
+  const input=document.querySelector('#password-input');
+  input.value='';
+  input.setAttribute('autocomplete','new-password');
+},true);
