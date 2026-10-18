@@ -8,10 +8,11 @@ function syncGradeLessonVideo(){
   const grade=localStorage.getItem('numoraGrade')||'Pre-K';
   const currentQuestion=Number(window.currentLessonQuestionCount||0);
   const activePrompt=document.querySelector('.question-card h1')?.textContent||'';
+  const currentExample=questionSource(grade,lesson,currentQuestion);
   let workedExample=questionSource(grade,lesson,currentQuestion+11);
-  for(let offset=12;workedExample.prompt===activePrompt&&offset<20;offset++)workedExample=questionSource(grade,lesson,currentQuestion+offset);
+  for(let offset=12;offset<52&&(workedExample.prompt===activePrompt||Number(workedExample.answer)===Number(currentExample.answer));offset++)workedExample=questionSource(grade,lesson,currentQuestion+offset);
   const explanation=workedExample.explanation.replace(/<[^>]*>/g,'');
-  const titleText='Watch: '+lesson;
+  const titleText='Watch: '+grade+' · '+lesson;
   const markup='<span>Worked '+grade+' example: '+workedExample.prompt+'</span><span>'+explanation+'</span><span><b>Example answer: '+workedExample.answer+'</b></span>';
   if(title.textContent!==titleText)title.textContent=titleText;
   if(example.innerHTML!==markup)example.innerHTML=markup;
