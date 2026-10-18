@@ -1,0 +1,4 @@
+.modal-backdrop{overflow-y:auto;overscroll-behavior:contain}
+.auth-modal{max-height:calc(100vh - 40px);overflow-y:auto;overscroll-behavior:contain}
+@supports (height:100dvh){.auth-modal{max-height:calc(100dvh - 40px)}}
+@media(max-height:700px){.modal-backdrop{place-items:start center}.auth-modal{margin:auto}}
