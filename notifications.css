@@ -5,5 +5,5 @@
 .notification-popover strong{font:700 13px 'Space Grotesk'}
 .notification-popover p{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.45}
 .notification-popover{z-index:2147483000}
-.toast,#toast{position:fixed;left:auto;right:24px;bottom:90px;z-index:2147483001;width:max-content;max-width:calc(100vw - 32px);white-space:normal;text-align:center;line-height:1.45;box-shadow:0 12px 32px rgba(20,30,45,.28);transform:translateY(10px)}
-.toast.show,#toast.show{transform:translateY(0)}
+.toast,#toast{position:fixed;left:auto;right:24px;bottom:90px;z-index:2147483001;width:max-content;max-width:calc(100vw - 32px);white-space:normal;text-align:center;line-height:1.45;box-shadow:0 12px 32px rgba(20,30,45,.28);opacity:0;visibility:hidden;pointer-events:none;transform:translateY(10px);transition:opacity .2s ease,transform .2s ease,visibility .2s ease}
+.toast.show,#toast.show{opacity:1;visibility:visible;transform:translateY(0)}
