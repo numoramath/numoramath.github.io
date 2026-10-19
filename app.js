@@ -25,14 +25,18 @@ const questionBadgeIcons=['🧮','✨','💡','🚀','🎯','🌟'];
 const lessonBadgeIcons=['📘','📚','🏅','🎓','🏆'];
 const dayBadgeIcons=['🌱','☀️','🌻','🌈','💎'];
 const streakBadgeIcons=['🔥','⚡','🌠','🦉','👑'];
-for(let goal=20;goal<=1000;goal+=10){if([30,50,100,250,500].includes(goal))continue;badgeDefinitions.push([`questions-${goal}`,questionBadgeIcons[(goal/10)%questionBadgeIcons.length],`Question Quest ${goal}`,`Answer ${goal} questions correctly.`]);}
 for(let goal=2;goal<=100;goal+=2){if([10,50].includes(goal))continue;badgeDefinitions.push([`lessons-${goal}`,lessonBadgeIcons[(goal/2)%lessonBadgeIcons.length],`Lesson Milestone ${goal}`,`Finish ${goal} different lessons.`]);}
 for(let goal=2;goal<=100;goal+=2){if([60,100].includes(goal))continue;badgeDefinitions.push([`practice-days-${goal}`,dayBadgeIcons[(goal/2)%dayBadgeIcons.length],`Practice Pal ${goal}`,`Practice on ${goal} different days.`]);}
 for(let goal=5;goal<=100;goal+=5){if(goal===30)continue;badgeDefinitions.push([`streak-${goal}`,streakBadgeIcons[(goal/5)%streakBadgeIcons.length],`Streak Star ${goal}`,`Practice ${goal} days in a row.`]);}
 const completedQuestionMilestones=[5,15,75,150,300,750,1500,2500,4000,7500,10000,15000];
 completedQuestionMilestones.forEach((goal,index)=>badgeDefinitions.push([`complete-questions-${goal}`,questionBadgeIcons[index%questionBadgeIcons.length],`Question Finisher ${goal}`,`Complete ${goal} questions by answering them correctly.`]));
-const extendedQuestionMilestones=Array.from({length:303},(_,index)=>16+index).filter(goal=>![75,150,300].includes(goal)).slice(0,300);
+const extendedQuestionMilestones=Array.from({length:307},(_,index)=>16+index).filter(goal=>![25,50,75,100,150,250,300].includes(goal));
 extendedQuestionMilestones.forEach((goal,index)=>badgeDefinitions.push([`complete-questions-${goal}`,questionBadgeIcons[index%questionBadgeIcons.length],`Question Finisher ${goal.toLocaleString()}`,`Complete ${goal.toLocaleString()} questions by answering them correctly.`]));
+const uniqueBadgeDefinitions=[...new Map(badgeDefinitions.map(badge=>[badge[0],badge])).values()];
+badgeDefinitions.splice(0,badgeDefinitions.length,...uniqueBadgeDefinitions);
+const validBadgeIds=new Set(badgeDefinitions.map(([id])=>id));
+badgeProgress.earned=[...new Set(badgeProgress.earned||[])].filter(id=>validBadgeIds.has(id));
+saveBadgeProgress();
 function readNumoraAccounts(){try{const saved=JSON.parse(localStorage.getItem('numoraAccounts')||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))return saved;}catch{}return{};}
 function saveNumoraAccount(email,account){const accounts=readNumoraAccounts();accounts[String(email||'').trim().toLowerCase()]=account;localStorage.setItem('numoraAccounts',JSON.stringify(accounts));}
 function findNumoraAccount(email){const normalized=String(email||'').trim().toLowerCase();const accounts=readNumoraAccounts();if(accounts[normalized])return accounts[normalized];const match=Object.keys(accounts).find(key=>key.toLowerCase()===normalized);if(match){accounts[normalized]=accounts[match];delete accounts[match];localStorage.setItem('numoraAccounts',JSON.stringify(accounts));return accounts[normalized];}const legacyEmail=localStorage.getItem('numoraEmail');if(legacyEmail&&legacyEmail.trim().toLowerCase()===normalized){const legacy={username:localStorage.getItem('numoraUser')||normalized.split('@')[0]||'Learner',password:localStorage.getItem('numoraPassword')||'',progress:Object.fromEntries(numoraProgressKeys().map(key=>[key,localStorage.getItem(key)]))};saveNumoraAccount(normalized,legacy);return legacy;}return null;}
@@ -85,7 +89,6 @@ function updateBadgeProgress(lesson,isLessonFinished=false){
   if(correct>=100)awardBadge('questions-100');
   if(correct>=250)awardBadge('questions-250');
   if(correct>=500)awardBadge('questions-500');
-  for(let goal=20;goal<=1000;goal+=10){if(![30,50,100,250,500].includes(goal)&&correct>=goal)awardBadge(`questions-${goal}`);}
   completedQuestionMilestones.forEach(goal=>{if(correct>=goal)awardBadge(`complete-questions-${goal}`);});
   extendedQuestionMilestones.forEach(goal=>{if(correct>=goal)awardBadge(`complete-questions-${goal}`);});
   if(badgeProgress.practicedLessons.length>=3)awardBadge('keep-growing');
