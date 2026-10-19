@@ -13,16 +13,18 @@
 .answer-mode-options .theme-option{font-size:12px;padding:10px 6px}
 .help-list{display:grid;gap:10px;margin-top:18px}
 .help-item{background:var(--wash);border-radius:11px;padding:12px;font-size:12px;color:var(--ink)}
-.help-panel{background:linear-gradient(145deg,#f4f1ff 0%,#fff 58%,#eafaf5 100%);border-color:#dcd5ff}
-.help-panel h2{color:#5b4bd6}
-.help-panel .help-item{background:#fff;border:1px solid #e5e0ff;border-left:4px solid #7667ed;box-shadow:0 4px 12px rgba(78,65,170,.07)}
-.help-panel .help-item:nth-child(2){border-left-color:#25b894;background:#f2fcf8}
-.help-panel .help-item:nth-child(3){border-left-color:#f3a34a;background:#fff9ef}
-body[data-theme="dark"] .help-panel{background:linear-gradient(145deg,#29264b 0%,#202b3c 58%,#193b38 100%);border-color:#514a83}
-body[data-theme="dark"] .help-panel h2{color:#c3baff}
-body[data-theme="dark"] .help-panel .help-item{background:#292f48;border-color:#43405f;border-left-color:#9386ff;color:var(--ink)}
-body[data-theme="dark"] .help-panel .help-item:nth-child(2){background:#203c3a;border-left-color:#55d4b2}
-body[data-theme="dark"] .help-panel .help-item:nth-child(3){background:#40352b;border-left-color:#ffc06f}
+.help-panel{background:linear-gradient(135deg,#d8b4fe 0%,#a5b4fc 48%,#5eead4 100%);border:1px solid #8b5cf6;color:#241044}
+.help-panel h2{color:#3b0764}
+.help-panel p,.help-panel .utility-close{color:#382052}
+.help-panel .help-item{background:#c4b5fd;border:1px solid #8b5cf6;border-left:5px solid #6d28d9;box-shadow:0 5px 14px rgba(59,7,100,.15);color:#241044}
+.help-panel .help-item:nth-child(2){border-color:#0f9f83;border-left-color:#047857;background:#5eead4}
+.help-panel .help-item:nth-child(3){border-color:#d97706;border-left-color:#b45309;background:#fcd34d}
+body[data-theme="dark"] .help-panel{background:linear-gradient(135deg,#d8b4fe 0%,#a5b4fc 48%,#5eead4 100%);border-color:#8b5cf6;color:#241044}
+body[data-theme="dark"] .help-panel h2{color:#3b0764}
+body[data-theme="dark"] .help-panel p,body[data-theme="dark"] .help-panel .utility-close{color:#382052}
+body[data-theme="dark"] .help-panel .help-item{background:#c4b5fd;border-color:#8b5cf6;border-left-color:#6d28d9;color:#241044}
+body[data-theme="dark"] .help-panel .help-item:nth-child(2){background:#5eead4;border-color:#0f9f83;border-left-color:#047857}
+body[data-theme="dark"] .help-panel .help-item:nth-child(3){background:#fcd34d;border-color:#d97706;border-left-color:#b45309}
 body[data-theme="dark"]{--ink:#edf2fa;--muted:#aab6c7;--line:#334154;--paper:#202b3c;--wash:#121a26;--shadow:0 12px 30px rgba(0,0,0,.25)}
 body[data-theme="dark"] .sidebar,body[data-theme="dark"] .topbar{background:#182333}
 body[data-theme="dark"] .profile-chip,body[data-theme="dark"] .secondary-btn,body[data-theme="dark"] .skill-card,body[data-theme="dark"] .question-card{background:var(--paper);color:var(--ink)}
