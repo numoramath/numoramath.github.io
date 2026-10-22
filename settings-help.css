@@ -69,3 +69,28 @@ body[data-theme="dark"] .profile-chip,body[data-theme="dark"] .secondary-btn,bod
 body[data-theme="dark"] .continue-card{background:linear-gradient(135deg,#202b3c 48%,#29284d)}
 body[data-theme="dark"] .explain{background:#293047}
 body[data-theme="dark"] .theme-option.active{background:#34305f}
+.utility-panel.avatar-customizer{width:min(620px,100%);max-height:90vh;overflow:auto}
+.avatar-preview-wrap{display:flex;align-items:center;gap:15px;margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(120deg,#f2efff,#e8fbf5)}
+.avatar-preview-wrap .customizer-preview{width:58px;height:58px;font-size:16px;flex:0 0 58px}
+.avatar-preview-wrap strong,.avatar-preview-wrap small{display:block}
+.avatar-preview-wrap small{margin-top:4px;color:var(--muted);font-size:11px}
+.avatar-section-heading{display:flex;align-items:center;justify-content:space-between;margin:20px 0 9px}
+.avatar-section-heading h3{margin:0;font:600 15px 'Space Grotesk'}
+.avatar-section-heading button,.avatar-item-card button{border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--violet);padding:7px 10px;font:700 11px 'DM Sans',sans-serif;cursor:pointer}
+.avatar-section-heading button:disabled,.avatar-item-card button:disabled{opacity:.6;cursor:default}
+.avatar-item-card{display:flex;align-items:center;gap:12px;margin:8px 0;padding:11px;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+.avatar-item-card>span{font-size:24px}
+.avatar-item-card>div{min-width:0;flex:1}
+.avatar-item-card strong,.avatar-item-card small{display:block}
+.avatar-item-card strong{font-size:12px}
+.avatar-item-card small{margin-top:3px;color:var(--muted);font-size:10px;line-height:1.4}
+.avatar-item-card em{color:var(--mint);font-size:10px;font-style:normal;font-weight:700}
+.avatar-empty{margin:8px 0!important;padding:12px;border-radius:10px;background:var(--wash);font-size:11px!important}
+.avatar-inventory-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:18px 0}
+.avatar-inventory-summary>div{padding:12px 8px;border-radius:11px;background:var(--wash);text-align:center}
+.avatar-inventory-summary strong,.avatar-inventory-summary small{display:block}
+.avatar-inventory-summary strong{font:700 20px 'Space Grotesk';color:var(--violet)}
+.avatar-inventory-summary small{margin-top:3px;color:var(--muted);font-size:10px}
+.avatar-shop-link{width:100%;margin-top:12px}
+body[data-theme="dark"] .avatar-preview-wrap{background:linear-gradient(120deg,#302b52,#183e41)}
+@media(max-width:520px){.avatar-item-card{gap:8px;padding:9px}.avatar-item-card button{padding:7px}.avatar-inventory-summary{gap:6px}}
