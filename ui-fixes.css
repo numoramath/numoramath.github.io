@@ -4,3 +4,13 @@
 .grade-menu button{display:block;width:100%;padding:9px 11px;border:0;border-radius:7px;background:transparent;color:var(--ink,#192433);text-align:left;font:600 12px 'DM Sans',sans-serif;cursor:pointer}
 .grade-menu button:hover,.grade-menu button:focus-visible{background:#efeeff;color:var(--violet,#6658e8);outline:none}
 .video-play{cursor:pointer;touch-action:manipulation}
+.sidebar-games{margin:24px 5px 14px;padding:14px 10px 10px;border:1px solid #e4e0ff;border-radius:14px;background:linear-gradient(145deg,#f2efff,#e8fbf5)}
+.sidebar-games .nav-label{margin:0 4px 9px;color:#6255c7}
+.sidebar-games a{display:flex;align-items:center;gap:9px;padding:9px 7px;border-radius:9px;color:#354257;font-size:11px;font-weight:700;text-decoration:none;transition:background .15s ease,color .15s ease}
+.sidebar-games a span{width:20px;text-align:center;font-size:15px}
+.sidebar-games a:hover,.sidebar-games a:focus-visible{background:#fff;color:#5145cc;outline:2px solid #a9a0ff;outline-offset:1px}
+body[data-theme="dark"] .sidebar-games{background:linear-gradient(145deg,#302b52,#183e41);border-color:#4b4772}
+body[data-theme="dark"] .sidebar-games .nav-label{color:#c4b5fd}
+body[data-theme="dark"] .sidebar-games a{color:#e6e8f1}
+body[data-theme="dark"] .sidebar-games a:hover,body[data-theme="dark"] .sidebar-games a:focus-visible{background:#3d4560;color:#fff}
+@media(max-width:850px){.sidebar-games{display:none}}
