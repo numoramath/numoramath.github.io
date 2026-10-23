@@ -9,8 +9,15 @@
 .sidebar-shortcuts button{width:100%;display:flex;align-items:center;gap:9px;padding:9px 7px;border:0;border-radius:9px;background:transparent;color:#354257;text-align:left;font:700 11px 'DM Sans',sans-serif;cursor:pointer;transition:background .15s ease,color .15s ease}
 .sidebar-shortcuts button span{width:20px;text-align:center;font-size:15px}
 .sidebar-shortcuts button:hover,.sidebar-shortcuts button:focus-visible{background:#fff;color:#5145cc;outline:2px solid #a9a0ff;outline-offset:1px}
+.sidebar-games-label{border-top:1px solid rgba(98,85,199,.18);padding-top:12px;margin-top:8px!important}
+.sidebar-shortcuts a{width:100%;display:flex;align-items:center;gap:9px;padding:9px 7px;border-radius:9px;color:#354257;font-size:11px;font-weight:700;text-decoration:none;transition:background .15s ease,color .15s ease}
+.sidebar-shortcuts a span{width:20px;text-align:center;font-size:15px}
+.sidebar-shortcuts a:hover,.sidebar-shortcuts a:focus-visible{background:#fff;color:#5145cc;outline:2px solid #a9a0ff;outline-offset:1px}
 body[data-theme="dark"] .sidebar-shortcuts{background:linear-gradient(145deg,#302b52,#183e41);border-color:#4b4772}
 body[data-theme="dark"] .sidebar-shortcuts .nav-label{color:#c4b5fd}
 body[data-theme="dark"] .sidebar-shortcuts button{color:#e6e8f1}
 body[data-theme="dark"] .sidebar-shortcuts button:hover,body[data-theme="dark"] .sidebar-shortcuts button:focus-visible{background:#3d4560;color:#fff}
+body[data-theme="dark"] .sidebar-games-label{border-top-color:rgba(196,181,253,.2)}
+body[data-theme="dark"] .sidebar-shortcuts a{color:#e6e8f1}
+body[data-theme="dark"] .sidebar-shortcuts a:hover,body[data-theme="dark"] .sidebar-shortcuts a:focus-visible{background:#3d4560;color:#fff}
 @media(max-width:850px){.sidebar-shortcuts{display:none}}
