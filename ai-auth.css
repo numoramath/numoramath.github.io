@@ -1,0 +1,5 @@
+.recovery-links{display:flex;justify-content:space-between;gap:10px;margin:2px 0 8px}
+.recovery-links button{padding:3px 0;background:none;color:var(--purple);font-size:11px;font-weight:700}
+.recovery-links button:hover,.switch button:hover{text-decoration:underline}
+.modal label.hidden{display:none}
+.modal .switch{margin:17px 0 0}
