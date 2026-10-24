@@ -21,3 +21,9 @@ body[data-theme="dark"] .sidebar-games-label{border-top-color:rgba(196,181,253,.
 body[data-theme="dark"] .sidebar-shortcuts a{color:#e6e8f1}
 body[data-theme="dark"] .sidebar-shortcuts a:hover,body[data-theme="dark"] .sidebar-shortcuts a:focus-visible{background:#3d4560;color:#fff}
 @media(max-width:850px){.sidebar-shortcuts{display:none}}
+.admin-command-card{margin:18px 0;padding:22px}
+.admin-command-row{display:flex;align-items:center;gap:10px;max-width:680px}
+.admin-command-row input{flex:1;min-width:0}
+.admin-command-card small{display:block;margin-top:10px;color:var(--muted,#68778b);line-height:1.7}
+.admin-command-card code{padding:2px 5px;border-radius:5px;background:rgba(102,88,232,.09);color:var(--violet,#6658e8)}
+@media(max-width:520px){.admin-command-row{align-items:stretch;flex-direction:column}.admin-command-row button{width:100%}}
