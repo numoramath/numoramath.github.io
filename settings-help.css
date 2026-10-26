@@ -27,6 +27,12 @@
 .visitor-days-card{padding:24px}
 .visitor-days-card h2{font:600 19px 'Space Grotesk';margin:0 0 16px}
 .visitor-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.skill-library-tools{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:12px;margin:-2px 0 18px;align-items:center}
+.skill-search-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skill-library-tools input,.skill-library-tools select{width:100%;min-height:44px;padding:10px 13px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font:500 13px 'DM Sans'}
+.skill-library-tools input:focus,.skill-library-tools select:focus{outline:2px solid #b9b2ff;outline-offset:1px}
+.skill-empty{padding:28px;text-align:center;color:var(--muted);background:var(--paper);border:1px dashed var(--line);border-radius:14px}
+@media(max-width:520px){.skill-library-tools{grid-template-columns:1fr}}
 .visitor-day{background:var(--wash);border-radius:10px;padding:12px 6px;text-align:center;color:var(--muted);font-size:11px}
 .visitor-day strong{display:block;margin-top:6px;font-size:10px}
 .visitor-day.visited{background:#d8b4fe;color:#3b0764}
