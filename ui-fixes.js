@@ -18,15 +18,8 @@
 
   function cleanDashboard() {
     document.querySelectorAll('.dots').forEach(node => node.remove());
-    if (!accountJoinedToday()) return;
-
-    document.querySelectorAll('.activity-row').forEach((row, index) => {
-      const date = row.querySelector('small');
-      const result = row.querySelector('.good');
-      if (date && date.textContent !== 'Not started') date.textContent = 'Not started';
-      const resultText = index === 0 ? 'Ready to begin' : '—';
-      if (result && result.textContent !== resultText) result.textContent = resultText;
-    });
+    // Activity is rendered from the learner's saved lesson state. Do not
+    // replace it based on the account creation date.
   }
 
   const dashboardObserver = new MutationObserver(cleanDashboard);
