@@ -4,3 +4,4 @@
 .modal label.hidden{display:none}
 .modal .switch{margin:17px 0 0}
 .modal label small{display:block;margin-top:4px;color:var(--muted);font-size:10px;font-weight:400}.modal label button#suggestPassword{display:block;padding:5px 0 0;background:none;color:var(--purple);font-size:11px;font-weight:700}.modal label button#suggestPassword:hover{text-decoration:underline}
+.password-wrap{display:flex;align-items:center;gap:7px}.password-wrap input{flex:1}.password-wrap button#togglePassword{padding:0;background:none;color:var(--purple);font-size:11px;font-weight:700;white-space:nowrap}.password-wrap button#togglePassword:hover{text-decoration:underline}

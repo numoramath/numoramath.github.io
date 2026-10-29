@@ -62,6 +62,7 @@ function aiSuggestStrongPassword() {
 }
 aiAuth$('#nameInput').addEventListener('input', event => { if (event.target.value.length > 20) event.target.value = event.target.value.slice(0, 20); });
 aiAuth$('#suggestPassword').addEventListener('click', aiSuggestStrongPassword);
+aiAuth$('#togglePassword').addEventListener('click', event => { const input = aiAuth$('#passwordInput'); const visible = input.type === 'text'; input.type = visible ? 'password' : 'text'; event.currentTarget.textContent = visible ? 'Show password' : 'Don’t show password'; });
 
 function aiBase64(bytes) {
   let binary = '';
