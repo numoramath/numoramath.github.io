@@ -48,6 +48,20 @@ function openAuth(mode) {
   aiAuth$('#nameInput').value = '';
 }
 window.openAuth = openAuth;
+function aiValidLearnerName(value) {
+  const name = String(value || '').trim();
+  const letters = name.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ]/g, '').toLowerCase();
+  if (!/^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[ '\u2019-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/.test(name) || letters.length < 2 || letters.length > 20 || !/[aeiouyà-öø-ÿ]/.test(letters) || /(.)\1\1/i.test(letters)) return false;
+  return new Set(letters).size / letters.length >= .4;
+}
+function aiSuggestStrongPassword() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%';
+  const values = crypto?.getRandomValues ? crypto.getRandomValues(new Uint32Array(14)) : Array.from({ length: 14 }, () => Math.floor(Math.random() * chars.length));
+  aiAuth$('#passwordInput').value = Array.from(values, value => chars[value % chars.length]).join('') + '!';
+  aiAuth$('#passwordInput').focus();
+}
+aiAuth$('#nameInput').addEventListener('input', event => { if (event.target.value.length > 20) event.target.value = event.target.value.slice(0, 20); });
+aiAuth$('#suggestPassword').addEventListener('click', aiSuggestStrongPassword);
 
 function aiBase64(bytes) {
   let binary = '';
@@ -165,6 +179,7 @@ aiAuth$('#authForm').onsubmit = async event => {
   const accounts = aiReadAccounts();
   try {
     if (aiAuthMode === 'signup') {
+      if (!aiValidLearnerName(name)) return aiSetError('Use a real name with letters only, up to 20 letters.');
       if (!/^\S+@\S+\.\S+$/.test(email)) return aiSetError('Enter a valid email address.');
       if (password.length < 6) return aiSetError('Your password must be at least 6 characters.');
       if (aiAccountFor(email, accounts)) return aiSetError('An account already uses this email. Please log in instead.');
@@ -195,7 +210,7 @@ aiAuth$('#authForm').onsubmit = async event => {
     } else {
       const account = aiAccountFor(email, accounts);
       if (!account) return aiSetError('Enter the email used for your Numora account.');
-      if (!name) return aiSetError('Enter a new username.');
+      if (!aiValidLearnerName(name)) return aiSetError('Use a real name with letters only, up to 20 letters.');
       account.username = name;
       accounts[email] = account;
       aiSaveAccounts(accounts);
