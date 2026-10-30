@@ -131,3 +131,4 @@ body[data-theme="dark"] .skill-save-button.saved,body[data-theme="dark"] .skill-
 .focus-clock{display:flex;align-items:center;justify-content:center;gap:14px;margin:16px auto 0;color:var(--muted);font-size:12px}
 .focus-clock strong{margin-left:5px;color:var(--ink);font-variant-numeric:tabular-nums;font-size:14px}
 .focus-clock .secondary-btn{padding:7px 10px;font-size:11px}
+.analytics-setting small{display:block;margin:7px 0 0 24px;color:var(--muted);font-size:11px}
