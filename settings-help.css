@@ -132,3 +132,11 @@ body[data-theme="dark"] .skill-save-button.saved,body[data-theme="dark"] .skill-
 .focus-clock strong{margin-left:5px;color:var(--ink);font-variant-numeric:tabular-nums;font-size:14px}
 .focus-clock .secondary-btn{padding:7px 10px;font-size:11px}
 .analytics-setting small{display:block;margin:7px 0 0 24px;color:var(--muted);font-size:11px}
+.lesson-notes{display:grid;gap:8px;margin-top:22px;text-align:left}
+.lesson-notes label{font-size:13px;font-weight:700}
+.lesson-notes textarea{width:100%;min-height:92px;resize:vertical;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font:13px 'DM Sans',sans-serif;line-height:1.5}
+.lesson-notes textarea:focus{outline:2px solid #a9a0ff;border-color:#8c80ff}
+.lesson-notes small{color:var(--muted);font-size:11px}
+.daily-goal-choices{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:20px 0}
+.daily-goal-choices .selected-goal{border-color:var(--violet);background:#efeeff;color:var(--violet)}
+body[data-theme="dark"] .daily-goal-choices .selected-goal{background:#302b52;color:#c4b5fd}
