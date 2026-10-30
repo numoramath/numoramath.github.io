@@ -100,3 +100,11 @@ body[data-theme="dark"] .theme-option.active{background:#34305f}
 .avatar-shop-link{width:100%;margin-top:12px}
 body[data-theme="dark"] .avatar-preview-wrap{background:linear-gradient(120deg,#302b52,#183e41)}
 @media(max-width:520px){.avatar-item-card{gap:8px;padding:9px}.avatar-item-card button{padding:7px}.avatar-inventory-summary{gap:6px}}
+.skill-save-button{order:3;flex:0 0 30px;width:30px;height:30px;padding:0;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:#8b93a1;font-size:18px;line-height:1;cursor:pointer}
+.skill-save-button:hover,.skill-save-button.saved{border-color:#f1c54c;background:#fff8df;color:#c28a00}
+.skill-top .level{margin-left:auto}
+.saved-empty{margin-top:12px}
+body[data-theme="dark"] .skill-save-button{background:var(--paper);border-color:var(--line);color:var(--muted)}
+body[data-theme="dark"] .skill-save-button.saved,body[data-theme="dark"] .skill-save-button:hover{background:#453916;border-color:#9d7d2d;color:#ffdb72}
+.practice-controls{flex-wrap:wrap}
+.read-question-btn{min-width:150px}
