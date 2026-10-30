@@ -108,3 +108,23 @@ body[data-theme="dark"] .skill-save-button{background:var(--paper);border-color:
 body[data-theme="dark"] .skill-save-button.saved,body[data-theme="dark"] .skill-save-button:hover{background:#453916;border-color:#9d7d2d;color:#ffdb72}
 .practice-controls{flex-wrap:wrap}
 .read-question-btn{min-width:150px}
+.progress-report-grid{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr);gap:16px;margin:20px 0}
+.month-progress-card,.week-progress-card{padding:24px}
+.report-kicker{display:block;color:var(--accent,#635bff);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}
+.month-progress-card>strong{display:block;margin-top:12px;font:700 48px/1 'Space Grotesk',sans-serif}
+.month-progress-card h2,.week-card-heading h2,.progress-footer-card h2{margin:7px 0;font-size:19px}
+.month-progress-card p,.week-progress-card>p,.progress-footer-card p{color:var(--muted);line-height:1.55}
+.week-card-heading,.progress-footer-card,.mistake-heading,.mistake-actions{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.week-card-heading>strong{font-size:24px;color:var(--accent,#635bff)}
+.week-card-heading>strong small{font-size:13px;color:var(--muted)}
+.practice-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin:24px 0 12px}
+.practice-day{display:grid;justify-items:center;gap:7px;padding:10px 4px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:12px}
+.practice-day b{color:var(--ink);font-size:16px}.practice-day i{font-style:normal;font-size:16px}
+.practice-day.is-practiced{border-color:#a8e7d6;background:#e9faf5;color:#119878}.practice-day.is-practiced b{color:#08785f}
+.progress-footer-card{padding:20px 24px;margin-top:16px}.progress-footer-card h2{margin-bottom:0}
+.mistake-list{display:grid;gap:14px;margin-top:20px}.mistake-card{padding:22px}
+.mistake-heading{flex-wrap:wrap;color:var(--muted);font-size:12px}.mistake-card h2{margin:16px 0 8px;font-size:20px}.mistake-card p{color:var(--muted);line-height:1.6}
+.mistake-explanation{padding:12px 14px;border-radius:12px;background:var(--surface-soft,#f4f5ff);line-height:1.55}
+.mistake-actions{justify-content:flex-start;flex-wrap:wrap;margin-top:16px}
+@media(max-width:720px){.progress-report-grid{grid-template-columns:1fr}.progress-footer-card{align-items:flex-start;flex-direction:column}}
+@media(max-width:420px){.practice-week{gap:4px}.practice-day{padding:8px 2px;font-size:10px}.mistake-card{padding:16px}}
