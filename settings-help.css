@@ -140,3 +140,12 @@ body[data-theme="dark"] .skill-save-button.saved,body[data-theme="dark"] .skill-
 .daily-goal-choices{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:20px 0}
 .daily-goal-choices .selected-goal{border-color:var(--violet);background:#efeeff;color:var(--violet)}
 body[data-theme="dark"] .daily-goal-choices .selected-goal{background:#302b52;color:#c4b5fd}
+.notes-search-label{display:block;margin:0 0 6px;font-size:12px;font-weight:700}
+.notes-search{width:min(100%,520px);padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font:14px 'DM Sans',sans-serif}
+.notes-search:focus{outline:2px solid #a9a0ff;border-color:#8c80ff}
+.lesson-notes-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:18px}
+.lesson-note-card{padding:20px;display:flex;align-items:flex-start;flex-direction:column;gap:10px}
+.lesson-note-card h2{margin:6px 0 0;font:600 18px 'Space Grotesk'}
+.lesson-note-card p{margin:0;flex:1;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--muted);font-size:13px;line-height:1.55}
+.lesson-note-card .secondary-btn{margin-top:4px}
+.notes-empty{margin-top:16px;color:var(--muted)}
