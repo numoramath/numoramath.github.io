@@ -101,12 +101,13 @@
     if (typeof homeView === 'function') homeView();
   }
 
-  function loadScript(src) {
+  function loadScript(src, attrs = {}) {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
       script.src = src;
       script.async = true;
       script.crossOrigin = 'anonymous';
+      Object.entries(attrs).forEach(([name, value]) => script.setAttribute(name, value));
       script.onload = resolve;
       script.onerror = () => reject(new Error('Clerk could not load. Check your internet connection and Publishable Key.'));
       document.head.appendChild(script);
@@ -136,9 +137,11 @@
       const frontendDomain = atob(encodedDomain).replace(/\$$/, '');
       if (!frontendDomain) throw new Error('The Clerk Publishable Key is invalid.');
       await loadScript(`https://${frontendDomain}/npm/@clerk/ui@1/dist/ui.browser.js`);
-      await loadScript(`https://${frontendDomain}/npm/@clerk/clerk-js@6/dist/clerk.browser.js`);
-      if (typeof window.Clerk !== 'function') throw new Error('Clerk loaded without its browser SDK.');
-      clerk = new window.Clerk(publishableKey);
+      await loadScript(`https://${frontendDomain}/npm/@clerk/clerk-js@6/dist/clerk.browser.js`, {
+        'data-clerk-publishable-key': publishableKey,
+      });
+      if (!window.Clerk || typeof window.Clerk.load !== 'function') throw new Error('Clerk loaded without initializing its browser SDK.');
+      clerk = window.Clerk;
       await clerk.load({ ui: { ClerkUI: window.__internal_ClerkUICtor } });
       clerk.addListener(({ user }) => applyClerkUser(user));
       applyClerkUser(clerk.user);
