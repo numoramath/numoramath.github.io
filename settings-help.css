@@ -83,7 +83,7 @@ body[data-theme="dark"] .help-panel p,body[data-theme="dark"] .help-panel .utili
 body[data-theme="dark"] .help-panel .help-item{background:#c4b5fd;border-color:#8b5cf6;border-left-color:#6d28d9;color:#241044}
 body[data-theme="dark"] .help-panel .help-item:nth-child(2){background:#5eead4;border-color:#0f9f83;border-left-color:#047857}
 body[data-theme="dark"] .help-panel .help-item:nth-child(3){background:#fcd34d;border-color:#d97706;border-left-color:#b45309}
-body[data-theme="dark"]{--ink:#edf2fa;--muted:#aab6c7;--line:#334154;--paper:#202b3c;--wash:#121a26;--shadow:0 12px 30px rgba(0,0,0,.25)}
+body[data-theme="dark"]{--ink:#edf2fa;--muted:#b8c3d2;--line:#46566d;--paper:#2b3a4f;--wash:#172333;--shadow:0 12px 30px rgba(0,0,0,.22)}
 body[data-theme="dark"] .sidebar,body[data-theme="dark"] .topbar{background:#182333}
 body[data-theme="dark"] .profile-chip,body[data-theme="dark"] .secondary-btn,body[data-theme="dark"] .skill-card,body[data-theme="dark"] .question-card{background:var(--paper);color:var(--ink)}
 body[data-theme="dark"] .continue-card{background:linear-gradient(135deg,#202b3c 48%,#29284d)}
