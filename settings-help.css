@@ -83,12 +83,13 @@ body[data-theme="dark"] .help-panel p,body[data-theme="dark"] .help-panel .utili
 body[data-theme="dark"] .help-panel .help-item{background:#c4b5fd;border-color:#8b5cf6;border-left-color:#6d28d9;color:#241044}
 body[data-theme="dark"] .help-panel .help-item:nth-child(2){background:#5eead4;border-color:#0f9f83;border-left-color:#047857}
 body[data-theme="dark"] .help-panel .help-item:nth-child(3){background:#fcd34d;border-color:#d97706;border-left-color:#b45309}
-body[data-theme="dark"]{--ink:#edf2fa;--muted:#b8c3d2;--line:#46566d;--paper:#2b3a4f;--wash:#172333;--shadow:0 12px 30px rgba(0,0,0,.22)}
+body[data-theme="dark"]{--ink:#edf2fa;--muted:#c0cad7;--line:#53647a;--paper:#35495f;--wash:#182638;--shadow:0 12px 30px rgba(0,0,0,.2)}
 body[data-theme="dark"] .sidebar,body[data-theme="dark"] .topbar{background:#182333}
 body[data-theme="dark"] .profile-chip,body[data-theme="dark"] .secondary-btn,body[data-theme="dark"] .skill-card,body[data-theme="dark"] .question-card{background:var(--paper);color:var(--ink)}
 body[data-theme="dark"] .continue-card{background:linear-gradient(135deg,#202b3c 48%,#29284d)}
 body[data-theme="dark"] .explain{background:#293047}
 body[data-theme="dark"] .theme-option.active{background:#34305f}
+body[data-theme="dark"] .card,body[data-theme="dark"] .skill-card,body[data-theme="dark"] .question-card,body[data-theme="dark"] .utility-panel,body[data-theme="dark"] .setting-check,body[data-theme="dark"] .setting-row,body[data-theme="dark"] .theme-option,body[data-theme="dark"] .help-faq-item{background-color:#35495f}
 .utility-panel.avatar-customizer{width:min(620px,100%);max-height:90vh;overflow:auto}
 .avatar-preview-wrap{display:flex;align-items:center;gap:15px;margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:15px;background:linear-gradient(120deg,#f2efff,#e8fbf5)}
 .avatar-preview-wrap .customizer-preview{width:58px;height:58px;font-size:16px;flex:0 0 58px}
