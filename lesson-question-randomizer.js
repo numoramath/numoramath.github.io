@@ -4,6 +4,7 @@
   let cachedKey = '';
   let cachedQuestion = null;
   let refreshNumber = 0;
+  const lastPromptByLesson = new Map();
 
   function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -65,12 +66,16 @@
   window.lessonQuestionData = function () {
     const grade = localStorage.getItem('numoraGrade') || 'Pre-K';
     const lesson = String(window.currentActiveLesson || window.activeLesson || '').trim();
-    const questionNumber = Math.max(0, Number(window.currentLessonQuestionCount) || 0);
+    const lessonKey = `${grade}|${lesson}`;
+    const questionNumber = Math.max(0, Number(window.currentLessonQuestionCount) || 0) + refreshNumber;
     const key = `${grade}|${lesson}|${questionNumber}|${refreshNumber}`;
     if (key === cachedKey && cachedQuestion) return cachedQuestion;
 
     if (lesson.toLowerCase().includes('long division')) {
-      cachedQuestion = window.makeThreeDigitDivisionQuestion();
+      do {
+        cachedQuestion = window.makeThreeDigitDivisionQuestion();
+      } while (cachedQuestion.prompt === lastPromptByLesson.get(lessonKey));
+      lastPromptByLesson.set(lessonKey, cachedQuestion.prompt);
       cachedKey = key;
       return cachedQuestion;
     }
@@ -82,9 +87,46 @@
     } finally {
       window.currentLessonQuestionCount = originalQuestionNumber;
     }
+    if (cachedQuestion.prompt === lastPromptByLesson.get(lessonKey)) {
+      cachedQuestion = makeDifferentTopicVariant(lesson, questionNumber);
+    }
+    lastPromptByLesson.set(lessonKey, cachedQuestion.prompt);
     cachedKey = key;
     return cachedQuestion;
   };
+
+  function makeDifferentTopicVariant(lessonName, index) {
+    const lesson = lessonName.toLowerCase();
+    const n = index + 2;
+    if (lesson.includes('position') || lesson.includes('location')) {
+      const directions = ['above', 'below', 'left of', 'right of'];
+      const answer = directions[index % directions.length];
+      return { prompt: `The star is ${answer} the circle. Where is the star?`, answer, explanation: `${answer[0].toUpperCase()}${answer.slice(1)} describes the star’s position compared with the circle.`, a: index, b: 1 };
+    }
+    if (lesson.includes('addition') || lesson.includes('add within')) {
+      const a = 3 + (index % 8), b = 2 + ((index * 3) % 7);
+      return { prompt: `What is ${a} + ${b}?`, answer: String(a + b), explanation: `Add ${b} to ${a} to get ${a + b}.`, a, b };
+    }
+    if (lesson.includes('multiplication')) {
+      const a = 2 + (index % 8), b = 2 + ((index * 3) % 8);
+      return { prompt: `What is ${a} × ${b}?`, answer: String(a * b), explanation: `${a} groups of ${b} make ${a * b}.`, a, b };
+    }
+    if (lesson.includes('fraction')) {
+      const denominator = 4 + (index % 5), numerator = 1 + (index % (denominator - 1));
+      return { prompt: `What fraction of ${denominator} equal parts is ${numerator} part${numerator === 1 ? '' : 's'}?`, answer: `${numerator}/${denominator}`, explanation: `${numerator} of the ${denominator} equal parts are selected, so the fraction is ${numerator}/${denominator}.`, a: numerator, b: denominator };
+    }
+    if (lesson.includes('count')) {
+      return { prompt: `What number comes after ${n}?`, answer: String(n + 1), explanation: `Count forward one number: ${n}, then ${n + 1}.`, a: n, b: 1 };
+    }
+    if (lesson.includes('shape')) {
+      const sides = 3 + (index % 6);
+      return { prompt: `How many sides does a shape with ${sides} sides have?`, answer: String(sides), explanation: `Count the sides: this shape has ${sides}.`, a: sides, b: 0 };
+    }
+    // Preserve the active lesson context even for lessons whose original
+    // generator only supplied one hard-coded question.
+    const a = 2 + (index % 8), b = 3 + ((index * 3) % 7);
+    return { prompt: `${lessonName}: solve ${a} + ${b}.`, answer: String(a + b), explanation: `Use the ${lessonName} idea to work with ${a} and ${b}. Their sum is ${a + b}.`, a, b };
+  }
 
   document.addEventListener('click', function (event) {
     const skip = event.target.closest('[data-action="skip-question"]');
