@@ -92,7 +92,9 @@
     event.preventDefault();
     event.stopImmediatePropagation();
     window.refreshLessonQuestionVariant();
-    window.newQuestion();
+    // Re-render through the lesson data path so this control always asks
+    // about the active lesson instead of falling back to generic arithmetic.
+    window.renderLessonQuestion();
     window.showToast('Here’s a fresh question.');
   }, true);
 })();
