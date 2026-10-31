@@ -98,6 +98,11 @@
   function makeDifferentTopicVariant(lessonName, index) {
     const lesson = lessonName.toLowerCase();
     const n = index + 2;
+    if (lesson.includes('decimal') || lesson.includes('tenths') || lesson.includes('hundredths')) {
+      const a = 1 + (index % 8), b = 1 + ((index * 3 + 1) % 8);
+      const answer = ((a + b) / 10).toFixed(1);
+      return { prompt: `What is 0.${a} + 0.${b}?`, answer, explanation: `Add the tenths: ${a} tenths + ${b} tenths = ${a + b} tenths, or ${answer}.`, a: a / 10, b: b / 10 };
+    }
     if (lesson.includes('position') || lesson.includes('location')) {
       const directions = ['above', 'below', 'left of', 'right of'];
       const answer = directions[index % directions.length];
@@ -118,9 +123,25 @@
     if (lesson.includes('count')) {
       return { prompt: `What number comes after ${n}?`, answer: String(n + 1), explanation: `Count forward one number: ${n}, then ${n + 1}.`, a: n, b: 1 };
     }
+    if (lesson.includes('place value')) {
+      const tens = 2 + (index % 7), ones = (index * 3) % 10, number = tens * 10 + ones;
+      return { prompt: `In ${number}, what is the value of the ${tens} in the tens place?`, answer: String(tens * 10), explanation: `The ${tens} is in the tens place, so its value is ${tens} tens, or ${tens * 10}.`, a: number, b: tens * 10 };
+    }
+    if (lesson.includes('time') || lesson.includes('clock')) {
+      const hour = 1 + (index % 10), elapsed = 1 + (index % 3), answerHour = ((hour - 1 + elapsed) % 12) + 1;
+      return { prompt: `What time is ${elapsed} hour${elapsed === 1 ? '' : 's'} after ${hour}:00?`, answer: `${answerHour}:00`, explanation: `Move forward ${elapsed} hour${elapsed === 1 ? '' : 's'} from ${hour}:00 to ${answerHour}:00.`, a: hour, b: elapsed };
+    }
     if (lesson.includes('shape')) {
       const sides = 3 + (index % 6);
       return { prompt: `How many sides does a shape with ${sides} sides have?`, answer: String(sides), explanation: `Count the sides: this shape has ${sides}.`, a: sides, b: 0 };
+    }
+    if (lesson.includes('measurement') || lesson.includes('length')) {
+      const short = 2 + (index % 6), long = short + 2 + (index % 3);
+      return { prompt: `A ribbon is ${short} cm long and a string is ${long} cm long. Which is longer?`, answer: 'string', explanation: `Compare ${short} cm and ${long} cm. The string is longer because ${long} is greater than ${short}.`, a: short, b: long };
+    }
+    if (lesson.includes('word problem')) {
+      const start = 4 + (index % 8), more = 2 + ((index * 3) % 7), total = start + more;
+      return { prompt: `Mia has ${start} stickers and gets ${more} more. How many stickers does she have now?`, answer: String(total), explanation: `Add the stickers: ${start} + ${more} = ${total}.`, a: start, b: more };
     }
     // Preserve the active lesson context even for lessons whose original
     // generator only supplied one hard-coded question.
