@@ -80,12 +80,19 @@
       return cachedQuestion;
     }
 
-    const originalQuestionNumber = window.currentLessonQuestionCount;
-    window.currentLessonQuestionCount = shuffledQuestionNumber(grade, lesson, questionNumber);
-    try {
-      cachedQuestion = originalQuestionData();
-    } finally {
-      window.currentLessonQuestionCount = originalQuestionNumber;
+    const orderedQuestionNumber = shuffledQuestionNumber(grade, lesson, questionNumber);
+    if (typeof window.gradeLessonQuestion === 'function') {
+      // Use the current grade-aware lesson builder directly. Older wrappers
+      // can otherwise replace its topic-specific prompt with generic math.
+      cachedQuestion = window.gradeLessonQuestion(grade, lesson, orderedQuestionNumber);
+    } else {
+      const originalQuestionNumber = window.currentLessonQuestionCount;
+      window.currentLessonQuestionCount = orderedQuestionNumber;
+      try {
+        cachedQuestion = originalQuestionData();
+      } finally {
+        window.currentLessonQuestionCount = originalQuestionNumber;
+      }
     }
     if (cachedQuestion.prompt === lastPromptByLesson.get(lessonKey)) {
       cachedQuestion = makeDifferentTopicVariant(lesson, questionNumber);
