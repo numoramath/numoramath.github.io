@@ -26,7 +26,15 @@
 .help-empty{margin-top:8px!important}
 body[data-reading-size="large"] .question-card h1{font-size:clamp(27px,4vw,38px)}
 body[data-reading-size="large"] .question-card .explain,body[data-reading-size="large"] .answer-input{font-size:18px}
-body[data-reduce-motion="true"] *,body[data-reduce-motion="true"] *::before,body[data-reduce-motion="true"] *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+.lesson-finish-card{position:relative;overflow:hidden}
+.lesson-finish-icon{position:relative;z-index:1;font-size:58px;animation:finish-pop .7s cubic-bezier(.2,1.8,.4,1) both}
+.lesson-finish-card h2,.lesson-finish-card p,.lesson-finish-card button{position:relative;z-index:1}
+.lesson-celebration{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.lesson-celebration span{position:absolute;left:var(--x);top:70%;font-size:clamp(20px,4vw,34px);animation:finish-float 1.8s ease-out var(--delay) both}
+.lesson-celebration span:nth-child(1){--x:12%;--delay:0s}.lesson-celebration span:nth-child(2){--x:28%;--delay:.12s}.lesson-celebration span:nth-child(3){--x:47%;--delay:.05s}.lesson-celebration span:nth-child(4){--x:66%;--delay:.18s}.lesson-celebration span:nth-child(5){--x:81%;--delay:.08s}.lesson-celebration span:nth-child(6){--x:92%;--delay:.22s}
+@keyframes finish-float{0%{opacity:0;transform:translateY(35px) rotate(-25deg) scale(.5)}25%{opacity:1}100%{opacity:0;transform:translateY(-170px) rotate(35deg) scale(1.2)}}
+@keyframes finish-pop{0%{opacity:0;transform:scale(.4) rotate(-20deg)}75%{transform:scale(1.18) rotate(6deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+@media(prefers-reduced-motion:reduce){.lesson-finish-icon,.lesson-celebration span{animation-duration:.01ms;animation-iteration-count:1}}
 .help-panel{background:linear-gradient(135deg,#d8b4fe 0%,#a5b4fc 48%,#5eead4 100%);border:1px solid #8b5cf6;color:#241044}
 .help-panel h2{color:#3b0764}
 .help-panel p,.help-panel .utility-close{color:#382052}
