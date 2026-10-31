@@ -154,10 +154,27 @@
     if (!skip) return;
     event.preventDefault();
     event.stopImmediatePropagation();
+    const questionHeading = document.querySelector('.question-card h1');
+    const previousPrompt = questionHeading?.textContent?.trim() || '';
     window.refreshLessonQuestionVariant();
     // Re-render through the lesson data path so this control always asks
     // about the active lesson instead of falling back to generic arithmetic.
     window.renderLessonQuestion();
+    const updatedHeading = document.querySelector('.question-card h1');
+    if (updatedHeading && updatedHeading.textContent.trim() === previousPrompt) {
+      const lesson = String(window.currentActiveLesson || window.activeLesson || 'Math').trim();
+      const index = Math.max(0, Number(window.currentLessonQuestionCount) || 0) + refreshNumber;
+      let replacement;
+      for (let offset = 0; offset < 12; offset++) {
+        replacement = makeDifferentTopicVariant(lesson, index + offset);
+        if (replacement.prompt !== previousPrompt) break;
+      }
+      currentQuestion = { ...currentQuestion, ...replacement };
+      updatedHeading.textContent = replacement.prompt;
+      const explanation = document.querySelector('.question-card .explain');
+      if (explanation) explanation.innerHTML = '<strong>Here’s the idea:</strong><br/>' + replacement.explanation;
+      lastPromptByLesson.set(`${localStorage.getItem('numoraGrade') || 'Pre-K'}|${lesson}`, replacement.prompt);
+    }
     window.showToast('Here’s a fresh question.');
   }, true);
 })();
