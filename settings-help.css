@@ -1,6 +1,7 @@
 .utility-modal{position:fixed;inset:0;background:rgba(25,36,51,.38);display:grid;place-items:center;padding:20px;z-index:20}
 .utility-modal.hidden{display:none}
 .utility-panel{width:min(460px,100%);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:0 20px 60px rgba(31,43,61,.2)}
+.utility-panel.settings-panel,.utility-panel.help-panel{max-height:90vh;overflow:auto}
 .utility-panel h2{font:700 25px 'Space Grotesk';margin:0 0 8px}
 .utility-panel p{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 20px}
 .utility-close{float:right;border:0;background:none;color:var(--muted);font-size:24px;cursor:pointer}
@@ -13,6 +14,19 @@
 .answer-mode-options .theme-option{font-size:12px;padding:10px 6px}
 .help-list{display:grid;gap:10px;margin-top:18px}
 .help-item{background:var(--wash);border-radius:11px;padding:12px;font-size:12px;color:var(--ink)}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:10px;color:var(--ink);font-size:13px}
+.setting-row select,.help-search{min-height:38px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);font:600 12px 'DM Sans',sans-serif}
+.help-search-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.help-search{width:100%;margin:0 0 12px;font-size:14px}
+.help-faq-item{padding:13px;border:1px solid rgba(59,7,100,.18);border-radius:11px;background:rgba(255,255,255,.78);color:#241044}
+.help-faq-item summary{font-size:13px;font-weight:700;cursor:pointer}
+.help-faq-item p{margin:9px 0 0;color:#382052;font-size:12px}
+.help-shortcuts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.help-shortcuts button{flex:1 1 130px;padding:10px;font-size:12px}
+.help-empty{margin-top:8px!important}
+body[data-reading-size="large"] .question-card h1{font-size:clamp(27px,4vw,38px)}
+body[data-reading-size="large"] .question-card .explain,body[data-reading-size="large"] .answer-input{font-size:18px}
+body[data-reduce-motion="true"] *,body[data-reduce-motion="true"] *::before,body[data-reduce-motion="true"] *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 .help-panel{background:linear-gradient(135deg,#d8b4fe 0%,#a5b4fc 48%,#5eead4 100%);border:1px solid #8b5cf6;color:#241044}
 .help-panel h2{color:#3b0764}
 .help-panel p,.help-panel .utility-close{color:#382052}
