@@ -153,6 +153,11 @@
       applyClerkUser(clerk.user);
     } catch (error) {
       modalBody.innerHTML = previousMarkup;
+      const errorBox = modalBody.querySelector('#auth-error');
+      if (errorBox) {
+        errorBox.textContent = `Numora could not connect to Clerk: ${error.message}`;
+        errorBox.classList.add('show');
+      }
       console.error('Numora Clerk setup:', error);
     }
   })();
