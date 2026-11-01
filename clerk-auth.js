@@ -34,6 +34,7 @@
     localStorage.removeItem('numoraEmail');
     localStorage.removeItem('numoraPassword');
     if (typeof numoraProgressKeys === 'function') numoraProgressKeys().forEach(key => localStorage.removeItem(key));
+    localStorage.setItem('numoraLanguage', 'en');
     userName = 'Guest';
     selectedGrade = 'Pre-K';
     freshStart = true;
@@ -49,6 +50,7 @@
     document.querySelector('.signup-btn')?.classList.remove('hidden');
     appContent.innerHTML = '<div class="page-wrap"><section class="card empty-state"><h2>Guest</h2><p>You are browsing Numora as a guest. Log in or sign up to save your learning.</p><button class="primary-btn" data-clerk-open="signIn">Log in</button> <button class="secondary-btn" data-clerk-open="signUp">Sign up</button></section></div>';
     document.querySelector('#page-title').textContent = 'Guest';
+    window.applyNumoraLanguage?.();
     if (typeof syncProfile === 'function') syncProfile();
   }
 
@@ -99,6 +101,7 @@
     document.querySelector('.signup-btn')?.classList.add('hidden');
     if (typeof syncProfile === 'function') syncProfile();
     if (typeof homeView === 'function') homeView();
+    window.applyNumoraLanguage?.();
   }
 
   function loadScript(src, attrs = {}) {
