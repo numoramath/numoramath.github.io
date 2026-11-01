@@ -24,11 +24,11 @@
     return questionOrders.get(key)[questionNumber % 10];
   }
 
-  window.makeThreeDigitDivisionQuestion = function () {
-    const divisor = randomInt(2, 9);
+  window.makeThreeDigitDivisionQuestion = function (fixedDivisor, fixedAnswer) {
+    const divisor = Number.isInteger(fixedDivisor) && fixedDivisor >= 2 && fixedDivisor <= 9 ? fixedDivisor : randomInt(2, 9);
     const smallestQuotient = Math.ceil(100 / divisor);
     const largestQuotient = Math.floor(999 / divisor);
-    const answer = randomInt(smallestQuotient, largestQuotient);
+    const answer = Number.isInteger(fixedAnswer) && fixedAnswer >= smallestQuotient && fixedAnswer <= largestQuotient ? fixedAnswer : randomInt(smallestQuotient, largestQuotient);
     const dividend = divisor * answer;
     const digits = String(dividend).split('').map(Number);
     let start = 0;
@@ -72,9 +72,18 @@
     if (key === cachedKey && cachedQuestion) return cachedQuestion;
 
     if (lesson.toLowerCase().includes('long division')) {
+      let attempts = 0;
       do {
         cachedQuestion = window.makeThreeDigitDivisionQuestion();
-      } while (cachedQuestion.prompt === lastPromptByLesson.get(lessonKey));
+        attempts++;
+      } while (cachedQuestion.prompt === lastPromptByLesson.get(lessonKey) && attempts < 12);
+      if (cachedQuestion.prompt === lastPromptByLesson.get(lessonKey)) {
+        const previous = lastPromptByLesson.get(lessonKey).match(/Divide (\d+) by (\d+)\./);
+        const divisor = previous ? Number(previous[2]) : 3;
+        const previousAnswer = previous ? Number(previous[1]) / divisor : 37;
+        const candidate = previousAnswer < Math.floor(999 / divisor) ? previousAnswer + 1 : previousAnswer - 1;
+        cachedQuestion = window.makeThreeDigitDivisionQuestion(divisor, candidate);
+      }
       lastPromptByLesson.set(lessonKey, cachedQuestion.prompt);
       cachedKey = key;
       return cachedQuestion;

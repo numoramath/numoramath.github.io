@@ -23,5 +23,5 @@ function syncGradeLessonVideo(){
 }
 
 const gradeLessonVideoObserver=new MutationObserver(syncGradeLessonVideo);
-gradeLessonVideoObserver.observe(document.body,{childList:true,subtree:true,characterData:true});
-setInterval(syncGradeLessonVideo,150);
+const appContent=document.querySelector('#app-content');
+if(appContent)gradeLessonVideoObserver.observe(appContent,{childList:true,subtree:true,characterData:true});
