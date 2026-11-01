@@ -347,7 +347,7 @@ document.addEventListener('click',async e=>{
       syncProfile();homeView();showToast('Password updated. Welcome back, '+firstName()+'!');return;
     }else{
       const newName=document.querySelector('#name-input')?.value.trim();
-      if(!validLearnerName(newName)){showAuthError('Use a real name with letters only, up to 20 letters.');return;}
+      if(!validLearnerName(newName)){showAuthError('Enter a real name using 5–20 letters. Spaces, hyphens, and apostrophes are okay.');return;}
       account.username=newName;
       if(localStorage.getItem('numoraActiveEmail')?.toLowerCase()===email){userName=newName;localStorage.setItem('numoraUser',newName);syncProfile();}
       showToast('Your new username was saved.');
@@ -356,7 +356,7 @@ document.addEventListener('click',async e=>{
   }
   const signup=authTitle.textContent.startsWith('Create');
   if(signup){
-    if(!validLearnerName(document.querySelector('#name-input')?.value)){showAuthError('Use a real name with letters only, up to 20 letters.');return;}
+    if(!validLearnerName(document.querySelector('#name-input')?.value)){showAuthError('Enter a real name using 5–20 letters. Spaces, hyphens, and apostrophes are okay.');return;}
     if(!email||!/^\S+@\S+\.\S+$/.test(email)||password.length<6){showAuthError('Enter a valid email and a password with at least 6 characters.');return;}
     if(findNumoraAccount(email)){showAuthError('An account already uses this email. Please log in instead.');return;}
     userName=document.querySelector('#name-input')?.value.trim()||email.split('@')[0]||'Learner';
@@ -391,7 +391,7 @@ const authCopy=document.querySelector('#auth-copy');
 const authSubmit=document.querySelector('#auth-submit');
 const authSwitch=document.querySelector('#auth-switch');
 let authMode='login';
-function validLearnerName(value){const name=String(value||'').trim();const letters=name.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ]/g,'').toLowerCase();if(!/^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[ '\u2019-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/.test(name)||letters.length<2||letters.length>20||!/[aeiouyà-öø-ÿ]/.test(letters)||/(.)\1\1/i.test(letters))return false;return new Set(letters).size/letters.length>=.4;}
+function validLearnerName(value){const name=String(value||'').trim().replace(/\s+/g,' ');const letters=name.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ]/g,'');return /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[ '\u2019-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/.test(name)&&letters.length>=5&&letters.length<=20;}
 function suggestStrongPassword(){const chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%';const values=window.crypto?.getRandomValues?window.crypto.getRandomValues(new Uint32Array(14)):Array.from({length:14},()=>Math.floor(Math.random()*chars.length));const password=Array.from(values,value=>chars[value%chars.length]).join('')+'!';const input=document.querySelector('#password-input');if(input){input.value=password;input.focus();input.dispatchEvent(new Event('input',{bubbles:true}));}}
 document.querySelector('#name-input')?.addEventListener('input',event=>{if(event.target.value.length>20)event.target.value=event.target.value.slice(0,20);});
 document.querySelector('#suggest-password')?.addEventListener('click',suggestStrongPassword);
