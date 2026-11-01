@@ -9,7 +9,7 @@
   if (!modal || !modalBody || !appContent) return;
 
   let clerk;
-  let mounted = false;
+  let mountedMode = null;
   let appliedClerkUserId = null;
   const previousMarkup = modalBody.innerHTML;
   modalBody.innerHTML = `
@@ -21,12 +21,18 @@
     <div id="clerk-sign-in"></div>
     <p class="clerk-setup-error" hidden></p>`;
 
-  function showAuth() {
-    if (!clerk?.isSignedIn && !mounted) {
+  function showAuth(mode = 'signIn') {
+    if (!clerk?.isSignedIn && mountedMode !== mode) {
+      if (mountedMode) {
+        const oldMode = mountedMode === 'signUp' ? 'SignUp' : 'SignIn';
+        clerk[`unmount${oldMode}`]?.(document.querySelector('#clerk-sign-in'));
+        mountedMode = null;
+      }
       const mount = document.querySelector('#clerk-sign-in');
       if (mount) {
-        clerk.mountSignIn(mount);
-        mounted = true;
+        const component = mode === 'signUp' ? 'SignUp' : 'SignIn';
+        clerk[`mount${component}`](mount);
+        mountedMode = mode;
       }
     }
     modal.classList.remove('hidden');
@@ -117,10 +123,12 @@
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target : null;
     if (!target) return;
-    if (target.closest('[data-clerk-open], .login-btn, .signup-btn') && clerk) {
+    const signupClick = target.closest('.signup-btn');
+    const loginClick = target.closest('[data-clerk-open], .login-btn');
+    if ((signupClick || loginClick) && clerk) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      if (clerk) showAuth();
+      showAuth(signupClick ? 'signUp' : 'signIn');
     }
     if (target.closest('.logout-btn') && clerk) {
       event.preventDefault();
