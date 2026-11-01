@@ -100,8 +100,14 @@
   };
   document.addEventListener('change',event=>{
     if(!event.target.matches('[data-language-select]'))return;
-    localStorage.setItem('numoraLanguage',event.target.value);
+    const selected=event.target.value;
+    localStorage.setItem('numoraLanguage',selected);
     if(typeof saveCurrentAccountProgress==='function')saveCurrentAccountProgress();
+    const email=localStorage.getItem('numoraActiveEmail');
+    if(email&&typeof findNumoraAccount==='function'&&typeof saveNumoraAccount==='function'){
+      const account=findNumoraAccount(email);
+      if(account){account.progress={...(account.progress||{}),numoraLanguage:selected};saveNumoraAccount(email,account);}
+    }
     translatePage();
   });
   const observer=new MutationObserver(records=>{
