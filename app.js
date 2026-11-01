@@ -576,7 +576,9 @@ async function migrateStoredAccountPasswords(){
   localStorage.removeItem('numoraPassword');
   return true;
 }
-const accountMigrationPromise=migrateStoredAccountPasswords().catch(()=>false);
+// Leave legacy password migration until that account is actually used. Hashing
+// every saved test account during startup can make the whole app appear frozen.
+const accountMigrationPromise=Promise.resolve(true);
 document.addEventListener('click',event=>{
   if(!(event.target instanceof Element)||!event.target.closest('#forgot-password'))return;
   const input=document.querySelector('#password-input');
