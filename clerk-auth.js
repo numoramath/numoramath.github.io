@@ -21,18 +21,35 @@
     <div id="clerk-sign-in"></div>
     <p class="clerk-setup-error" hidden></p>`;
 
+  function resetAuthMount() {
+    const mount = document.querySelector('#clerk-sign-in');
+    if (mount && mountedMode && clerk) {
+      const component = mountedMode === 'signUp' ? 'SignUp' : 'SignIn';
+      try { clerk[`unmount${component}`]?.(mount); } catch (error) { console.debug('Clerk auth view already unmounted:', error); }
+    }
+    if (mount) mount.replaceChildren();
+    mountedMode = null;
+  }
+
   function showAuth(mode = 'signIn') {
     if (!clerk?.isSignedIn && mountedMode !== mode) {
       if (mountedMode) {
         const oldMode = mountedMode === 'signUp' ? 'SignUp' : 'SignIn';
-        clerk[`unmount${oldMode}`]?.(document.querySelector('#clerk-sign-in'));
-        mountedMode = null;
+        resetAuthMount();
       }
       const mount = document.querySelector('#clerk-sign-in');
       if (mount) {
         const component = mode === 'signUp' ? 'SignUp' : 'SignIn';
-        clerk[`mount${component}`](mount);
-        mountedMode = mode;
+        try {
+          clerk[`mount${component}`](mount);
+          mountedMode = mode;
+          modalBody.querySelector('.clerk-setup-error').hidden = true;
+        } catch (error) {
+          const message = modalBody.querySelector('.clerk-setup-error');
+          message.hidden = false;
+          message.textContent = `Could not open ${mode === 'signUp' ? 'sign-up' : 'sign-in'}. Please refresh and try again.`;
+          console.error('Clerk auth view failed to mount:', error);
+        }
       }
     }
     modal.classList.remove('hidden');
@@ -66,6 +83,7 @@
     if (!user) {
       const justLoggedOut = Boolean(appliedClerkUserId);
       appliedClerkUserId = null;
+      if (justLoggedOut) resetAuthMount();
       clearCurrentSession();
       if (justLoggedOut) modal.classList.add('hidden');
       else showAuth('signIn');
@@ -137,7 +155,10 @@
       event.preventDefault();
       event.stopImmediatePropagation();
       saveCurrentAccountProgress();
-      clerk.signOut().catch(error => console.error('Clerk sign-out failed:', error));
+      clerk.signOut().then(() => {
+        resetAuthMount();
+        modal.classList.add('hidden');
+      }).catch(error => console.error('Clerk sign-out failed:', error));
     }
   }, true);
 
