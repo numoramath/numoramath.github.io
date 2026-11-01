@@ -23,6 +23,14 @@
 .help-faq-item p{margin:9px 0 0;color:#382052;font-size:12px}
 .help-shortcuts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .help-shortcuts button{flex:1 1 130px;padding:10px;font-size:12px}
+.help-category-filters{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}
+.help-category-filters button{border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:var(--paper);color:var(--ink);font:600 11px 'DM Sans',sans-serif;cursor:pointer}
+.help-category-filters button.active{border-color:var(--violet);background:var(--violet);color:#fff}
+.lesson-objective{display:block;margin:7px 0;color:var(--muted);font-size:12px;line-height:1.5}
+.skill-card .lesson-objective{min-height:36px}
+body[data-reduce-motion="true"] *,body[data-reduce-motion="true"] *::before,body[data-reduce-motion="true"] *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+body[data-high-contrast="true"] .card,body[data-high-contrast="true"] .skill-card,body[data-high-contrast="true"] .question-card,body[data-high-contrast="true"] .utility-panel,body[data-high-contrast="true"] .setting-check,body[data-high-contrast="true"] .setting-row,body[data-high-contrast="true"] .help-faq-item{border-color:currentColor;box-shadow:0 0 0 1px currentColor}
+body[data-high-contrast="true"] .lesson-objective,body[data-high-contrast="true"] .help-faq-item p{color:var(--ink)}
 .help-empty{margin-top:8px!important}
 body[data-reading-size="large"] .question-card h1{font-size:clamp(27px,4vw,38px)}
 body[data-reading-size="large"] .question-card .explain,body[data-reading-size="large"] .answer-input{font-size:18px}
