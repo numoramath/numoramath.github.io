@@ -90,9 +90,12 @@
     el.childNodes.forEach(translateNode);
   };
   const translatePage = () => {
-    document.documentElement.lang=language()==='es'?'es':'en';
+    const selected=language();
+    const wasSpanish=document.documentElement.lang==='es';
+    if(selected==='en'&&wasSpanish){location.reload();return;}
+    document.documentElement.lang=selected==='es'?'es':'en';
     translateNode(document.body);
-    const select=document.querySelector('[data-language-select]');if(select)select.value=language();
+    const select=document.querySelector('[data-language-select]');if(select)select.value=selected;
     const title=document.querySelector('title');if(title)translateNode(title);
   };
   document.addEventListener('change',event=>{
