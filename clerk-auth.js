@@ -9,50 +9,23 @@
   if (!modal || !modalBody || !appContent) return;
 
   let clerk;
-  let mountedMode = null;
   let appliedClerkUserId = null;
   const previousMarkup = modalBody.innerHTML;
-  modalBody.innerHTML = `
-    <button class="modal-close" aria-label="Close">×</button>
-    <div class="brand modal-brand"><span class="brand-mark">✦</span><span>numora</span></div>
-    <span class="eyebrow">YOUR LEARNING JOURNEY</span>
-    <h2>Sign in or create an account</h2>
-    <p>Use Google or your email to save your Numora progress.</p>
-    <div id="clerk-sign-in"></div>
-    <p class="clerk-setup-error" hidden></p>`;
-
-  function resetAuthMount() {
-    const mount = document.querySelector('#clerk-sign-in');
-    if (mount && mountedMode && clerk) {
-      const component = mountedMode === 'signUp' ? 'SignUp' : 'SignIn';
-      try { clerk[`unmount${component}`]?.(mount); } catch (error) { console.debug('Clerk auth view already unmounted:', error); }
-    }
-    if (mount) mount.replaceChildren();
-    mountedMode = null;
-  }
 
   function showAuth(mode = 'signIn') {
-    if (!clerk?.isSignedIn && mountedMode !== mode) {
-      if (mountedMode) {
-        const oldMode = mountedMode === 'signUp' ? 'SignUp' : 'SignIn';
-        resetAuthMount();
-      }
-      const mount = document.querySelector('#clerk-sign-in');
-      if (mount) {
-        const component = mode === 'signUp' ? 'SignUp' : 'SignIn';
-        try {
-          clerk[`mount${component}`](mount);
-          mountedMode = mode;
-          modalBody.querySelector('.clerk-setup-error').hidden = true;
-        } catch (error) {
-          const message = modalBody.querySelector('.clerk-setup-error');
-          message.hidden = false;
-          message.textContent = `Could not open ${mode === 'signUp' ? 'sign-up' : 'sign-in'}. Please refresh and try again.`;
-          console.error('Clerk auth view failed to mount:', error);
-        }
-      }
+    if (!clerk || clerk.isSignedIn) return;
+    modal.classList.add('hidden');
+    try {
+      const openPanel = mode === 'signUp' ? clerk.openSignUp : clerk.openSignIn;
+      if (typeof openPanel !== 'function') throw new Error('The Clerk sign-in panel did not load.');
+      openPanel.call(clerk);
+    } catch (error) {
+      modalBody.innerHTML = previousMarkup;
+      modalBody.querySelector('.auth-error').textContent = 'Clerk could not open. Refresh this page and try again.';
+      modalBody.querySelector('.auth-error').classList.add('show');
+      modal.classList.remove('hidden');
+      console.error('Clerk auth panel failed to open:', error);
     }
-    modal.classList.remove('hidden');
   }
 
   function clearCurrentSession() {
@@ -83,7 +56,6 @@
     if (!user) {
       const justLoggedOut = Boolean(appliedClerkUserId);
       appliedClerkUserId = null;
-      if (justLoggedOut) resetAuthMount();
       clearCurrentSession();
       if (justLoggedOut) modal.classList.add('hidden');
       else showAuth('signIn');
@@ -119,6 +91,8 @@
     localStorage.setItem('numoraUser', displayName);
     localStorage.setItem('numoraEmail', email);
     localStorage.setItem('numoraActiveEmail', email);
+    clerk.closeSignIn?.();
+    clerk.closeSignUp?.();
     modal.classList.add('hidden');
     document.querySelector('.logout-btn')?.classList.remove('hidden');
     document.querySelector('.login-btn')?.classList.add('hidden');
@@ -183,9 +157,6 @@
     }
   })();
 
-  modalBody.addEventListener('click', event => {
-    if (event.target.closest('.modal-close') && clerk?.isSignedIn) modal.classList.add('hidden');
-  });
   window.numoraClerk = { showAuth: () => clerk && showAuth() };
   window.addEventListener('beforeunload', () => {
     if (clerk && !clerk.isSignedIn) modalBody.innerHTML = previousMarkup;
