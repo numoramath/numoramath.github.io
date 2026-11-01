@@ -5,22 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
       const numoraGaId = 'G-M1DTJTEPM5';
-      if (new URLSearchParams(location.search).get('numoraAnalytics') === 'off') localStorage.setItem('numoraAnalyticsOptOut', 'true');
-      window.setNumoraAnalyticsOptOut = function (optOut) {
-        localStorage.setItem('numoraAnalyticsOptOut', String(optOut));
-        window[`ga-disable-${numoraGaId}`] = optOut;
-        if (optOut || window.numoraAnalyticsLoaded) return;
-        window.numoraAnalyticsLoaded = true;
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
-        window.gtag('js', new Date());
-        window.gtag('config', numoraGaId);
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = `https://www.googletagmanager.com/gtag/js?id=${numoraGaId}`;
-        document.head.appendChild(script);
-      };
-      window.setNumoraAnalyticsOptOut(localStorage.getItem('numoraAnalyticsOptOut') === 'true');
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
+      window.gtag('js', new Date());
+      window.gtag('config', numoraGaId);
+      const analyticsScript = document.createElement('script');
+      analyticsScript.async = true;
+      analyticsScript.src = `https://www.googletagmanager.com/gtag/js?id=${numoraGaId}`;
+      document.head.appendChild(analyticsScript);
     </script>
     <title>Numora — Math that moves with you</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
