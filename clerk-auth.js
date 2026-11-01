@@ -57,16 +57,18 @@
     document.querySelector('.logout-btn')?.classList.add('hidden');
     document.querySelector('.login-btn')?.classList.remove('hidden');
     document.querySelector('.signup-btn')?.classList.remove('hidden');
-    appContent.innerHTML = '<div class="page-wrap"><section class="card empty-state"><h2>Sign in to Numora</h2><p>Log in or create an account to continue learning.</p><button class="primary-btn" data-clerk-open>Sign in</button></section></div>';
-    document.querySelector('#page-title').textContent = 'Welcome';
+    appContent.innerHTML = '<div class="page-wrap"><section class="card empty-state"><h2>Guest</h2><p>You are browsing Numora as a guest. Log in or sign up to save your learning.</p><button class="primary-btn" data-clerk-open="signIn">Log in</button> <button class="secondary-btn" data-clerk-open="signUp">Sign up</button></section></div>';
+    document.querySelector('#page-title').textContent = 'Guest';
     if (typeof syncProfile === 'function') syncProfile();
   }
 
   function applyClerkUser(user) {
     if (!user) {
+      const justLoggedOut = Boolean(appliedClerkUserId);
       appliedClerkUserId = null;
       clearCurrentSession();
-      showAuth();
+      if (justLoggedOut) modal.classList.add('hidden');
+      else showAuth('signIn');
       return;
     }
 
@@ -123,8 +125,9 @@
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target : null;
     if (!target) return;
-    const signupClick = target.closest('.signup-btn');
-    const loginClick = target.closest('[data-clerk-open], .login-btn');
+    const authButton = target.closest('[data-clerk-open]');
+    const signupClick = target.closest('.signup-btn') || authButton?.dataset.clerkOpen === 'signUp';
+    const loginClick = target.closest('.login-btn') || (authButton && !signupClick);
     if ((signupClick || loginClick) && clerk) {
       event.preventDefault();
       event.stopImmediatePropagation();
