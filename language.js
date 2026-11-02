@@ -50,6 +50,9 @@
     phrasePattern.lastIndex=0;
     return value.replace(trimmed,result);
   };
+  Object.assign(es,{
+    'Keep a copy of your learning':'Guarda una copia de tu aprendizaje','Download your progress and preferences as a backup file. Passwords are never included.':'Descarga tu progreso y tus preferencias en un archivo de respaldo. Nunca se incluyen contraseñas.','Download my progress backup':'Descargar copia de seguridad de mi progreso','Your progress backup downloaded.':'Se descargó la copia de seguridad de tu progreso.','How do I download a copy of my progress?':'¿Cómo descargo una copia de mi progreso?','Open Settings and choose Download my progress backup. The JSON file contains your learning progress and preferences, but never your password.':'Abre Configuración y elige Descargar copia de seguridad de mi progreso. El archivo contiene tu progreso y preferencias, pero nunca tu contraseña.','What keyboard controls can I use in a lesson?':'¿Qué controles del teclado puedo usar en una lección?','Choose Space bar or Both under Answer controls. When the answer box is ready, Space submits your answer. Use Tab to move between lesson controls.':'Elige Barra espaciadora o Ambos en Controles de respuesta. Cuando el cuadro esté listo, pulsa Espacio para enviar tu respuesta. Usa Tab para moverte entre los controles.','What should I do if a lesson or page stops responding?':'¿Qué hago si una lección o página deja de responder?','Close the frozen tab, reopen Numora, and refresh the page. If one lesson keeps freezing, note its grade and title so you can find it again.':'Cierra la pestaña bloqueada, vuelve a abrir Numora y actualiza la página. Si una lección sigue bloqueándose, anota su grado y título para encontrarla.'
+  });
   const originalText = new WeakMap();
   const translatedText = new WeakMap();
   const originalAttributes = new WeakMap();
