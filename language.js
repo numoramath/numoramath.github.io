@@ -1,4 +1,5 @@
 (() => {
+  if (window.numoraSharedWinMode) return;
   const es = {
     'LEARN':'APRENDER','YOUR SPACE':'TU ESPACIO','QUICK LINKS':'ACCESOS RÁPIDOS','MATH GAMES':'JUEGOS DE MATEMÁTICAS',
     'My learning':'Mi aprendizaje','Skill library':'Biblioteca de habilidades','Saved skills':'Habilidades guardadas','Progress':'Progreso','Daily goal':'Meta diaria','Custom quiz':'Prueba personalizada','Leaderboard':'Clasificación','Badges':'Insignias','Mistake notebook':'Cuaderno de errores','My notes':'Mis notas','Spend your XP':'Usa tus XP','Settings':'Configuración','Help center':'Centro de ayuda','Browse skills':'Explorar habilidades','View progress':'Ver progreso','XP reward shop':'Tienda de recompensas XP','View visits':'Ver visitas',
