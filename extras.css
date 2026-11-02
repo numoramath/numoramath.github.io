@@ -9,3 +9,5 @@
 .custom-quiz-shortcuts{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:8px auto 18px}.custom-quiz-shortcuts .secondary-btn{min-height:42px}
 
 .saved-skill-card .saved-practice-btn{width:100%;margin-top:10px}
+
+.challenge-history-row{grid-template-columns:1fr auto auto auto}.challenge-replay-btn{padding:7px 11px;font-size:12px}@media(max-width:640px){.challenge-history-row{grid-template-columns:1fr auto;gap:8px}.challenge-history-row strong{grid-column:1}.challenge-history-row small{grid-column:1}.challenge-history-row .challenge-replay-btn{grid-column:2;grid-row:1 / span 3}}
