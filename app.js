@@ -1,3 +1,9 @@
+function escapeHtmlText(value){
+  return String(value ?? '').replace(/[&<>"']/g, character => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[character]);
+}
+
 const content = document.querySelector('#app-content');
 const pageTitle = document.querySelector('#page-title');
 const toast = document.querySelector('#toast');
