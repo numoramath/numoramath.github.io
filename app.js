@@ -717,4 +717,53 @@ function resetFractionChoice(){fractionStudio.solved=false;fractionStudio.feedba
 function prepareFractionStudio(){const ds=fractionDenominators();for(const key of ['first','second'])if(!ds.includes(fractionStudio[key].denominator)){const d=ds[key==='second'?Math.min(1,ds.length-1):0];fractionStudio[key].denominator=d;fractionStudio[key].numerator=Math.min(fractionStudio[key].numerator,d);}resetFractionChoice();}
 function newFractionChallenge(){const ds=fractionDenominators(),chooseDen=()=>ds[Math.floor(Math.random()*ds.length)],d=chooseDen(),e=chooseDen();fractionStudio.first={numerator:Math.floor(Math.random()*(d+1)),denominator:d};fractionStudio.second={numerator:Math.floor(Math.random()*(e+1)),denominator:e};resetFractionChoice();}
 document.addEventListener('click',event=>{if(!(event.target instanceof Element))return;const nav=event.target.closest('[data-view="fraction-studio"]');if(nav){event.preventDefault();event.stopImmediatePropagation();prepareFractionStudio();renderFractionStudio();document.querySelectorAll('.nav-item').forEach(item=>item.classList.toggle('active',item===nav));return;}const choice=event.target.closest('[data-fraction-choice]'),action=event.target.closest('[data-fraction-action]');if(action){event.preventDefault();event.stopImmediatePropagation();newFractionChallenge();renderFractionStudio();return;}if(!choice)return;event.preventDefault();event.stopImmediatePropagation();if(fractionStudio.solved)return;const a=fractionStudio.first,b=fractionStudio.second,left=a.numerator*b.denominator,right=b.numerator*a.denominator,answer=left>right?'first':left<right?'second':'equal',es=localStorage.getItem('numoraLanguage')==='es';if(choice.dataset.fractionChoice===answer){fractionStudio.solved=true;fractionStudio.score++;fractionStudio.feedback=es?`¡Correcto! ${a.numerator} × ${b.denominator} = ${left} y ${b.numerator} × ${a.denominator} = ${right}. Ganaste 10 XP.`:`Correct! ${a.numerator} × ${b.denominator} = ${left} and ${b.numerator} × ${a.denominator} = ${right}. You earned 10 XP.`;setXpBalance(getXpBalance()+10);showToast(es?'¡Comparación correcta! +10 XP':'Correct comparison! +10 XP');}else fractionStudio.feedback=es?'Vuelve a mirar las partes sombreadas. Intenta comparar los productos cruzados.':'Look at the shaded parts again. Try comparing the cross-products.';renderFractionStudio();});
+
+// Keep the core navigation and challenge controls responsive even when an older
+// delegated click handler fails or another listener stops the event later.
+document.addEventListener('click',event=>{
+  if(!(event.target instanceof Element))return;
+  const nav=event.target.closest('[data-view="reports"],[data-view="custom"],[data-view="badges"],[data-view="challenge"]');
+  const actionButton=event.target.closest('[data-action]');
+  const action=actionButton?.dataset.action;
+  const customStart=event.target.closest('[onclick*="startCustomQuiz"]');
+  if(!nav&&!customStart&&!['start-challenge','toggle-challenge-pause','retry-challenge','replay-challenge','skip-challenge','submit-challenge','custom-random-lesson','custom-next-lesson'].includes(action))return;
+  event.preventDefault();event.stopImmediatePropagation();
+  if(nav){
+    if(nav.dataset.view==='reports')reportsView();
+    else if(nav.dataset.view==='custom')customQuizView();
+    else if(nav.dataset.view==='badges')badgesView();
+    else {clearInterval(challengeTimer);challengeTimer=0;challengeView();}
+    document.querySelectorAll('.nav-item').forEach(item=>item.classList.toggle('active',item===nav));
+    return;
+  }
+  if(customStart||action==='start-custom-quiz'){startCustomQuiz();return;}
+  if(action==='start-challenge'){startChallenge();return;}
+  if(action==='retry-challenge'){startChallenge({duration:challengeDuration,mode:challengeMode,difficulty:challengeDifficulty});return;}
+  if(action==='toggle-challenge-pause'){
+    challengePaused=!challengePaused;
+    const pauseButton=document.querySelector('[data-action="toggle-challenge-pause"]');
+    if(pauseButton){pauseButton.textContent=challengePaused?'Resume timer':'Pause timer';pauseButton.setAttribute('aria-pressed',String(challengePaused));}
+    ['.answer-input','[data-action="submit-challenge"]','[data-action="skip-challenge"]'].forEach(selector=>{const node=document.querySelector(selector);if(node)node.disabled=challengePaused;});
+    return;
+  }
+  if(action==='replay-challenge'){
+    const replay=actionButton,duration=document.querySelector('#challenge-duration'),mode=document.querySelector('#challenge-mode'),difficulty=document.querySelector('#challenge-difficulty');
+    if(duration&&mode&&difficulty){duration.value=['30','60','90','120','180'].includes(replay.dataset.duration)?replay.dataset.duration:'60';mode.value=['mixed','addition','subtraction','multiplication','division'].includes(replay.dataset.mode)?replay.dataset.mode:'mixed';difficulty.value=['warmup','standard','stretch'].includes(replay.dataset.difficulty)?replay.dataset.difficulty:'standard';startChallenge();}
+    return;
+  }
+  if(action==='skip-challenge'){challengeSkipped++;challengeStreak=0;challengeQuestion++;renderChallengeQuestion();return;}
+  if(action==='submit-challenge'){
+    const input=document.querySelector('.answer-input');if(!input||!input.value.trim())return;
+    challengeAnswered++;
+    if(Number(input.value)===challengeAnswer){challengeScore++;challengeStreak++;challengeBestStreak=Math.max(challengeBestStreak,challengeStreak);setXpBalance(getXpBalance()+10);showToast('Correct! +10 XP');if(challengeStreak%5===0){setXpBalance(getXpBalance()+25);showToast('5-answer streak! +25 bonus XP');}}
+    else{challengeStreak=0;showToast(`Not quite! The answer was ${challengeAnswer}.`);}
+    challengeQuestion++;renderChallengeQuestion();return;
+  }
+  if(action==='custom-random-lesson'||action==='custom-next-lesson'){
+    const select=document.querySelector('#custom-lesson');if(!select)return;
+    const names=gradeSkillNames[selectedGrade]||gradeSkillNames['Grade 6'];
+    const lesson=action==='custom-next-lesson'?resumeLessonName():names[Math.floor(Math.random()*names.length)];
+    if(names.includes(lesson)){select.value=lesson;select.dispatchEvent(new Event('change',{bubbles:true}));showToast(action==='custom-next-lesson'?'Your next lesson is ready.':'Random lesson picked!');}
+  }
+},true);
 document.addEventListener('change',event=>{if(!(event.target instanceof Element)||!event.target.matches('[data-fraction-value]'))return;const [which,part]=event.target.dataset.fractionValue.split('-');const value=Number(event.target.value);if(which!=='first'&&which!=='second'||!Number.isInteger(value))return;fractionStudio[which][part]=value;if(part==='denominator')fractionStudio[which].numerator=Math.min(fractionStudio[which].numerator,value);resetFractionChoice();renderFractionStudio();});
