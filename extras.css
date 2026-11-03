@@ -28,3 +28,10 @@
 .xp-history li b{white-space:nowrap}
 .xp-history-earned{color:#159c78}
 .xp-history-spent{color:#d46c54}
+.xp-level-card{margin:16px 0;padding:16px 18px;border:1px solid var(--line,#e4e8f0);border-radius:15px;background:var(--surface-soft,#f7f8fc)}
+.xp-level-heading{display:flex;align-items:center;gap:12px}
+.xp-level-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:rgba(103,82,238,.13);color:var(--violet,#6752ee);font-size:23px}
+.xp-level-heading>div{display:grid;gap:3px}
+.xp-level-heading small,.xp-level-card>small{color:var(--muted,#667085);font-size:12px}
+.xp-level-meter{height:8px;margin:12px 0 7px;background:var(--line,#e4e8f0);border-radius:8px;overflow:hidden}
+.xp-level-meter span{display:block;height:100%;background:linear-gradient(90deg,#6954ee,#a17df5);border-radius:inherit;transition:width .25s ease}
