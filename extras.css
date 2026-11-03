@@ -18,3 +18,13 @@
 .grade-mastery-card{margin:22px 0;padding:24px}.grade-mastery-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.grade-mastery-heading h2{margin:5px 0;font:600 20px 'Space Grotesk'}.grade-mastery-heading p{margin:0;color:var(--muted);font-size:12px}.grade-mastery-heading>strong{font:700 28px 'Space Grotesk';color:var(--violet)}.grade-mastery-bar{height:9px;margin:18px 0;background:var(--line);border-radius:9px;overflow:hidden}.grade-mastery-bar span{display:block;height:100%;background:var(--violet);border-radius:inherit;transition:width .25s ease}.grade-mastery-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}.grade-mastery-stats>div{padding:13px;background:var(--paper);border:1px solid var(--line);border-radius:12px}.grade-mastery-stats strong,.grade-mastery-stats small{display:block}.grade-mastery-stats strong{font:700 18px 'Space Grotesk'}.grade-mastery-stats small{margin-top:3px;color:var(--muted);font-size:11px}@media(max-width:520px){.grade-mastery-card{padding:18px}.grade-mastery-stats{grid-template-columns:1fr}}
 
 .next-badge-card{margin:20px 0;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:22px}.next-badge-copy{flex:1;min-width:0}.next-badge-title{display:flex;align-items:center;gap:14px;margin:10px 0}.next-badge-title>span{font-size:34px}.next-badge-title h2,.all-badges-earned h2{margin:0 0 4px;font:600 19px 'Space Grotesk'}.next-badge-title p,.all-badges-earned p{margin:0;color:var(--muted);font-size:12px}.next-badge-meter{height:8px;max-width:500px;margin:13px 0 7px;background:var(--line);border-radius:8px;overflow:hidden}.next-badge-meter span{display:block;height:100%;background:var(--violet);border-radius:inherit}.next-badge-copy>small{color:var(--muted);font-size:11px}.all-badges-earned{display:flex;align-items:center;gap:14px}.all-badges-earned>span{font-size:36px}@media(max-width:560px){.next-badge-card{align-items:flex-start;flex-direction:column}.next-badge-card>.secondary-btn{width:100%}}
+.xp-history{margin:24px 0 4px;padding:18px 20px;border:1px solid var(--line,#e4e8f0);border-radius:16px;background:var(--surface-soft,#f7f8fc)}
+.xp-history h3{margin:0 0 12px;font-size:17px}
+.xp-history ul{list-style:none;padding:0;margin:0;display:grid;gap:0}
+.xp-history li{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:10px 0;border-top:1px solid var(--line,#e4e8f0)}
+.xp-history li span{display:grid;gap:3px;min-width:0}
+.xp-history li strong{overflow:hidden;text-overflow:ellipsis}
+.xp-history li small,.xp-history>p{color:var(--muted,#667085);font-size:13px}
+.xp-history li b{white-space:nowrap}
+.xp-history-earned{color:#159c78}
+.xp-history-spent{color:#d46c54}
