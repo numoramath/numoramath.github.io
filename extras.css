@@ -35,3 +35,10 @@
 .xp-level-heading small,.xp-level-card>small{color:var(--muted,#667085);font-size:12px}
 .xp-level-meter{height:8px;margin:12px 0 7px;background:var(--line,#e4e8f0);border-radius:8px;overflow:hidden}
 .xp-level-meter span{display:block;height:100%;background:linear-gradient(90deg,#6954ee,#a17df5);border-radius:inherit;transition:width .25s ease}
+.question-week-chart{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;align-items:end;margin:18px 0 0;padding:8px 4px 0}
+.question-week-column{display:grid;grid-template-rows:88px auto auto;justify-items:center;align-items:end;gap:5px;min-width:0}
+.question-week-track{display:flex;align-items:flex-end;width:min(30px,70%);height:100%;overflow:hidden;border-radius:8px 8px 3px 3px;background:var(--line,#e4e8f0)}
+.question-week-track span{display:block;width:100%;min-height:0;background:linear-gradient(180deg,#8e7cf6,#6552e8);border-radius:7px 7px 2px 2px}
+.question-week-column strong{font-size:12px}
+.question-week-column small,.question-week-label{color:var(--muted,#667085);font-size:11px}
+.question-week-label{margin:7px 0 0;text-align:center}
