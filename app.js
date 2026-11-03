@@ -642,3 +642,13 @@ document.addEventListener('click',event=>{
   if(button){let plan;try{plan=JSON.parse(localStorage.getItem('numoraStudyPlan')||'{}');}catch{plan={};}if(plan.date!==todayKey)plan={date:todayKey,done:[]};const done=new Set(Array.isArray(plan.done)?plan.done:[]),id=button.dataset.planToggle;done.has(id)?done.delete(id):done.add(id);plan.done=[...done];localStorage.setItem('numoraStudyPlan',JSON.stringify(plan));saveCurrentAccountProgress();}
   studyPlanView();document.querySelectorAll('.nav-item').forEach(item=>item.classList.toggle('active',item.dataset.view==='plan'));
 },true);
+const mistakeInsightObserver=new MutationObserver(()=>{
+  if(pageTitle.textContent!=='Mistake notebook')return;
+  const hero=content.querySelector('.hero-row');if(!hero||hero.nextElementSibling?.classList.contains('mistake-insight'))return;
+  const es=localStorage.getItem('numoraLanguage')==='es',mistakes=readMistakeNotebook(),groups=new Map();
+  mistakes.forEach(item=>{const key=String(item.grade)+'|'+String(item.lesson),group=groups.get(key)||{grade:item.grade,lesson:item.lesson,questions:0,tries:0};group.questions++;group.tries+=Math.max(1,Number(item.attempts)||1);groups.set(key,group);});
+  const focus=[...groups.values()].sort((a,b)=>b.tries-a.tries||b.questions-a.questions)[0],card=document.createElement('section');card.className='card mistake-insight';
+  card.innerHTML=focus?'<div class="mistake-insight-icon">🎯</div><div class="mistake-insight-copy"><span>'+(es?'EN QUÉ ENFOCARTE':'YOUR PRACTICE FOCUS')+'</span><h2>'+escapeHtmlText(focus.lesson)+'</h2><p>'+(es?focus.questions+' '+(focus.questions===1?'pregunta guardada':'preguntas guardadas')+' · '+focus.tries+' '+(focus.tries===1?'intento':'intentos')+' en total':focus.questions+' saved '+(focus.questions===1?'question':'questions')+' · '+focus.tries+' total '+(focus.tries===1?'try':'tries'))+'</p></div><button type="button" class="primary-btn" data-action="review-mistake" data-grade="'+escapeHtmlText(focus.grade)+'" data-lesson="'+escapeHtmlText(focus.lesson)+'">'+(es?'Practicar esta lección →':'Practice this lesson →')+'</button>':'<div class="mistake-insight-icon">🌱</div><div class="mistake-insight-copy"><span>'+(es?'EN QUÉ ENFOCARTE':'YOUR PRACTICE FOCUS')+'</span><h2>'+(es?'Aún no hay áreas para repasar':'No review areas yet')+'</h2><p>'+(es?'Cuando te equivoques, tus preguntas aparecerán aquí y te ayudaremos a elegir qué practicar.':'When an answer needs another try, it will appear here and help you choose what to practice.')+'</p></div>';
+  hero.insertAdjacentElement('afterend',card);
+});
+mistakeInsightObserver.observe(content,{childList:true,subtree:true});
