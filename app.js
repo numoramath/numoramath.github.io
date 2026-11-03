@@ -663,8 +663,9 @@ const questionBookmarkObserver=new MutationObserver(()=>{
   if(!card||!controls||!explain||!currentQuestion||!activeLesson)return;
   const prompt=String(currentQuestion.prompt||card.querySelector('h1')?.textContent||'').trim(),id=lessonKey(selectedGrade,activeLesson)+'|'+prompt;
   let button=controls.querySelector('[data-action="save-question"]');if(!button){button=document.createElement('button');button.type='button';button.className='secondary-btn save-question-btn';button.dataset.action='save-question';controls.append(button);}
-  button.dataset.questionId=id;button.textContent=(localStorage.getItem('numoraLanguage')==='es'?'🔖 ':'🔖 ')+(readQuestionBookmarks().some(item=>item.id===id)?(localStorage.getItem('numoraLanguage')==='es'?'Guardada':'Saved'):(localStorage.getItem('numoraLanguage')==='es'?'Guardar pregunta':'Save question'));
-  button.setAttribute('aria-pressed',String(readQuestionBookmarks().some(item=>item.id===id)));
+  const es=localStorage.getItem('numoraLanguage')==='es',saved=readQuestionBookmarks().some(item=>item.id===id),label='🔖 '+(saved?(es?'Guardada':'Saved'):(es?'Guardar pregunta':'Save question'));
+  button.dataset.questionId=id;if(button.textContent!==label)button.textContent=label;
+  const pressed=String(saved);if(button.getAttribute('aria-pressed')!==pressed)button.setAttribute('aria-pressed',pressed);
 });
 questionBookmarkObserver.observe(content,{childList:true,subtree:true});
 document.addEventListener('click',event=>{
