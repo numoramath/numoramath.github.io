@@ -13,7 +13,7 @@ function syncGradeLessonVideo(){
   const isLongDivision=lesson.toLowerCase().includes('long division');
   const currentExample=isLongDivision?window.makeThreeDigitDivisionQuestion():questionSource(grade,lesson,currentQuestion);
   let workedExample=isLongDivision?window.makeThreeDigitDivisionQuestion():questionSource(grade,lesson,currentQuestion+11);
-  for(let offset=12;!isLongDivision&&offset<52&&(workedExample.prompt===activePrompt||Number(workedExample.answer)===Number(currentExample.answer));offset++)workedExample=questionSource(grade,lesson,currentQuestion+offset);
+  if(!isLongDivision&&(workedExample.prompt===activePrompt||Number(workedExample.answer)===Number(currentExample.answer)))workedExample=questionSource(grade,lesson,currentQuestion+12);
   const explanation=workedExample.explanation.replace(/<[^>]*>/g,'');
   const titleText='Watch: '+grade+' · '+lesson;
   const markup='<span>'+(isLongDivision?'Three-digit long division: ':'Worked '+grade+' example: ')+workedExample.prompt+'</span><span>'+explanation+'</span><span><b>Example answer: '+workedExample.answer+'</b></span>';
@@ -24,4 +24,4 @@ function syncGradeLessonVideo(){
 
 const gradeLessonVideoObserver=new MutationObserver(syncGradeLessonVideo);
 const appContent=document.querySelector('#app-content');
-if(appContent)gradeLessonVideoObserver.observe(appContent,{childList:true,subtree:true,characterData:true});
+if(appContent)gradeLessonVideoObserver.observe(appContent,{childList:true});

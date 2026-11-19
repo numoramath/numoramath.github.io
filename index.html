@@ -23,10 +23,15 @@
     <link rel="stylesheet" href="notifications.css?v=5" />
     <link rel="stylesheet" href="auth.css" />
     <link rel="stylesheet" href="signup-scroll.css" />
-    <link rel="stylesheet" href="extras.css?v=27" />
+    <link rel="stylesheet" href="extras.css?v=28" />
     <link rel="stylesheet" href="video.css" />
     <link rel="stylesheet" href="tools.css" />
     <link rel="stylesheet" href="video-examples.css" />
+    <link rel="stylesheet" href="math-facts.css?v=1" />
+    <link rel="stylesheet" href="data-explorer.css?v=1" />
+    <link rel="stylesheet" href="geometry-explorer.css?v=1" />
+    <link rel="stylesheet" href="unit-converter.css?v=1" />
+    <link rel="stylesheet" href="daily-puzzle.css?v=1" />
     <link rel="stylesheet" href="grade-scroll.css" />
     <link rel="stylesheet" href="video-steps.css" />
     <link rel="stylesheet" href="auth-validation.css" />
@@ -34,6 +39,16 @@
     <link rel="stylesheet" href="ui-fixes.css?v=8" />
   </head>
   <body>
+    <script>
+      if (new URLSearchParams(location.search).get('numoraGuest') === '1') {
+        try {
+          Object.defineProperty(window, 'localStorage', { configurable: true, value: window.sessionStorage });
+          window.numoraGuestMode = true;
+        } catch (error) {
+          document.documentElement.dataset.guestStorageUnavailable = 'true';
+        }
+      }
+    </script>
     <div class="app-shell">
       <aside class="sidebar">
         <div class="brand"><span class="brand-mark">✦</span><span>numora</span></div>
@@ -47,13 +62,20 @@
           <button class="nav-item" data-view="vocabulary"><span>▤</span> Math vocabulary</button>
           <button class="nav-item" data-view="word-problems"><span>▣</span> Word problem workshop</button>
           <button class="nav-item" data-view="fraction-studio"><span>½</span> Fraction studio</button>
+          <button class="nav-item" data-view="equation-lab"><span>⚖</span> Equation balance lab</button>
           <button class="nav-item" data-view="array-lab"><span>▦</span> Multiplication array lab</button>
           <button class="nav-item" data-view="area-builder"><span>▱</span> Area &amp; perimeter builder</button>
           <button class="nav-item" data-view="decimal-lab"><span>0.1</span> Decimal place-value lab</button>
           <button class="nav-item" data-view="number-line"><span>↔</span> Number line lab</button>
+          <button class="nav-item" data-view="money-lab"><span>＄</span> Money &amp; change lab</button>
+          <button class="nav-item" data-view="fact-drill"><span>✚</span> Math facts</button>
+          <button class="nav-item" data-view="data-explorer"><span>▥</span> Data explorer</button>
+          <button class="nav-item" data-view="geometry-explorer"><span>△</span> Geometry explorer</button>
+          <button class="nav-item" data-view="unit-converter"><span>⇄</span> Unit converter</button>
           <button class="nav-item" data-view="reports"><span>◒</span> Progress</button>
           <button class="nav-item" data-view="challenge"><span>⏱</span> Timed challenge</button>
           <button class="nav-item" data-view="review"><span>↺</span> Review lessons</button>
+          <button class="nav-item" data-view="daily-puzzle"><span>🧩</span> Daily math puzzle</button>
           <p class="nav-label">YOUR SPACE</p>
           <button class="nav-item" data-view="goals"><span>⚑</span> Daily goal <em>3/5</em></button>
           <button class="nav-item" data-view="plan"><span>🗓</span> Study plan</button>
@@ -87,27 +109,33 @@
     </div>
     <div id="toast" class="toast"></div>
     <div id="auth-modal" class="modal-backdrop hidden"><div class="auth-modal"><button class="modal-close" aria-label="Close">×</button><div class="brand modal-brand"><span class="brand-mark">✦</span><span>numora</span></div><span class="eyebrow" id="auth-eyebrow">WELCOME BACK</span><h2 id="auth-title">Log in to Numora</h2><p id="auth-copy">Pick up your learning journey right where you left off.</p><label class="name-field">Your name<input id="name-input" type="text" maxlength="20" placeholder="Jordan Smith" /><small class="field-help">Use 5–20 letters. Spaces, hyphens, and apostrophes are okay.</small></label><label>Email<input id="email-input" type="email" placeholder="you@example.com" /></label><label>Password><div class="password-wrap"><input id="password-input" type="password" minlength="6" placeholder="At least 6 characters" /><button type="button" class="toggle-password" id="toggle-password">Show password</button></div><button type="button" class="suggest-password" id="suggest-password">Suggest strong password</button></label><div id="auth-error" class="auth-error"></div><div class="account-recovery"><button class="forgot-btn" id="forgot-password">Forgot password?</button><button class="forgot-btn" id="forgot-username">Forgot username?</button></div><button class="primary-btn auth-submit" id="auth-submit">Log in</button><small id="auth-switch">New to Numora? <button>Sign up</button></small></div></div>
-    <script src="app.js?v=171"></script>
+    <script src="app.js?v=180"></script>
     <script src="decimal-place-value.js?v=1"></script>
     <script src="number-line-lab.js?v=1"></script>
+    <script src="money-change-lab.js?v=1"></script>
+    <script src="equation-balance-lab.js?v=1"></script>
+    <script src="math-facts.js?v=1"></script>
+    <script src="data-explorer.js?v=1"></script>
+    <script src="geometry-explorer.js?v=1"></script>
+    <script src="unit-converter.js?v=1"></script>
+    <script src="daily-puzzle.js?v=1"></script>
     <script src="help-center-content.js?v=2"></script>
     <script src="clerk-config.js?v=1"></script>
     <script src="lesson-levels.js?v=1"></script>
     <script src="lesson-level-fallback.js?v=1"></script>
     <script src="lesson-level-final.js?v=1"></script>
     <script src="lesson-runtime.js?v=1"></script>
-    <script src="lesson-runtime-v2.js?v=1"></script>
-    <script src="grade4-fix.js?v=1"></script>
+    <script src="grade4-fix.js?v=2"></script>
     <script src="question-variation.js?v=1"></script>
     <script src="math-only-questions.js?v=1"></script>
     <script src="grade-level-content.js?v=2"></script>
     <script src="all-grade-question-variation.js?v=3"></script>
-    <script src="video-separate-examples.js?v=12"></script>
+    <script src="video-separate-examples.js?v=14"></script>
     <script src="lesson-explanation-answer.js?v=1"></script>
     <script src="lesson-topic-questions.js?v=1"></script>
     <script src="lesson-question-randomizer.js?v=6"></script>
     <script src="ui-fixes.js?v=4"></script>
-    <script src="clerk-auth.js?v=9"></script>
-    <script src="language.js?v=35"></script>
+    <script src="clerk-auth.js?v=10"></script>
+    <script src="language.js?v=36"></script>
   </body>
 </html>

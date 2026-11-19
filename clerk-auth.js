@@ -3,6 +3,7 @@
   const publishableKey = String(window.NUMORA_CLERK_PUBLISHABLE_KEY || '').trim();
   if (!publishableKey) return; // Leave the existing sign-in flow available until configured.
   if (window.numoraSharedWinMode) return; // Shared achievement pages are public guest views.
+  if (window.numoraGuestMode) return; // Guest exploration uses tab-only storage, never a signed-in Clerk session.
 
   const modal = document.querySelector('#auth-modal');
   const modalBody = modal?.querySelector('.auth-modal');
@@ -87,7 +88,7 @@
     } else {
       localStorage.setItem('numoraActiveEmail', email);
       startFreshAccount();
-      saveNumoraAccount(email, { username: displayName, joinedAt: new Date().toISOString().slice(0, 10), progress: {} });
+      saveNumoraAccount(email, { username: displayName, joinedAt: new Date().toISOString().slice(0, 10), language: 'en', progress: {} });
       saveCurrentAccountProgress();
     }
     userName = displayName;

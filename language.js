@@ -115,7 +115,7 @@
     const email=localStorage.getItem('numoraActiveEmail');
     if(email&&typeof findNumoraAccount==='function'&&typeof saveNumoraAccount==='function'){
       const account=findNumoraAccount(email);
-      if(account){account.progress={...(account.progress||{}),numoraLanguage:selected};saveNumoraAccount(email,account);}
+      if(account){account.language=selected;account.progress={...(account.progress||{}),numoraLanguage:selected};saveNumoraAccount(email,account);}
     }
     translatePage();
   });
