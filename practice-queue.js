@@ -20,7 +20,8 @@
   window.numoraPracticeQueueCompleted = (grade, lesson) => {
     const queue = read();
     const index = queue.findIndex(item => item.grade === grade && item.lesson === lesson);
-    if (index >= 0) save(queue.filter((_, itemIndex) => itemIndex !== index));
+    if (index >= 0) { queue.splice(index, 1); save(queue); }
+    return queue[0] || null;
   };
   function render() {
     const queue = read();
@@ -42,6 +43,15 @@
   document.addEventListener('click', event => {
     const nav = event.target instanceof Element ? event.target.closest('[data-view="practice-queue"]') : null;
     if (nav) { event.preventDefault(); event.stopImmediatePropagation(); chooseView(); return; }
+    const nextLesson = event.target instanceof Element ? event.target.closest('[data-queue-next-grade]') : null;
+    if (nextLesson) {
+      event.preventDefault(); event.stopImmediatePropagation();
+      selectedGrade = nextLesson.dataset.queueNextGrade;
+      localStorage.setItem('numoraGrade', selectedGrade);
+      window.syncProfile?.();
+      window.practiceView?.(nextLesson.dataset.queueNextLesson);
+      return;
+    }
     const cardAdd = event.target instanceof Element ? event.target.closest('[data-queue-add]') : null;
     if (cardAdd) {
       event.preventDefault(); event.stopImmediatePropagation();
