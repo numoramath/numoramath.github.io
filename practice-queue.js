@@ -42,6 +42,20 @@
   document.addEventListener('click', event => {
     const nav = event.target instanceof Element ? event.target.closest('[data-view="practice-queue"]') : null;
     if (nav) { event.preventDefault(); event.stopImmediatePropagation(); chooseView(); return; }
+    const cardAdd = event.target instanceof Element ? event.target.closest('[data-queue-add]') : null;
+    if (cardAdd) {
+      event.preventDefault(); event.stopImmediatePropagation();
+      const grade = cardAdd.dataset.queueGrade;
+      const lesson = cardAdd.dataset.queueLesson;
+      const queue = read();
+      if (queue.some(item => item.grade === grade && item.lesson === lesson)) { window.showToast?.(spanish() ? 'Esa lección ya está en tu lista.' : 'That lesson is already in your queue.'); return; }
+      if (queue.length >= 30) { window.showToast?.(spanish() ? 'La lista puede tener hasta 30 lecciones.' : 'Your queue can hold up to 30 lessons.'); return; }
+      queue.push({grade,lesson}); save(queue);
+      cardAdd.textContent = spanish() ? '✓ Añadida a la lista' : '✓ Added to queue';
+      cardAdd.disabled = true;
+      window.showToast?.(spanish() ? 'Lección añadida a tu lista.' : 'Lesson added to your queue.');
+      return;
+    }
     const button = event.target instanceof Element ? event.target.closest('[data-queue-action]') : null;
     if (!button) return;
     event.preventDefault(); event.stopImmediatePropagation();
