@@ -107,6 +107,7 @@
     const select=document.querySelector('[data-language-select]');if(select)select.value=selected;
     const title=document.querySelector('title');if(title)translateNode(title);
   };
+  window.applyNumoraLanguage = translatePage;
   document.addEventListener('change',event=>{
     if(!event.target.matches('[data-language-select]'))return;
     const selected=event.target.value;
