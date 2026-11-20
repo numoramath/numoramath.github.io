@@ -13,11 +13,12 @@
     const grade = trigger.dataset.previewGrade || 'Pre-K';
     const lesson = trigger.dataset.previewLesson || '';
     const done = Math.min(10, Math.max(0, Number(savedLessonQuestionCount(grade, lesson)) || 0));
+    const queued = window.numoraPracticeQueueHas?.(grade, lesson) || false;
     const objective = lessonTopicDescription(lesson);
     const es = isSpanish();
     const modal = document.createElement('div');
     modal.className = 'lesson-preview-backdrop';
-    modal.innerHTML = `<section class="card lesson-preview-dialog" role="dialog" aria-modal="true" aria-labelledby="lesson-preview-title" aria-describedby="lesson-preview-objective"><button type="button" class="lesson-preview-close" data-preview-close aria-label="${es?'Cerrar':'Close'}">×</button><span class="eyebrow">${es?'VISTA PREVIA DE LA LECCIÓN':'LESSON PREVIEW'}</span><h2 id="lesson-preview-title">${escape(lesson)}</h2><p class="lesson-preview-grade">${escape(grade)} ${es?'Matemáticas':'Math'}</p><p id="lesson-preview-objective">${escape(objective)}</p><div class="lesson-preview-progress"><div><strong>${done} / 10</strong><span>${es?'preguntas completadas':'questions completed'}</span></div><div class="lesson-preview-bar" role="progressbar" aria-label="${es?'Progreso de la lección':'Lesson progress'}" aria-valuemin="0" aria-valuemax="10" aria-valuenow="${done}"><span style="width:${done*10}%"></span></div></div><div class="lesson-preview-actions"><button type="button" class="secondary-btn" data-preview-close>${es?'Volver':'Back'}</button><button type="button" class="primary-btn" data-preview-start data-grade="${escape(grade)}" data-lesson="${escape(lesson)}">${es?'Empezar lección':'Start lesson'} →</button></div></section>`;
+    modal.innerHTML = `<section class="card lesson-preview-dialog" role="dialog" aria-modal="true" aria-labelledby="lesson-preview-title" aria-describedby="lesson-preview-objective"><button type="button" class="lesson-preview-close" data-preview-close aria-label="${es?'Cerrar':'Close'}">×</button><span class="eyebrow">${es?'VISTA PREVIA DE LA LECCIÓN':'LESSON PREVIEW'}</span><h2 id="lesson-preview-title">${escape(lesson)}</h2><p class="lesson-preview-grade">${escape(grade)} ${es?'Matemáticas':'Math'}</p><p id="lesson-preview-objective">${escape(objective)}</p><div class="lesson-preview-progress"><div><strong>${done} / 10</strong><span>${es?'preguntas completadas':'questions completed'}</span></div><div class="lesson-preview-bar" role="progressbar" aria-label="${es?'Progreso de la lección':'Lesson progress'}" aria-valuemin="0" aria-valuemax="10" aria-valuenow="${done}"><span style="width:${done*10}%"></span></div></div><div class="lesson-preview-queue-action"><button type="button" class="secondary-btn" data-preview-add data-grade="${escape(grade)}" data-lesson="${escape(lesson)}" ${queued ? "disabled" : ""}>${queued ? (es ? "✓ En la lista" : "✓ In queue") : (es ? "＋ Añadir a la lista" : "＋ Add to queue")}</button></div><div class="lesson-preview-actions"><button type="button" class="secondary-btn" data-preview-close>${es?'Volver':'Back'}</button><button type="button" class="primary-btn" data-preview-start data-grade="${escape(grade)}" data-lesson="${escape(lesson)}">${es?'Empezar lección':'Start lesson'} →</button></div></section>`;
     document.body.append(modal);
     modal.querySelector('[data-preview-close]')?.focus();
   }
@@ -26,7 +27,20 @@
     const trigger = target?.closest('[data-lesson-preview]');
     const start = target?.closest('[data-preview-start]');
     const close = target?.closest('[data-preview-close]');
+    const add = target?.closest('[data-preview-add]');
     if (trigger) { event.preventDefault(); event.stopImmediatePropagation(); openPreview(trigger); return; }
+    if (add) {
+      event.preventDefault(); event.stopImmediatePropagation();
+      const result = window.numoraAddToPracticeQueue?.(add.dataset.grade, add.dataset.lesson) || 'unavailable';
+      if (result === 'added') {
+        add.disabled = true;
+        add.textContent = isSpanish() ? '✓ En la lista' : '✓ In queue';
+        window.showToast?.(isSpanish() ? 'Lección añadida a tu lista.' : 'Lesson added to your queue.');
+      } else {
+        window.showToast?.(result === 'full' ? (isSpanish() ? 'La lista ya tiene 30 lecciones.' : 'Your queue already has 30 lessons.') : (isSpanish() ? 'Esa lección ya está en tu lista.' : 'That lesson is already in your queue.'));
+      }
+      return;
+    }
     if (start) {
       event.preventDefault(); event.stopImmediatePropagation();
       const grade = start.dataset.grade, lesson = start.dataset.lesson;

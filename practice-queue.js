@@ -20,6 +20,15 @@
     const count = read().length;
     document.querySelectorAll('.practice-queue-count').forEach(node => node.textContent = count);
   }
+  window.numoraPracticeQueueHas = (grade, lesson) => read().some(item => item.grade === grade && item.lesson === lesson);
+  window.numoraAddToPracticeQueue = (grade, lesson) => {
+    const queue = read();
+    if (queue.some(item => item.grade === grade && item.lesson === lesson)) return 'duplicate';
+    if (queue.length >= 30) return 'full';
+    queue.push({grade, lesson});
+    save(queue);
+    return 'added';
+  };
   window.numoraPracticeQueueCompleted = (grade, lesson) => {
     const queue = read();
     const index = queue.findIndex(item => item.grade === grade && item.lesson === lesson);
