@@ -1,0 +1,15 @@
+.weekly-goal-card{margin-top:18px;padding:24px;text-align:left}
+.weekly-goal-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.weekly-goal-heading h2{margin:5px 0 0}
+.weekly-goal-heading>strong{font-size:27px;color:var(--ink,#172033);white-space:nowrap}
+.weekly-goal-heading>strong small{font-size:13px;font-weight:500;color:var(--muted,#667085)}
+.weekly-goal-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px;margin:18px 0}
+.weekly-goal-day{display:flex;min-height:56px;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:1px solid var(--line,#e4e8f0);border-radius:12px;color:var(--muted,#667085)}
+.weekly-goal-day i{font-style:normal;font-size:17px;font-weight:700}
+.weekly-goal-day small{font-size:11px}
+.weekly-goal-day.is-practiced{border-color:#b8eadb;background:#eaf8f3;color:#13775d}
+.weekly-goal-card .daily-goal-choices{margin:16px 0}
+.weekly-goal-card .progress-line{margin-top:12px}
+.weekly-goal-status{min-height:22px;margin:12px 0 0;color:var(--muted,#667085);font-size:14px}
+[data-theme="dark"] .weekly-goal-day.is-practiced{border-color:#285f50;background:#203d38;color:#8fe0c0}
+@media(max-width:540px){.weekly-goal-card{padding:18px 14px}.weekly-goal-days{gap:5px}.weekly-goal-day{min-height:48px;border-radius:9px}.weekly-goal-day small{font-size:10px}.weekly-goal-card .daily-goal-choices{gap:6px}.weekly-goal-card .daily-goal-choices button{padding:8px 9px}}
