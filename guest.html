@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Explore Numora as a guest</title>
+  <style>
+    :root{font-family:Arial,sans-serif;color:#17233a;background:#f4f6fb}*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:32px 18px;background:radial-gradient(circle at 15% 0,#eeeaff,transparent 38%),#f4f6fb}.wrap{max-width:900px;margin:0 auto}.brand{font-size:22px;font-weight:700;color:#1d2940}.brand b{display:inline-grid;place-items:center;width:34px;height:34px;margin-right:8px;border-radius:11px;background:#eeeaff;color:#6554ed}.hero,.lesson{border:1px solid #e2e7f0;border-radius:22px;background:#fff;box-shadow:0 12px 36px #1b2c4810}.hero{padding:32px;margin:24px 0}.eyebrow{color:#6655ee;font-size:12px;font-weight:700;letter-spacing:.12em}.hero h1{margin:10px 0;font-size:clamp(30px,6vw,44px)}p{color:#697a96;line-height:1.6}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.lesson{padding:22px}.lesson h2{margin:0 0 8px}.lesson button,.back{border:0;border-radius:12px;background:#5c4be1;color:white;font-weight:700;padding:12px 16px;cursor:pointer}.lesson button:hover,.back:hover{background:#4938ca}.practice{display:none;margin-top:18px;padding-top:16px;border-top:1px solid #e8ebf2}.practice.open{display:block}.practice input{width:140px;padding:11px;border:1px solid #dce2ed;border-radius:10px;font-size:16px}.feedback{min-height:24px;font-weight:700}.foot{margin:24px 0;text-align:center;color:#73819a;font-size:13px}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="brand"><b>✦</b>numora</div>
+    <section class="hero"><span class="eyebrow">GUEST EXPLORATION</span><h1>Explore Numora</h1><p>Try a few sample math lessons. This guest page keeps everything temporary and does not open or change anyone’s account.</p></section>
+    <section class="grid" aria-label="Sample lessons">
+      <article class="lesson"><h2>Counting on</h2><p>Practice finding the next number.</p><button type="button" data-lesson="count">Try a question</button><div class="practice" data-practice="count"><p>What number comes after <strong data-a></strong>?</p><input aria-label="Your answer" inputmode="numeric"><button type="button" data-check="count">Check</button><p class="feedback" aria-live="polite"></p></div></article>
+      <article class="lesson"><h2>Addition</h2><p>Put two groups together.</p><button type="button" data-lesson="add">Try a question</button><div class="practice" data-practice="add"><p>What is <strong data-a></strong> + <strong data-b></strong>?</p><input aria-label="Your answer" inputmode="numeric"><button type="button" data-check="add">Check</button><p class="feedback" aria-live="polite"></p></div></article>
+      <article class="lesson"><h2>Multiplication</h2><p>Think about equal groups.</p><button type="button" data-lesson="multiply">Try a question</button><div class="practice" data-practice="multiply"><p>What is <strong data-a></strong> × <strong data-b></strong>?</p><input aria-label="Your answer" inputmode="numeric"><button type="button" data-check="multiply">Check</button><p class="feedback" aria-live="polite"></p></div></article>
+    </section>
+    <p class="foot">Guest practice is temporary. Sign in from the Numora home page to save progress.</p>
+  </main>
+  <script>
+    const problems={count:()=>{const a=2+Math.floor(Math.random()*18);return{a,answer:a+1};},add:()=>{const a=2+Math.floor(Math.random()*18),b=1+Math.floor(Math.random()*9);return{a,b,answer:a+b};},multiply:()=>{const a=2+Math.floor(Math.random()*9),b=2+Math.floor(Math.random()*9);return{a,b,answer:a*b};}};const active={};document.addEventListener('click',event=>{const start=event.target.closest('[data-lesson]');if(start){const type=start.dataset.lesson,box=document.querySelector(`[data-practice="${type}"]`),problem=problems[type]();active[type]=problem;box.querySelector('[data-a]').textContent=problem.a;if(problem.b)box.querySelector('[data-b]').textContent=problem.b;box.querySelector('input').value='';box.querySelector('.feedback').textContent='';box.classList.add('open');return;}const check=event.target.closest('[data-check]');if(check){const type=check.dataset.check,box=document.querySelector(`[data-practice="${type}"]`),answer=Number(box.querySelector('input').value),feedback=box.querySelector('.feedback');feedback.textContent=answer===active[type]?.answer?'Correct! Nice work.':'Try again. Think it through, then check once more.';feedback.style.color=answer===active[type]?.answer?'#078b71':'#bd6039';}});
+  </script>
+</body>
+</html>

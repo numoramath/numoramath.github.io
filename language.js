@@ -112,6 +112,8 @@
     if(!event.target.matches('[data-language-select]'))return;
     const selected=event.target.value;
     localStorage.setItem('numoraLanguage',selected);
+    const activeEmail=localStorage.getItem('numoraActiveEmail');
+    if(activeEmail)localStorage.setItem(`numoraLanguage:${activeEmail.trim().toLowerCase()}`,selected);
     if(typeof saveCurrentAccountProgress==='function')saveCurrentAccountProgress();
     const email=localStorage.getItem('numoraActiveEmail');
     if(email&&typeof findNumoraAccount==='function'&&typeof saveNumoraAccount==='function'){
