@@ -1,0 +1,13 @@
+.scratchpad-launch{display:block;margin:0 auto 14px}
+.scratchpad-backdrop{position:fixed;inset:0;z-index:2200;display:grid;place-items:center;padding:18px;background:rgba(20,29,44,.58)}
+.scratchpad-backdrop[hidden]{display:none}
+.scratchpad-panel{width:min(680px,100%);padding:22px;border:1px solid var(--line);border-radius:20px;background:var(--paper);box-shadow:0 24px 70px rgba(20,29,44,.28)}
+.scratchpad-panel header,.scratchpad-panel footer{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.scratchpad-panel h2{margin:4px 0 0;font:600 22px 'Space Grotesk',sans-serif}
+.scratchpad-kicker{color:var(--violet);font-size:10px;font-weight:700;letter-spacing:.12em}
+.scratchpad-panel p,.scratchpad-panel footer span{color:var(--muted);font-size:13px;line-height:1.5}
+.scratchpad-close{width:38px;height:38px;border:0;border-radius:11px;background:var(--wash);color:var(--ink);font-size:26px;cursor:pointer}
+.scratchpad-canvas{display:block;width:100%;height:min(48vh,340px);min-height:190px;border:1px solid var(--line);border-radius:13px;background:#fff;touch-action:none;cursor:crosshair}
+.scratchpad-panel footer{margin-top:14px}
+.scratchpad-panel footer span{font-size:11px}
+@media(max-width:520px){.scratchpad-panel{padding:16px}.scratchpad-panel footer{align-items:flex-start}.scratchpad-panel footer span{max-width:55%}}

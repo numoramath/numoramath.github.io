@@ -1,0 +1,111 @@
+(() => {
+  const content = document.querySelector('#app-content');
+  if (!content) return;
+
+  const spanish = () => localStorage.getItem('numoraLanguage') === 'es';
+  const backdrop = document.createElement('div');
+  backdrop.className = 'scratchpad-backdrop';
+  backdrop.hidden = true;
+  backdrop.innerHTML = `<section class="scratchpad-panel" role="dialog" aria-modal="true" aria-labelledby="scratchpad-title"><header><div><span class="scratchpad-kicker">${spanish() ? 'ESPACIO DE TRABAJO' : 'WORK SPACE'}</span><h2 id="scratchpad-title">${spanish() ? 'Borrador de matemáticas' : 'Math scratchpad'}</h2></div><button type="button" class="scratchpad-close" data-scratchpad-action="close" aria-label="${spanish() ? 'Cerrar borrador' : 'Close scratchpad'}">×</button></header><p>${spanish() ? 'Dibuja o escribe los pasos. Este borrador se borra al salir de la lección.' : 'Draw or work through the steps. This scratchpad clears when you leave the lesson.'}</p><canvas class="scratchpad-canvas" aria-label="${spanish() ? 'Área para trabajar matemáticas' : 'Math work area'}"></canvas><footer><span>${spanish() ? 'Usa el ratón, el tacto o un lápiz digital.' : 'Use a mouse, touch, or a stylus.'}</span><button type="button" class="secondary-btn" data-scratchpad-action="clear">${spanish() ? 'Borrar todo' : 'Clear all'}</button></footer></section>`;
+  document.body.appendChild(backdrop);
+  const canvas = backdrop.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+  let lessonIdentity = '';
+  let drawing = false;
+  let lastPoint = null;
+
+  function resetCanvas() {
+    const ratio = Math.max(1, window.devicePixelRatio || 1);
+    const width = Math.max(1, canvas.clientWidth);
+    const height = Math.max(1, canvas.clientHeight);
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#26324a';
+    ctx.lineWidth = 3;
+  }
+
+  function openScratchpad() {
+    backdrop.hidden = false;
+    requestAnimationFrame(() => {
+      resetCanvas();
+      backdrop.querySelector('[data-scratchpad-action="close"]').focus();
+    });
+  }
+
+  function closeScratchpad() {
+    backdrop.hidden = true;
+    drawing = false;
+  }
+
+  function pointFrom(event) {
+    const rect = canvas.getBoundingClientRect();
+    return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+  }
+
+  function addButton(shell) {
+    if (shell.querySelector('.scratchpad-launch')) return;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'secondary-btn scratchpad-launch';
+    button.dataset.scratchpadAction = 'open';
+    button.textContent = `${spanish() ? '✎ Abrir borrador' : '✎ Open scratchpad'}`;
+    shell.querySelector('.question-card')?.before(button);
+  }
+
+  function updateLesson() {
+    const shell = content.querySelector('.practice-shell');
+    if (!shell || shell.querySelector('[data-challenge-time]')) {
+      if (lessonIdentity) {
+        lessonIdentity = '';
+        closeScratchpad();
+        resetCanvas();
+      }
+      return;
+    }
+    const identity = `${shell.querySelector('.practice-meta b')?.textContent || ''}|${shell.querySelector('.skill-tag')?.textContent || ''}`;
+    if (identity !== lessonIdentity) {
+      lessonIdentity = identity;
+      closeScratchpad();
+      resetCanvas();
+    }
+    addButton(shell);
+  }
+
+  content.addEventListener('click', event => {
+    const button = event.target instanceof Element ? event.target.closest('[data-scratchpad-action]') : null;
+    if (!button) return;
+    event.preventDefault();
+    if (button.dataset.scratchpadAction === 'open') openScratchpad();
+    if (button.dataset.scratchpadAction === 'close') closeScratchpad();
+    if (button.dataset.scratchpadAction === 'clear') resetCanvas();
+  });
+  backdrop.addEventListener('click', event => {
+    if (event.target === backdrop) closeScratchpad();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !backdrop.hidden) closeScratchpad();
+  });
+  canvas.addEventListener('pointerdown', event => {
+    if (backdrop.hidden) return;
+    drawing = true;
+    lastPoint = pointFrom(event);
+    canvas.setPointerCapture(event.pointerId);
+  });
+  canvas.addEventListener('pointermove', event => {
+    if (!drawing || !lastPoint) return;
+    const nextPoint = pointFrom(event);
+    ctx.beginPath();
+    ctx.moveTo(lastPoint.x, lastPoint.y);
+    ctx.lineTo(nextPoint.x, nextPoint.y);
+    ctx.stroke();
+    lastPoint = nextPoint;
+  });
+  const stopDrawing = () => { drawing = false; lastPoint = null; };
+  canvas.addEventListener('pointerup', stopDrawing);
+  canvas.addEventListener('pointercancel', stopDrawing);
+  new MutationObserver(updateLesson).observe(content, { childList: true, subtree: true, characterData: true });
+  updateLesson();
+})();
