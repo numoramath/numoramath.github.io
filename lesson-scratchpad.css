@@ -7,6 +7,13 @@
 .scratchpad-kicker{color:var(--violet);font-size:10px;font-weight:700;letter-spacing:.12em}
 .scratchpad-panel p,.scratchpad-panel footer span{color:var(--muted);font-size:13px;line-height:1.5}
 .scratchpad-close{width:38px;height:38px;border:0;border-radius:11px;background:var(--wash);color:var(--ink);font-size:26px;cursor:pointer}
+.scratchpad-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0}
+.scratchpad-tools button{min-height:36px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);font:600 12px 'DM Sans',sans-serif;cursor:pointer}
+.scratchpad-tools button[aria-pressed="true"]{border-color:var(--violet);background:#f0efff;color:var(--violet)}
+.scratchpad-tools button:disabled{opacity:.45;cursor:not-allowed}
+.scratchpad-tools button:focus-visible,.scratchpad-close:focus-visible{outline:3px solid #a49af7;outline-offset:2px}
+.scratchpad-swatch{display:block;width:16px;height:16px;border-radius:50%;background:#26324a}
+.scratchpad-swatch.blue{background:#4263eb}.scratchpad-swatch.red{background:#e05b48}
 .scratchpad-canvas{display:block;width:100%;height:min(48vh,340px);min-height:190px;border:1px solid var(--line);border-radius:13px;background:#fff;touch-action:none;cursor:crosshair}
 .scratchpad-panel footer{margin-top:14px}
 .scratchpad-panel footer span{font-size:11px}
