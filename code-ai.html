@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Code AI creates small web apps from plain-English descriptions.">
+  <title>Forge AI · Build from words</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="code-ai.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark">✦</span><span>forge <em>AI</em></span></div>
+      <button class="new-project" id="newProject">＋ New project</button>
+      <p class="section-label">RECENT PROJECTS</p>
+      <div id="projectList" class="project-list"></div>
+      <div class="sidebar-bottom">
+        <button class="side-link" id="themeButton">☼ <span>Appearance</span></button>
+        <button class="side-link" id="helpButton">? <span>How it works</span></button>
+        <div class="profile">
+          <div class="avatar" id="avatar">G</div>
+          <div class="profile-copy"><strong id="profileName">Guest</strong><small id="profileStatus">Sign in to save projects</small></div>
+          <button class="more-button" id="profileButton" aria-label="Account menu">•••</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="menu-button" id="menuButton" aria-label="Open menu">☰</button>
+        <div class="top-title"><span class="spark">✦</span><span id="pageTitle">New project</span></div>
+        <div class="auth-actions">
+          <button id="loginButton">Log in</button>
+          <button class="primary small" id="signupButton">Sign up</button>
+          <button class="hidden" id="logoutButton">Log out</button>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <div class="intro" id="intro">
+          <div class="hero-mark">✦</div>
+          <p class="eyebrow">FORGE AI · CODE BUILDER</p>
+          <h1>Describe an app.<br><span>Get a working version.</span></h1>
+          <p class="intro-copy">Tell Forge what you want to build in everyday language. It creates a preview and editable code you can download.</p>
+          <div class="examples">
+            <button data-example="Make a habit tracker with a streak counter, add habit button, and a calm purple design."><b>✓ Habit tracker</b><small>Track routines with a streak</small></button>
+            <button data-example="Make a bright recipe finder with a search box, recipe cards, and a favorite button."><b>▦ Recipe finder</b><small>Search and save recipes</small></button>
+            <button data-example="Make a simple pomodoro timer with start, pause, reset, and a focus/minutes display."><b>◷ Focus timer</b><small>Stay focused in short sprints</small></button>
+          </div>
+        </div>
+
+        <div class="builder hidden" id="builder">
+          <div class="builder-heading"><div><p class="eyebrow">YOUR DESCRIPTION</p><h1>What should we build?</h1></div><span class="status-pill" id="statusPill">Ready</span></div>
+          <div class="prompt-box"><textarea id="promptInput" rows="4" placeholder="Example: Make a simple budget tracker with income and expenses, a total balance, and a clean blue design."></textarea><div class="prompt-footer"><span>Be specific about the features and style.</span><button class="primary generate" id="generateButton">✦ Generate app</button></div></div>
+          <div class="result hidden" id="result">
+            <div class="result-header"><div><p class="eyebrow">GENERATED PROJECT</p><h2 id="resultTitle">Your app</h2></div><button class="download" id="downloadButton">↓ Download HTML</button></div>
+            <div class="preview-card"><div class="preview-top"><span>LIVE PREVIEW</span><button id="refreshPreview">↻ Refresh</button></div><iframe id="previewFrame" title="Generated app preview" sandbox="allow-scripts"></iframe></div>
+            <div class="code-card"><div class="code-tabs"><button class="active" data-code-tab="html">index.html</button><button data-code-tab="css">styles.css</button><button data-code-tab="js">app.js</button><button id="copyCode">Copy</button></div><pre id="codeOutput"></pre></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="overlay hidden" id="authOverlay"><div class="modal"><button class="close" data-close>×</button><div class="modal-icon">✦</div><p class="eyebrow" id="authEyebrow">GET STARTED</p><h2 id="authTitle">Create your Forge account</h2><p id="authDescription">Save your generated projects on this device.</p><form id="authForm"><label id="nameLabel">Your name<input id="nameInput" autocomplete="name" placeholder="Jordan Smith"></label><label>Email<input id="emailInput" type="email" required autocomplete="username" placeholder="you@example.com"></label><label>Password<input id="passwordInput" type="password" required minlength="6" autocomplete="new-password" placeholder="At least 6 characters"></label><p class="form-error" id="formError"></p><button class="primary submit" type="submit" id="authSubmit">Create account</button></form><p class="switch" id="authSwitch">Already have an account? <button type="button">Log in</button></p></div></div>
+  <div class="overlay hidden" id="helpOverlay"><div class="modal"><button class="close" data-close>×</button><div class="modal-icon">?</div><p class="eyebrow">QUICK GUIDE</p><h2>How Forge works</h2><p>Describe a small web app, choose Generate app, then try it in the live preview. The three editable files and a self-contained HTML download are created in your browser.</p><button class="primary submit" data-close>Got it</button></div></div>
+  <div id="toast" role="status"></div>
+  <script src="code-ai.js"></script>
+</body>
+</html>

@@ -46,6 +46,15 @@
     setCanvasSize(false);
   }
 
+  function clearDrawing() {
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
+    undoStack = [];
+    syncUndoButton();
+  }
+
   function fitCanvas() {
     const ratio = Math.max(1, window.devicePixelRatio || 1);
     const width = Math.max(1, Math.round(canvas.clientWidth * ratio));
@@ -73,6 +82,17 @@
     drawing = false;
     if (wasOpen && lastOpener?.isConnected) lastOpener.focus();
   }
+
+  backdrop.querySelector('[data-scratchpad-action="close"]').addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    closeScratchpad();
+  });
+  backdrop.querySelector('[data-scratchpad-action="clear"]').addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    clearDrawing();
+  });
 
   function pointFrom(event) {
     const rect = canvas.getBoundingClientRect();
@@ -136,8 +156,7 @@
         ctx.putImageData(undoStack.pop(), 0, 0);
         syncUndoButton();
       }
-      if (tool.dataset.scratchpadAction === 'clear') resetCanvas();
-      if (tool.dataset.scratchpadAction === 'close') closeScratchpad();
+      if (tool.dataset.scratchpadAction === 'clear' || tool.dataset.scratchpadAction === 'close') return;
       event.preventDefault();
       return;
     }
