@@ -58,11 +58,9 @@
 
   function applyClerkUser(user) {
     if (!user) {
-      const justLoggedOut = Boolean(appliedClerkUserId);
       appliedClerkUserId = null;
       clearCurrentSession();
-      if (justLoggedOut) modal.classList.add('hidden');
-      else showAuth('signIn');
+      showAuth('signIn');
       return;
     }
 
@@ -135,8 +133,7 @@
       event.stopImmediatePropagation();
       saveCurrentAccountProgress();
       clerk.signOut().then(() => {
-        resetAuthMount();
-        modal.classList.add('hidden');
+        if (appliedClerkUserId !== null && !clerk.user) applyClerkUser(null);
       }).catch(error => console.error('Clerk sign-out failed:', error));
     }
   }, true);
