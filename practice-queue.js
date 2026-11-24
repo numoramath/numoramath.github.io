@@ -5,7 +5,15 @@
   const read = () => {
     try {
       const value = JSON.parse(localStorage.getItem(key) || '[]');
-      return Array.isArray(value) ? value.filter(item => item && typeof item.grade === 'string' && typeof item.lesson === 'string') : [];
+      if (!Array.isArray(value)) return [];
+      const seen = new Set();
+      return value.filter(item => {
+        if (!item || typeof item.grade !== 'string' || typeof item.lesson !== 'string') return false;
+        const id = `${item.grade}|${item.lesson}`;
+        if (seen.has(id)) return false;
+        seen.add(id);
+        return true;
+      }).slice(0, 30);
     } catch { return []; }
   };
   const readPlans = () => {
@@ -28,8 +36,9 @@
   const lessonCount = item => Math.min(10, Math.max(0, Number(savedLessonQuestionCount(item.grade, item.lesson)) || 0));
   function updateCount() {
     const count = read().length;
-    document.querySelectorAll('.practice-queue-count').forEach(node => node.textContent = count);
+    document.querySelectorAll('.practice-queue-count').forEach(node => node.textContent = String(count));
   }
+  window.updatePracticeQueueCount = updateCount;
   window.numoraPracticeQueueHas = (grade, lesson) => read().some(item => item.grade === grade && item.lesson === lesson);
   window.numoraAddToPracticeQueue = (grade, lesson) => {
     const queue = read();
@@ -46,6 +55,7 @@
     return queue[0] || null;
   };
   function render() {
+    updateCount();
     const queue = read();
     const isEs = spanish();
     const remainingQuestions = queue.reduce((sum, item) => sum + 10 - lessonCount(item), 0);
