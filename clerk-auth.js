@@ -134,8 +134,9 @@
       event.stopImmediatePropagation();
       saveCurrentAccountProgress();
       clerk.signOut().then(() => {
-        if (appliedClerkUserId !== null && !clerk.user) applyClerkUser(null);
-        else if (!clerk.user) showAuth('signIn', true);
+        appliedClerkUserId = null;
+        clearCurrentSession();
+        location.reload();
       }).catch(error => console.error('Clerk sign-out failed:', error));
     }
   }, true);
