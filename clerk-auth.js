@@ -61,6 +61,7 @@
       appliedClerkUserId = null;
       clearCurrentSession();
       showAuth('signIn', true);
+      setTimeout(() => { if (!clerk?.user) showAuth('signIn', true); }, 50);
       return;
     }
 
@@ -165,7 +166,7 @@
     }
   })();
 
-  window.numoraClerk = { showAuth: () => clerk && showAuth() };
+  window.numoraClerk = { showAuth: (mode = 'signIn') => clerk && showAuth(mode) };
   window.addEventListener('beforeunload', () => {
     if (clerk && !clerk.isSignedIn) modalBody.innerHTML = previousMarkup;
   });
