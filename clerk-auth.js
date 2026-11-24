@@ -14,8 +14,8 @@
   let appliedClerkUserId = null;
   const previousMarkup = modalBody.innerHTML;
 
-  function showAuth(mode = 'signIn') {
-    if (!clerk || clerk.isSignedIn) return;
+  function showAuth(mode = 'signIn', force = false) {
+    if (!clerk || (!force && clerk.user)) return;
     modal.classList.add('hidden');
     try {
       const openPanel = mode === 'signUp' ? clerk.openSignUp : clerk.openSignIn;
@@ -60,7 +60,7 @@
     if (!user) {
       appliedClerkUserId = null;
       clearCurrentSession();
-      showAuth('signIn');
+      showAuth('signIn', true);
       return;
     }
 
