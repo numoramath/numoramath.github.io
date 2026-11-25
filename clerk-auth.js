@@ -12,6 +12,8 @@
 
   let clerk;
   let appliedClerkUserId = null;
+  let pendingAuthMode = null;
+  let clerkFailed = false;
   const previousMarkup = modalBody.innerHTML;
 
   function showAuth(mode = 'signIn', force = false) {
@@ -52,7 +54,12 @@
     document.querySelector('.signup-btn')?.classList.remove('hidden');
     appContent.innerHTML = '<div class="page-wrap"><section class="card empty-state"><h2>Guest</h2><p>You are browsing Numora as a guest. Log in or sign up to save your learning.</p><button class="primary-btn" data-clerk-open="signIn">Log in</button> <button class="secondary-btn" data-clerk-open="signUp">Sign up</button></section></div>';
     document.querySelector('#page-title').textContent = 'Guest';
+    ['#name-input', '#email-input', '#password-input'].forEach(sel => {
+      const el = document.querySelector(sel);
+      if (el) el.value = '';
+    });
     window.applyNumoraLanguage?.();
+    if (typeof syncXpAvatarCosmetic === 'function') syncXpAvatarCosmetic();
     if (typeof syncProfile === 'function') syncProfile();
   }
 
@@ -124,10 +131,19 @@
     const authButton = target.closest('[data-clerk-open]');
     const signupClick = target.closest('.signup-btn') || authButton?.dataset.clerkOpen === 'signUp';
     const loginClick = target.closest('.login-btn') || (authButton && !signupClick);
-    if ((signupClick || loginClick) && clerk) {
+    if (signupClick || loginClick) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      showAuth(signupClick ? 'signUp' : 'signIn');
+      const mode = signupClick ? 'signUp' : 'signIn';
+      if (clerk) {
+        showAuth(mode, true);
+      } else if (clerkFailed && typeof window.openAuth === 'function') {
+        window.openAuth(signupClick ? 'signup' : 'login');
+      } else {
+        pendingAuthMode = mode;
+        window.showToast?.('Loading sign-in…');
+      }
+      return;
     }
     if (target.closest('.logout-btn')) {
       event.preventDefault();
@@ -158,7 +174,13 @@
       await clerk.load({ ui: { ClerkUI: window.__internal_ClerkUICtor } });
       clerk.addListener(({ user }) => applyClerkUser(user));
       applyClerkUser(clerk.user);
+      if (pendingAuthMode && !clerk.user) {
+        const mode = pendingAuthMode;
+        pendingAuthMode = null;
+        showAuth(mode, true);
+      }
     } catch (error) {
+      clerkFailed = true;
       modalBody.innerHTML = previousMarkup;
       const errorBox = modalBody.querySelector('#auth-error');
       if (errorBox) {
