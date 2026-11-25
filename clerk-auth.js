@@ -129,15 +129,17 @@
       event.stopImmediatePropagation();
       showAuth(signupClick ? 'signUp' : 'signIn');
     }
-    if (target.closest('.logout-btn') && clerk) {
+    if (target.closest('.logout-btn')) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      saveCurrentAccountProgress();
-      clerk.signOut().then(() => {
-        appliedClerkUserId = null;
-        clearCurrentSession();
-        location.reload();
-      }).catch(error => console.error('Clerk sign-out failed:', error));
+      if (typeof saveCurrentAccountProgress === 'function') saveCurrentAccountProgress();
+      Promise.resolve(clerk?.signOut?.())
+        .catch(error => console.error('Clerk sign-out failed:', error))
+        .finally(() => {
+          appliedClerkUserId = null;
+          clearCurrentSession();
+          location.reload();
+        });
     }
   }, true);
 
