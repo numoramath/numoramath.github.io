@@ -75,5 +75,7 @@
 .home-footer-card h3{margin:6px 0;font:600 18px 'Space Grotesk'}
 .home-footer-card p{margin:0;color:var(--muted);font-size:12px}
 .home-footer-actions{display:flex;gap:10px;flex-wrap:wrap}
-@media(max-width:900px){.home-labs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.home-study-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:20px}
+@media(min-width:851px){.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto}}
+@media(max-width:900px){.home-labs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.home-study-grid{grid-template-columns:1fr}}
 @media(max-width:520px){.home-labs-grid{grid-template-columns:1fr}}
