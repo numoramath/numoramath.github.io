@@ -42,19 +42,50 @@
   const extraLanguages = {
     fr: {
       'LEARN':'APPRENDRE','YOUR SPACE':'TON ESPACE','QUICK LINKS':'LIENS RAPIDES','MATH GAMES':'JEUX DE MATHS',
-      'My learning':'Mon apprentissage','Skill library':'Bibliothèque','Saved skills':'Compétences sauvées','Practice queue':'File de pratique',
-      'Math reference':'Référence math','Math vocabulary':'Vocabulaire','Word problem workshop':'Problèmes écrits','Fraction studio':'Studio fractions',
+      'My learning':'Mon apprentissage','Skill library':'Bibliothèque de compétences','Saved skills':'Compétences enregistrées','Practice queue':'File de pratique',
+      'Math reference':'Référence mathématique','Math vocabulary':'Vocabulaire mathématique','Word problem workshop':'Atelier de problèmes','Fraction studio':'Studio de fractions',
       'Equation balance lab':'Balance d’équations','Multiplication array lab':'Tableaux de multiplication','Area & perimeter builder':'Aire et périmètre',
-      'Decimal place-value lab':'Décimales','Number line lab':'Droite numérique','Money & change lab':'Monnaie','Math facts':'Calcul mental',
-      'Data explorer':'Explorateur de données','Geometry explorer':'Géométrie','Unit converter':'Convertisseur','Scientific calculator':'Calculatrice scientifique',
-      'Coordinate grapher':'Plan cartésien','Percent visualizer':'Pourcentages','Factors, GCF & LCM':'Facteurs, PGCD & PPCM','Probability lab':'Probabilités',
-      'Progress':'Progrès','Timed challenge':'Défi chrono','Review lessons':'Réviser','Daily math puzzle':'Énigme du jour',
-      'Daily goal':'Objectif du jour','Study plan':'Plan d’étude','Custom quiz':'Quiz personnalisé','Leaderboard':'Classement',
-      'Badges':'Badges','Mistake notebook':'Cahier d’erreurs','Saved questions':'Questions sauvées','Flashcard review':'Cartes mémoire',
-      'My notes':'Mes notes','Spend your XP':'Dépenser XP','Settings':'Paramètres','Help center':'Centre d’aide',
-      'Today':'Aujourd’hui','Continue learning':'Continuer','Start learning':'Commencer','Recent activity':'Activité récente',
-      'Log in':'Connexion','Sign up':'S’inscrire','Log out':'Déconnexion','Language':'Langue','Color theme':'Thème','Light':'Clair','Dark':'Sombre',
-      'Explore math labs':'Explorer les labos','Study & review':'Étude et révision','Check answer':'Vérifier','Show explanation':'Voir l’explication'
+      'Decimal place-value lab':'Décimales','Number line lab':'Droite numérique','Money & change lab':'Monnaie et rendu','Math facts':'Faits mathématiques',
+      'Data explorer':'Explorateur de données','Geometry explorer':'Explorateur de géométrie','Unit converter':'Convertisseur d’unités','Scientific calculator':'Calculatrice scientifique',
+      'Coordinate grapher':'Plan cartésien','Percent visualizer':'Visualiseur de pourcentages','Factors, GCF & LCM':'Facteurs, PGCD et PPCM','Probability lab':'Laboratoire de probabilités',
+      'Progress':'Progrès','Timed challenge':'Défi chronométré','Review lessons':'Réviser les leçons','Daily math puzzle':'Énigme du jour',
+      'Daily goal':'Objectif quotidien','Study plan':'Plan d’étude','Custom quiz':'Quiz personnalisé','Leaderboard':'Classement',
+      'Badges':'Badges','Mistake notebook':'Cahier d’erreurs','Saved questions':'Questions enregistrées','Flashcard review':'Cartes mémoire',
+      'My notes':'Mes notes','Spend your XP':'Dépenser vos XP','Settings':'Paramètres','Help center':'Centre d’aide',
+      'Browse skills':'Parcourir les compétences','View progress':'Voir les progrès','XP reward shop':'Boutique XP','View visits':'Voir les visites',
+      'Keep your streak!':'Gardez votre série !','more questions today':'questions de plus aujourd’hui',
+      'Today':'Aujourd’hui','Continue learning':'Continuer l’apprentissage','Start learning':'Commencer l’apprentissage','Recommended for you':'Recommandé pour vous',
+      'Your first skills':'Vos premières compétences','See all skills →':'Voir toutes les compétences →','Recent activity':'Activité récente',
+      'Your snapshot':'Votre aperçu','Answer accuracy':'Précision','Current streak':'Série actuelle','Questions today':'Questions aujourd’hui',
+      'Continue practice →':'Continuer →','Start first lesson →':'Commencer →','Explore math labs':'Explorer les labos de maths',
+      'Study & review':'Étude et révision','View badges →':'Voir les badges →','Daily puzzle →':'Énigme du jour →',
+      'Picked from your recent answers and lesson progress.':'Choisi selon vos réponses récentes et votre progression.',
+      'A little practice today makes a big difference tomorrow.':'Un peu de pratique aujourd’hui fait une grande différence demain.',
+      'Keep your momentum going':'Gardez votre élan','Starting fresh':'Nouveau départ','Ready to begin':'Prêt à commencer','Up next':'À suivre','In progress':'En cours','Next lesson':'Leçon suivante','XP balance':'Solde XP',
+      'Earn 10 per correct answer':'Gagnez 10 par bonne réponse','Powers, roots, trig & history':'Puissances, racines, trigo et historique',
+      'Slope, intercepts & points':'Pente, ordonnées et points','10×10 grid, tax & discounts':'Grille 10×10, taxes et remises',
+      'Prime factors & divisors':'Facteurs premiers et diviseurs','Spinners & live trials':'Roulettes et essais en direct',
+      'Compare shaded parts':'Comparer les parts','Solve step-by-step scales':'Résoudre étape par étape','Angles, shapes & area':'Angles, figures et aire',
+      'Schedule weekly lessons':'Planifier la semaine','Revisit missed questions':'Revoir les erreurs','Quick spaced practice':'Révision espacée rapide',
+      'Log in':'Connexion','Sign up':'S’inscrire','Log out':'Déconnexion','Language':'Langue','Choose the app language':'Choisir la langue',
+      'Changes menus, buttons, lesson titles, and common learning text.':'Modifie les menus, boutons, titres et textes courants.',
+      'Color theme':'Thème de couleur','Light':'Clair','Dark':'Sombre','Accent color':'Couleur d’accentuation',
+      'Answer controls':'Contrôles de réponse','Click box to type answer':'Cliquer pour saisir','Space bar':'Barre d’espace','Mouse':'Souris','Both':'Les deux',
+      'Learning preferences':'Préférences d’apprentissage','Read each new question aloud':'Lire chaque question à voix haute',
+      'Focus the answer box for each question':'Activer la zone de réponse','Show explanations automatically':'Afficher les explications automatiquement',
+      'Lesson text size':'Taille du texte','Standard':'Standard','Large':'Grand','Show fun animations when I finish a lesson':'Afficher les animations de fin',
+      'Daily question goal':'Objectif quotidien','Accessibility and sound':'Accessibilité et son','Reduce motion':'Réduire les animations',
+      'Increase contrast':'Contraste élevé','Play a soft sound for correct answers':'Son doux pour les bonnes réponses',
+      'Keep a copy of your learning':'Sauvegarder vos progrès','Download my progress backup':'Télécharger la sauvegarde',
+      'Restore & reset':'Restaurer et réinitialiser','Import backup':'Importer une sauvegarde','Reset preferences':'Réinitialiser les préférences',
+      'Profile & layout':'Profil et disposition','Display name':'Nom affiché','Save':'Enregistrer','Compact sidebar spacing':'Barre latérale compacte',
+      'Show streak reminder card in sidebar':'Afficher la carte de rappel','Focus mode (hide external game links in sidebar)':'Mode concentration',
+      'Voice & speech rate':'Vitesse de lecture','Read-aloud speed':'Vitesse vocale','Reading & practice extras':'Lecture et pratique',
+      'Reading font style':'Style de police','Active grade level':'Niveau actif','Default lesson length':'Longueur de leçon',
+      'Weekly question goal':'Objectif hebdomadaire','Saved account data':'Données enregistrées',
+      'Check answer':'Vérifier','Show explanation':'Voir l’explication','Read question':'Lire la question','Next question →':'Question suivante →',
+      'All skills':'Toutes','Not finished':'Non terminées','Finished':'Terminées','Saved':'Enregistrées','Needs practice':'À revoir',
+      'Good morning':'Bonjour','Good afternoon':'Bon après-midi','Good evening':'Bonsoir','Good night':'Bonne nuit'
     },
     de: {
       'LEARN':'LERNEN','YOUR SPACE':'DEIN BEREICH','QUICK LINKS':'SCHNELLZUGRIFF','MATH GAMES':'MATHESPIELE',
@@ -68,9 +99,21 @@
       'Daily goal':'Tagesziel','Study plan':'Lernplan','Custom quiz':'Eigenes Quiz','Leaderboard':'Bestenliste',
       'Badges':'Abzeichen','Mistake notebook':'Fehlerheft','Saved questions':'Gespeicherte Fragen','Flashcard review':'Lernkarten',
       'My notes':'Notizen','Spend your XP':'XP einlösen','Settings':'Einstellungen','Help center':'Hilfe',
-      'Today':'Heute','Continue learning':'Weiterlernen','Start learning':'Starten','Recent activity':'Letzte Aktivität',
-      'Log in':'Anmelden','Sign up':'Registrieren','Log out':'Abmelden','Language':'Sprache','Color theme':'Farbthema','Light':'Hell','Dark':'Dunkel',
-      'Explore math labs':'Mathe-Labore entdecken','Study & review':'Lernen & Wiederholen','Check answer':'Prüfen','Show explanation':'Erklärung zeigen'
+      'Browse skills':'Themen ansehen','View progress':'Fortschritt ansehen','XP reward shop':'XP-Shop','View visits':'Besuche ansehen',
+      'Keep your streak!':'Halte deine Serie!','more questions today':'weitere Fragen heute',
+      'Today':'Heute','Continue learning':'Weiterlernen','Start learning':'Lernen starten','Recommended for you':'Für dich empfohlen',
+      'Your first skills':'Deine ersten Themen','See all skills →':'Alle Themen →','Recent activity':'Letzte Aktivität',
+      'Your snapshot':'Dein Überblick','Answer accuracy':'Genauigkeit','Current streak':'Aktuelle Serie','Questions today':'Fragen heute',
+      'Continue practice →':'Weiter üben →','Start first lesson →':'Erste Lektion →','Explore math labs':'Mathe-Labore entdecken',
+      'Study & review':'Lernen & Wiederholen','View badges →':'Abzeichen →','Daily puzzle →':'Tagesrätsel →',
+      'Picked from your recent answers and lesson progress.':'Ausgewählt anhand deiner letzten Antworten.',
+      'A little practice today makes a big difference tomorrow.':'Ein wenig Übung heute macht morgen einen großen Unterschied.',
+      'Keep your momentum going':'Bleib dran','Starting fresh':'Neustart','Ready to begin':'Bereit','Up next':'Als Nächstes','In progress':'In Arbeit','Next lesson':'Nächste Lektion','XP balance':'XP-Guthaben',
+      'Earn 10 per correct answer':'10 XP pro richtiger Antwort','Log in':'Anmelden','Sign up':'Registrieren','Log out':'Abmelden',
+      'Language':'Sprache','Choose the app language':'App-Sprache wählen','Color theme':'Farbthema','Light':'Hell','Dark':'Dunkel','Accent color':'Akzentfarbe',
+      'Answer controls':'Antwortsteuerung','Learning preferences':'Lernpräferenzen','Accessibility and sound':'Barrierefreiheit & Ton',
+      'Check answer':'Prüfen','Show explanation':'Erklärung zeigen','Read question':'Vorlesen','Next question →':'Nächste Frage →',
+      'Good morning':'Guten Morgen','Good afternoon':'Guten Tag','Good evening':'Guten Abend','Good night':'Gute Nacht'
     },
     pt: {
       'LEARN':'APRENDER','YOUR SPACE':'SEU ESPAÇO','QUICK LINKS':'ATALHOS','MATH GAMES':'JOGOS DE MATEMÁTICA',
@@ -84,38 +127,72 @@
       'Daily goal':'Meta diária','Study plan':'Plano de estudo','Custom quiz':'Quiz personalizado','Leaderboard':'Ranking',
       'Badges':'Medalhas','Mistake notebook':'Caderno de erros','Saved questions':'Questões salvas','Flashcard review':'Cartões',
       'My notes':'Minhas notas','Spend your XP':'Gastar XP','Settings':'Configurações','Help center':'Central de ajuda',
-      'Today':'Hoje','Continue learning':'Continuar','Start learning':'Começar','Recent activity':'Atividade recente',
-      'Log in':'Entrar','Sign up':'Cadastrar','Log out':'Sair','Language':'Idioma','Color theme':'Tema','Light':'Claro','Dark':'Escuro',
-      'Explore math labs':'Explorar laboratórios','Study & review':'Estudo e revisão','Check answer':'Verificar','Show explanation':'Ver explicação'
+      'Browse skills':'Explorar','View progress':'Ver progresso','XP reward shop':'Loja de XP','View visits':'Ver visitas',
+      'Keep your streak!':'Mantenha sua sequência!','more questions today':'questões hoje',
+      'Today':'Hoje','Continue learning':'Continuar aprendendo','Start learning':'Começar','Recommended for you':'Recomendado para você',
+      'Your first skills':'Suas primeiras habilidades','See all skills →':'Ver tudo →','Recent activity':'Atividade recente',
+      'Your snapshot':'Seu resumo','Answer accuracy':'Precisão','Current streak':'Sequência atual','Questions today':'Questões hoje',
+      'Continue practice →':'Continuar prática →','Start first lesson →':'Começar lição →','Explore math labs':'Explorar laboratórios',
+      'Study & review':'Estudo e revisão','View badges →':'Ver medalhas →','Daily puzzle →':'Desafio diário →',
+      'Log in':'Entrar','Sign up':'Cadastrar','Log out':'Sair','Language':'Idioma','Choose the app language':'Escolher idioma',
+      'Color theme':'Tema','Light':'Claro','Dark':'Escuro','Accent color':'Cor de destaque',
+      'Check answer':'Verificar','Show explanation':'Ver explicação','Read question':'Ler pergunta','Next question →':'Próxima →',
+      'Good morning':'Bom dia','Good afternoon':'Boa tarde','Good evening':'Boa noite','Good night':'Boa noite'
     },
     it: {
       'LEARN':'IMPARA','YOUR SPACE':'IL TUO SPAZIO','QUICK LINKS':'LINK RAPIDI','MATH GAMES':'GIOCHI DI MATEMATICA',
       'My learning':'Il mio studio','Skill library':'Libreria','Saved skills':'Salvati','Practice queue':'Coda di pratica',
-      'Progress':'Progressi','Daily goal':'Obiettivo','Study plan':'Piano di studio','Badges':'Distintivi',
-      'My notes':'Note','Settings':'Impostazioni','Help center':'Centro assistenza','Today':'Oggi',
       'Scientific calculator':'Calcolatrice scientifica','Coordinate grapher':'Piano cartesiano','Percent visualizer':'Percentuali',
-      'Factors, GCF & LCM':'Fattori, MCD e mcm','Probability lab':'Probabilità','Language':'Lingua','Color theme':'Tema',
-      'Light':'Chiaro','Dark':'Scuro','Log in':'Accedi','Sign up':'Registrati','Log out':'Esci'
+      'Factors, GCF & LCM':'Fattori, MCD e mcm','Probability lab':'Probabilità','Progress':'Progressi','Daily goal':'Obiettivo',
+      'Study plan':'Piano di studio','Badges':'Distintivi','My notes':'Note','Spend your XP':'Spendi XP',
+      'Settings':'Impostazioni','Help center':'Centro assistenza','Today':'Oggi','Continue learning':'Continua a imparare',
+      'Start learning':'Inizia','Recent activity':'Attività recente','Explore math labs':'Esplora i laboratori','Study & review':'Studio e ripasso',
+      'Language':'Lingua','Choose the app language':'Scegli la lingua','Color theme':'Tema','Light':'Chiaro','Dark':'Scuro',
+      'Log in':'Accedi','Sign up':'Registrati','Log out':'Esci','Check answer':'Verifica','Show explanation':'Mostra spiegazione',
+      'Good morning':'Buongiorno','Good afternoon':'Buon pomeriggio','Good evening':'Buonasera','Good night':'Buonanotte'
     },
     zh: {
       'LEARN':'学习','YOUR SPACE':'个人空间','QUICK LINKS':'快捷链接','MATH GAMES':'数学游戏',
-      'My learning':'我的学习','Skill library':'技能库','Saved skills':'已保存','Practice queue':'练习队列',
-      'Scientific calculator':'科学计算器','Coordinate grapher':'坐标绘图','Percent visualizer':'百分比演示',
-      'Factors, GCF & LCM':'因数与公倍数','Probability lab':'概率实验室','Progress':'学习进度','Daily goal':'每日目标',
-      'Study plan':'学习计划','Badges':'徽章','Mistake notebook':'错题本','My notes':'我的笔记','Spend your XP':'兑换经验值',
-      'Settings':'设置','Help center':'帮助中心','Today':'今天','Continue learning':'继续学习','Start learning':'开始学习',
-      'Recent activity':'最近活动','Language':'语言','Color theme':'颜色主题','Light':'浅色','Dark':'深色',
-      'Log in':'登录','Sign up':'注册','Log out':'退出登录','Check answer':'检查答案','Show explanation':'查看解析'
+      'My learning':'我的学习','Skill library':'技能库','Saved skills':'已保存技能','Practice queue':'练习队列',
+      'Math reference':'数学参考','Math vocabulary':'数学词汇','Word problem workshop':'应用题工坊','Fraction studio':'分数工作室',
+      'Equation balance lab':'方程天平','Multiplication array lab':'乘法阵列','Area & perimeter builder':'面积与周长',
+      'Decimal place-value lab':'小数位值','Number line lab':'数轴实验室','Money & change lab':'货币与找零','Math facts':'口算练习',
+      'Data explorer':'数据探索','Geometry explorer':'几何探索','Unit converter':'单位换算','Scientific calculator':'科学计算器',
+      'Coordinate grapher':'坐标绘图','Percent visualizer':'百分比演示','Factors, GCF & LCM':'因数与公倍数','Probability lab':'概率实验室',
+      'Progress':'学习进度','Timed challenge':'限时挑战','Review lessons':'复习课程','Daily math puzzle':'每日谜题',
+      'Daily goal':'每日目标','Study plan':'学习计划','Custom quiz':'自定义测验','Leaderboard':'排行榜',
+      'Badges':'徽章','Mistake notebook':'错题本','Saved questions':'收藏题目','Flashcard review':'闪卡复习',
+      'My notes':'我的笔记','Spend your XP':'兑换经验值','Settings':'设置','Help center':'帮助中心',
+      'Browse skills':'浏览技能','View progress':'查看进度','XP reward shop':'经验商店','View visits':'查看访问',
+      'Keep your streak!':'保持连胜！','more questions today':'题今天还需完成',
+      'Today':'今天','Continue learning':'继续学习','Start learning':'开始学习','Recommended for you':'为你推荐',
+      'Your first skills':'你的第一批技能','See all skills →':'查看全部技能 →','Recent activity':'最近活动',
+      'Your snapshot':'学习概览','Answer accuracy':'答题准确率','Current streak':'当前连胜','Questions today':'今日题数',
+      'Continue practice →':'继续练习 →','Start first lesson →':'开始第一课 →','Explore math labs':'探索数学实验室',
+      'Study & review':'学习与复习','View badges →':'查看徽章 →','Daily puzzle →':'每日谜题 →',
+      'Log in':'登录','Sign up':'注册','Log out':'退出登录','Language':'语言','Choose the app language':'选择应用语言',
+      'Color theme':'颜色主题','Light':'浅色','Dark':'深色','Accent color':'强调色',
+      'Check answer':'检查答案','Show explanation':'查看解析','Read question':'朗读题目','Next question →':'下一题 →',
+      'Good morning':'早上好','Good afternoon':'下午好','Good evening':'晚上好','Good night':'晚安'
     },
     ja: {
       'LEARN':'学ぶ','YOUR SPACE':'マイスペース','QUICK LINKS':'クイックリンク','MATH GAMES':'算数ゲーム',
       'My learning':'マイ学習','Skill library':'スキル一覧','Saved skills':'保存済み','Practice queue':'練習キュー',
-      'Scientific calculator':'関数電卓','Coordinate grapher':'座標グラフ','Percent visualizer':'割合ラボ',
-      'Factors, GCF & LCM':'約数・倍数','Probability lab':'確率ラボ','Progress':'進捗','Daily goal':'今日の目標',
-      'Study plan':'学習計画','Badges':'バッジ','Mistake notebook':'間違いノート','My notes':'ノート','Spend your XP':'XPを使う',
-      'Settings':'設定','Help center':'ヘルプ','Today':'今日','Continue learning':'学習を続ける','Start learning':'始める',
-      'Recent activity':'最近のアクティビティ','Language':'言語','Color theme':'テーマ','Light':'ライト','Dark':'ダーク',
-      'Log in':'ログイン','Sign up':'新規登録','Log out':'ログアウト','Check answer':'答え合わせ','Show explanation':'解説を見る'
+      'Math reference':'算数リファレンス','Math vocabulary':'用語集','Word problem workshop':'文章題','Fraction studio':'分数スタジオ',
+      'Equation balance lab':'方程式天秤','Multiplication array lab':'かけ算アレイ','Area & perimeter builder':'面積と周囲',
+      'Decimal place-value lab':'小数','Number line lab':'数直線','Money & change lab':'お金の計算','Math facts':'計算ドリル',
+      'Data explorer':'データ分析','Geometry explorer':'図形','Unit converter':'単位変換','Scientific calculator':'関数電卓',
+      'Coordinate grapher':'座標グラフ','Percent visualizer':'割合ラボ','Factors, GCF & LCM':'約数・倍数','Probability lab':'確率ラボ',
+      'Progress':'進捗','Timed challenge':'タイムチャレンジ','Review lessons':'復習','Daily math puzzle':'今日のパズル',
+      'Daily goal':'今日の目標','Study plan':'学習計画','Custom quiz':'カスタムクイズ','Leaderboard':'ランキング',
+      'Badges':'バッジ','Mistake notebook':'間違いノート','Saved questions':'保存した問題','Flashcard review':'フラッシュカード',
+      'My notes':'ノート','Spend your XP':'XPを使う','Settings':'設定','Help center':'ヘルプセンター',
+      'Today':'今日','Continue learning':'学習を続ける','Start learning':'学習を始める','Recommended for you':'おすすめ',
+      'Recent activity':'最近のアクティビティ','Your snapshot':'スナップショット','Answer accuracy':'正答率',
+      'Current streak':'連続日数','Questions today':'今日の問題数','Explore math labs':'数学ラボを探す','Study & review':'学習と復習',
+      'Language':'言語','Choose the app language':'言語を選択','Color theme':'テーマ','Light':'ライト','Dark':'ダーク','Accent color':'アクセントカラー',
+      'Log in':'ログイン','Sign up':'新規登録','Log out':'ログアウト','Check answer':'答え合わせ','Show explanation':'解説を見る',
+      'Good morning':'おはようございます','Good afternoon':'こんにちは','Good evening':'こんばんは','Good night':'おやすみなさい'
     },
     ko: {
       'LEARN':'학습','YOUR SPACE':'내 공간','QUICK LINKS':'빠른 링크','MATH GAMES':'수학 게임',
@@ -124,28 +201,43 @@
       'Factors, GCF & LCM':'약수와 배수','Probability lab':'확률 실험실','Progress':'진도','Daily goal':'일일 목표',
       'Study plan':'학습 계획','Badges':'배지','Mistake notebook':'오답 노트','My notes':'내 메모','Spend your XP':'XP 사용',
       'Settings':'설정','Help center':'도움말','Today':'오늘','Continue learning':'계속 학습하기','Start learning':'시작하기',
-      'Recent activity':'최근 활동','Language':'언어','Color theme':'색상 테마','Light':'라이트','Dark':'다크',
-      'Log in':'로그인','Sign up':'회원가입','Log out':'로그아웃','Check answer':'정답 확인','Show explanation':'해설 보기'
+      'Recommended for you':'추천 학습','Recent activity':'최근 활동','Your snapshot':'요약','Answer accuracy':'정답률',
+      'Current streak':'연속 학습','Questions today':'오늘 푼 문제','Explore math labs':'수학 실험실','Study & review':'학습 및 복습',
+      'Language':'언어','Choose the app language':'언어 선택','Color theme':'색상 테마','Light':'라이트','Dark':'다크',
+      'Log in':'로그인','Sign up':'회원가입','Log out':'로그아웃','Check answer':'정답 확인','Show explanation':'해설 보기',
+      'Good morning':'좋은 아침입니다','Good afternoon':'안녕하세요','Good evening':'좋은 저녁입니다','Good night':'안녕히 주무세요'
     },
     hi: {
       'LEARN':'सीखें','YOUR SPACE':'आपका स्थान','QUICK LINKS':'त्वरित लिंक','MATH GAMES':'गणित खेल',
-      'My learning':'मेरी पढ़ाई','Skill library':'कौशल पुस्तकालय','Saved skills':'सहेजे गए','Practice queue':'अभ्यास कतार',
-      'Scientific calculator':'वैज्ञानिक कैलकुलेटर','Coordinate grapher':'निर्देशांक ग्राफ़','Percent visualizer':'प्रतिशत लैब',
-      'Factors, GCF & LCM':'गुणनखंड और ल.स.','Probability lab':'प्रायिकता लैब','Progress':'प्रगति','Daily goal':'दैनिक लक्ष्य',
-      'Study plan':'अध्ययन योजना','Badges':'बैज','Mistake notebook':'गलती नोटबुक','My notes':'मेरे नोट्स','Spend your XP':'XP खर्च करें',
-      'Settings':'सेटिंग्स','Help center':'सहायता केंद्र','Today':'आज','Continue learning':'अभ्यास जारी रखें','Start learning':'शुरू करें',
-      'Recent activity':'हाल की गतिविधि','Language':'भाषा','Color theme':'रंग थीम','Light':'लाइट','Dark':'डार्क',
-      'Log in':'लॉग इन','Sign up':'साइन अप','Log out':'लॉग आउट','Check answer':'उत्तर जांचें','Show explanation':'व्याख्या देखें'
+      'My learning':'मेरी पढ़ाई','Skill library':'कौशल पुस्तकालय','Saved skills':'सहेजे गए कौशल','Practice queue':'अभ्यास कतार',
+      'Math reference':'गणित संदर्भ','Math vocabulary':'गणित शब्दावली','Word problem workshop':'शब्द समस्याएं','Fraction studio':'भिन्न स्टूडियो',
+      'Equation balance lab':'समीकरण तराजू','Multiplication array lab':'गुणा सरणी','Area & perimeter builder':'क्षेत्रफल और परिमाप',
+      'Decimal place-value lab':'दशमलव','Number line lab':'संख्या रेखा','Money & change lab':'मुद्रा और छुट्टा','Math facts':'गणित तथ्य',
+      'Data explorer':'डेटा एक्सप्लोरर','Geometry explorer':'ज्यामिति','Unit converter':'इकाई परिवर्तक','Scientific calculator':'वैज्ञानिक कैलकुलेटर',
+      'Coordinate grapher':'निर्देशांक ग्राफ़','Percent visualizer':'प्रतिशत लैब','Factors, GCF & LCM':'गुणनखंड और ल.स.','Probability lab':'प्रायिकता लैब',
+      'Progress':'प्रगति','Timed challenge':'समयबद्ध चुनौती','Review lessons':'पाठ दोहराएं','Daily math puzzle':'दैनिक पहेली',
+      'Daily goal':'दैनिक लक्ष्य','Study plan':'अध्ययन योजना','Custom quiz':'कस्टम क्विज़','Leaderboard':'लीडरबोर्ड',
+      'Badges':'बैज','Mistake notebook':'गलती नोटबुक','Saved questions':'सहेजे गए प्रश्न','Flashcard review':'फ़्लैशकार्ड',
+      'My notes':'मेरे नोट्स','Spend your XP':'XP खर्च करें','Settings':'सेटिंग्स','Help center':'सहायता केंद्र',
+      'Today':'आज','Continue learning':'अभ्यास जारी रखें','Start learning':'सीखना शुरू करें','Recommended for you':'आपके लिए सुझाव',
+      'Recent activity':'हाल की गतिविधि','Your snapshot':'आपका सारांश','Answer accuracy':'सटीकता','Current streak':'लगातार दिन',
+      'Questions today':'आज के प्रश्न','Explore math labs':'गणित लैब देखें','Study & review':'अध्ययन और समीक्षा',
+      'Language':'भाषा','Choose the app language':'भाषा चुनें','Color theme':'रंग थीम','Light':'लाइट','Dark':'डार्क','Accent color':'मुख्य रंग',
+      'Log in':'लॉग इन','Sign up':'साइन अप','Log out':'लॉग आउट','Check answer':'उत्तर जांचें','Show explanation':'व्याख्या देखें',
+      'Good morning':'सुप्रभात','Good afternoon':'नमस्ते','Good evening':'शुभ संध्या','Good night':'शुभ रात्रि'
     },
     ar: {
       'LEARN':'تعلّم','YOUR SPACE':'مساحتك','QUICK LINKS':'روابط سريعة','MATH GAMES':'ألعاب الرياضيات',
-      'My learning':'تعلّمي','Skill library':'مكتبة المهارات','Saved skills':'المحفوظة','Practice queue':'قائمة التدريب',
+      'My learning':'تعلّمي','Skill library':'مكتبة المهارات','Saved skills':'المهارات المحفوظة','Practice queue':'قائمة التدريب',
       'Scientific calculator':'الآلة الحاسبة العلمية','Coordinate grapher':'راسم الإحداثيات','Percent visualizer':'مختبر النسب المئوية',
       'Factors, GCF & LCM':'العوامل والمضاعفات','Probability lab':'مختبر الاحتمالات','Progress':'التقدم','Daily goal':'الهدف اليومي',
       'Study plan':'خطة الدراسة','Badges':'الشارات','Mistake notebook':'دفتر الأخطاء','My notes':'ملاحظاتي','Spend your XP':'استخدم XP',
       'Settings':'الإعدادات','Help center':'مركز المساعدة','Today':'اليوم','Continue learning':'متابعة التعلم','Start learning':'ابدأ التعلم',
-      'Recent activity':'النشاط الأخير','Language':'اللغة','Color theme':'المظهر','Light':'فاتح','Dark':'داكن',
-      'Log in':'تسجيل الدخول','Sign up':'إنشاء حساب','Log out':'تسجيل الخروج','Check answer':'تحقق','Show explanation':'عرض الشرح'
+      'Recommended for you':'موصى به لك','Recent activity':'النشاط الأخير','Your snapshot':'ملخصك','Answer accuracy':'الدقة',
+      'Current streak':'السلسلة الحالية','Questions today':'أسئلة اليوم','Explore math labs':'استكشف المختبرات','Study & review':'الدراسة والمراجعة',
+      'Language':'اللغة','Choose the app language':'اختر لغة التطبيق','Color theme':'المظهر','Light':'فاتح','Dark':'داكن',
+      'Log in':'تسجيل الدخول','Sign up':'إنشاء حساب','Log out':'تسجيل الخروج','Check answer':'تحقق من الإجابة','Show explanation':'عرض الشرح',
+      'Good morning':'صباح الخير','Good afternoon':'مساء الخير','Good evening':'مساء الخير','Good night':'تصبح على خير'
     },
     ru: {
       'LEARN':'ОБУЧЕНИЕ','YOUR SPACE':'ЛИЧНОЕ','QUICK LINKS':'ССЫЛКИ','MATH GAMES':'МАТЕМАТИЧЕСКИЕ ИГРЫ',
@@ -154,15 +246,29 @@
       'Factors, GCF & LCM':'Множители, НОД и НОК','Probability lab':'Вероятность','Progress':'Прогресс','Daily goal':'Цель дня',
       'Study plan':'План занятий','Badges':'Значки','Mistake notebook':'Работа над ошибками','My notes':'Заметки','Spend your XP':'Потратить XP',
       'Settings':'Настройки','Help center':'Справка','Today':'Сегодня','Continue learning':'Продолжить','Start learning':'Начать',
-      'Recent activity':'Недавняя активность','Language':'Язык','Color theme':'Тема','Light':'Светлая','Dark':'Тёмная',
-      'Log in':'Войти','Sign up':'Регистрация','Log out':'Выйти','Check answer':'Проверить','Show explanation':'Показать решение'
+      'Recommended for you':'Рекомендуем','Recent activity':'Недавняя активность','Your snapshot':'Сводка','Answer accuracy':'Точность',
+      'Current streak':'Серия дней','Questions today':'Задач сегодня','Explore math labs':'Лаборатории','Study & review':'Учёба и повторение',
+      'Language':'Язык','Choose the app language':'Выберите язык','Color theme':'Тема','Light':'Светлая','Dark':'Тёмная',
+      'Log in':'Войти','Sign up':'Регистрация','Log out':'Выйти','Check answer':'Проверить','Show explanation':'Показать решение',
+      'Good morning':'Доброе утро','Good afternoon':'Добрый день','Good evening':'Добрый вечер','Good night':'Спокойной ночи'
     },
-    nl: {'My learning':'Mijn leren','Skill library':'Vaardigheden','Settings':'Instellingen','Help center':'Helpcentrum','Language':'Taal','Today':'Vandaag','Progress':'Voortgang','Daily goal':'Dagdoel','Log in':'Inloggen','Sign up':'Aanmelden','Log out':'Uitloggen','Light':'Licht','Dark':'Donker'},
-    tr: {'My learning':'Öğrenimim','Skill library':'Beceri kütüphanesi','Settings':'Ayarlar','Help center':'Yardım merkezi','Language':'Dil','Today':'Bugün','Progress':'İlerleme','Daily goal':'Günlük hedef','Log in':'Giriş yap','Sign up':'Kaydol','Log out':'Çıkış yap','Light':'Açık','Dark':'Koyu'},
-    pl: {'My learning':'Moja nauka','Skill library':'Biblioteka','Settings':'Ustawienia','Help center':'Centrum pomocy','Language':'Język','Today':'Dzisiaj','Progress':'Postępy','Daily goal':'Cel dzienny','Log in':'Zaloguj się','Sign up':'Zarejestruj się','Log out':'Wyloguj','Light':'Jasny','Dark':'Ciemny'},
-    vi: {'My learning':'Học tập của tôi','Skill library':'Thư viện kỹ năng','Settings':'Cài đặt','Help center':'Trung tâm trợ giúp','Language':'Ngôn ngữ','Today':'Hôm nay','Progress':'Tiến độ','Daily goal':'Mục tiêu ngày','Log in':'Đăng nhập','Sign up':'Đăng ký','Log out':'Đăng xuất','Light':'Sáng','Dark':'Tối'},
-    ta: {'My learning':'என் கற்றல்','Skill library':'திறன் நூலகம்','Settings':'அமைப்புகள்','Help center':'உதவி மையம்','Language':'மொழி','Today':'இன்று','Progress':'முன்னேற்றம்','Daily goal':'தினசரி இலக்கு','Log in':'உள்நுழைக','Sign up':'பதிவு செய்க','Log out':'வெளியேறு','Light':'வெளிச்சம்','Dark':'இருள்'},
-    te: {'My learning':'నా అభ్యాసం','Skill library':'నైపుణ్యాల లైబ్రరీ','Settings':'సెట్టింగులు','Help center':'సహాయ కేంద్రం','Language':'భాష','Today':'ఈరోజు','Progress':'పురోగతి','Daily goal':'రోజువారీ లక్ష్యం','Log in':'లాగిన్','Sign up':'సైన్ అప్','Log out':'లాగ్ అవుట్','Light':'లైట్','Dark':'డార్క్'}
+    nl: {'LEARN':'LEREN','YOUR SPACE':'JOUW RUIMTE','My learning':'Mijn leren','Skill library':'Vaardigheden','Saved skills':'Opgeslagen','Practice queue':'Oefenwachtrij','Scientific calculator':'Rekenmachine','Coordinate grapher':'Assenstelsel','Percent visualizer':'Procenten','Factors, GCF & LCM':'Delers, GGD & KGV','Probability lab':'Kansrekening','Progress':'Voortgang','Daily goal':'Dagdoel','Study plan':'Studieplan','Badges':'Badges','My notes':'Notities','Settings':'Instellingen','Help center':'Helpcentrum','Language':'Taal','Color theme':'Thema','Light':'Licht','Dark':'Donker','Today':'Vandaag','Continue learning':'Verdergaan','Start learning':'Starten','Recent activity':'Recente activiteit','Log in':'Inloggen','Sign up':'Aanmelden','Log out':'Uitloggen','Check answer':'Controleren','Show explanation':'Uitleg tonen'},
+    tr: {'LEARN':'ÖĞREN','YOUR SPACE':'ALANIN','My learning':'Öğrenimim','Skill library':'Beceri kütüphanesi','Saved skills':'Kaydedilenler','Practice queue':'Pratik sırası','Scientific calculator':'Bilimsel hesap makinesi','Coordinate grapher':'Koordinat düzlemi','Percent visualizer':'Yüzde görselleştirici','Factors, GCF & LCM':'Çarpanlar, EBOB & EKOK','Probability lab':'Olasılık laboratuvarı','Progress':'İlerleme','Daily goal':'Günlük hedef','Study plan':'Çalışma planı','Badges':'Rozetler','My notes':'Notlarım','Settings':'Ayarlar','Help center':'Yardım merkezi','Language':'Dil','Color theme':'Tema','Light':'Açık','Dark':'Koyu','Today':'Bugün','Continue learning':'Öğrenmeye devam et','Start learning':'Başla','Recent activity':'Son etkinlik','Log in':'Giriş yap','Sign up':'Kaydol','Log out':'Çıkış yap','Check answer':'Kontrol et','Show explanation':'Açıklamayı göster'},
+    pl: {'LEARN':'NAUKA','YOUR SPACE':'TWOJA PRZESTRZEŃ','My learning':'Moja nauka','Skill library':'Biblioteka','Saved skills':'Zapisane','Practice queue':'Kolejka ćwiczeń','Scientific calculator':'Kalkulator naukowy','Coordinate grapher':'Układ współrzędnych','Percent visualizer':'Procenty','Factors, GCF & LCM':'Dzielniki, NWD i NWW','Probability lab':'Prawdopodobieństwo','Progress':'Postępy','Daily goal':'Cel dzienny','Study plan':'Plan nauki','Badges':'Odznaki','My notes':'Notatki','Settings':'Ustawienia','Help center':'Centrum pomocy','Language':'Język','Color theme':'Motyw','Light':'Jasny','Dark':'Ciemny','Today':'Dzisiaj','Continue learning':'Kontynuuj','Start learning':'Rozpocznij','Recent activity':'Ostatnia aktywność','Log in':'Zaloguj się','Sign up':'Zarejestruj się','Log out':'Wyloguj','Check answer':'Sprawdź','Show explanation':'Pokaż wyjaśnienie'},
+    vi: {'LEARN':'HỌC TẬP','YOUR SPACE':'KHÔNG GIAN CỦA BẠN','My learning':'Học tập của tôi','Skill library':'Thư viện kỹ năng','Saved skills':'Đã lưu','Practice queue':'Hàng đợi luyện tập','Scientific calculator':'Máy tính khoa học','Coordinate grapher':'Đồ thị tọa độ','Percent visualizer':'Phần trăm','Factors, GCF & LCM':'Ước & Bội chung','Probability lab':'Xác suất','Progress':'Tiến độ','Daily goal':'Mục tiêu ngày','Study plan':'Kế hoạch học','Badges':'Huy hiệu','My notes':'Ghi chú','Settings':'Cài đặt','Help center':'Trung tâm trợ giúp','Language':'Ngôn ngữ','Color theme':'Giao diện','Light':'Sáng','Dark':'Tối','Today':'Hôm nay','Continue learning':'Tiếp tục học','Start learning':'Bắt đầu','Recent activity':'Hoạt động gần đây','Log in':'Đăng nhập','Sign up':'Đăng ký','Log out':'Đăng xuất','Check answer':'Kiểm tra','Show explanation':'Xem giải thích'},
+    ta: {'LEARN':'கற்றல்','YOUR SPACE':'உங்கள் இடம்','My learning':'என் கற்றல்','Skill library':'திறன் நூலகம்','Saved skills':'சேமித்தவை','Practice queue':'பயிற்சி வரிசை','Scientific calculator':'அறிவியல் கணிப்பான்','Coordinate grapher':'ஆயத்தொலைவு வரைபடம்','Percent visualizer':'சதவீதக் காட்சி','Factors, GCF & LCM':'காரணிகள், மீ.பொ.வ & மீ.சி.ம','Probability lab':'நிகழ்தகவு ஆய்வகம்','Progress':'முன்னேற்றம்','Daily goal':'தினசரி இலக்கு','Study plan':'படிப்பு திட்டம்','Badges':'பதக்கங்கள்','My notes':'என் குறிப்புகள்','Settings':'அமைப்புகள்','Help center':'உதவி மையம்','Language':'மொழி','Color theme':'வண்ணத் தீம்','Light':'வெளிச்சம்','Dark':'இருள்','Today':'இன்று','Continue learning':'தொடரவும்','Start learning':'தொடங்கவும்','Recent activity':'சமீபத்திய செயல்பாடு','Log in':'உள்நுழைக','Sign up':'பதிவு செய்க','Log out':'வெளியேறு','Check answer':'சரிபார்','Show explanation':'விளக்கம் பார்'},
+    te: {'LEARN':'నేర్చుకోండి','YOUR SPACE':'మీ స్థలం','My learning':'నా అభ్యాసం','Skill library':'నైపుణ్యాల లైబ్రరీ','Saved skills':'సేవ్ చేసినవి','Practice queue':'అభ్యాస వరుస','Scientific calculator':'సైంటిఫిక్ కాలిక్యులేటర్','Coordinate grapher':'కోఆర్డినేట్ గ్రాఫర్','Percent visualizer':'శాతం విజువలైజర్','Factors, GCF & LCM':'కారణాంకాలు, గ.సా.భా & క.సా.గు','Probability lab':'సంభావ్యత ల్యాబ్','Progress':'పురోగతి','Daily goal':'రోజువారీ లక్ష్యం','Study plan':'అధ్యయన ప్రణాళిక','Badges':'బ్యాడ్జ్‌లు','My notes':'నా నోట్స్','Settings':'సెట్టింగులు','Help center':'సహాయ కేంద్రం','Language':'భాష','Color theme':'రంగు థీమ్','Light':'లైట్','Dark':'డార్క్','Today':'ఈరోజు','Continue learning':'కొనసాగించండి','Start learning':'ప్రారంభించండి','Recent activity':'ఇటీవలి కార్యకలాపం','Log in':'లాగిన్','Sign up':'సైన్ అప్','Log out':'లాగ్ అవుట్','Check answer':'సరిచూడు','Show explanation':'వివరణ చూడు'}
+  };
+  const extraPatterns = new Map();
+  const getExtraTranslator = (lang) => {
+    const dict = extraLanguages[lang];
+    if (!dict) return null;
+    if (!extraPatterns.has(lang)) {
+      const entries = Object.entries(dict).filter(([k]) => k.length > 3).sort((a, b) => b[0].length - a[0].length);
+      const pattern = entries.length ? new RegExp(entries.map(([k]) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g') : null;
+      extraPatterns.set(lang, { dict, pattern });
+    }
+    return extraPatterns.get(lang);
   };
   const language = () => localStorage.getItem('numoraLanguage') || 'en';
   const translateText = (value) => {
@@ -170,9 +276,17 @@
     if (lang === 'en' || !value || !value.trim()) return value;
     const trimmed = value.trim();
     if (lang !== 'es') {
-      const dict = extraLanguages[lang];
-      const hit = dict?.[trimmed];
-      return hit ? value.replace(trimmed, hit) : value;
+      const bundle = getExtraTranslator(lang);
+      if (!bundle) return value;
+      if (bundle.dict[trimmed]) return value.replace(trimmed, bundle.dict[trimmed]);
+      if (bundle.pattern) {
+        bundle.pattern.lastIndex = 0;
+        if (bundle.pattern.test(trimmed)) {
+          bundle.pattern.lastIndex = 0;
+          return value.replace(trimmed, trimmed.replace(bundle.pattern, m => bundle.dict[m] || m));
+        }
+      }
+      return value;
     }
     const spanish = (val) => {
       if (!val || !val.trim()) return val;
