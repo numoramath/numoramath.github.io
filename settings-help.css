@@ -34,6 +34,20 @@ body[data-high-contrast="true"] .lesson-objective,body[data-high-contrast="true"
 .help-empty{margin-top:8px!important}
 body[data-reading-size="large"] .question-card h1{font-size:clamp(27px,4vw,38px)}
 body[data-reading-size="large"] .question-card .explain,body[data-reading-size="large"] .answer-input{font-size:18px}
+body[data-font-style="friendly"]{letter-spacing:.03em;word-spacing:.08em}
+body[data-font-style="friendly"] .question-card,body[data-font-style="friendly"] .explain{line-height:1.75}
+.accent-swatches{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.accent-swatch{display:flex;align-items:center;gap:6px;padding:7px 11px;border:1px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink);font:600 12px 'DM Sans',sans-serif;cursor:pointer}
+.accent-swatch i{width:12px;height:12px;border-radius:50%;display:inline-block}
+.accent-swatch.active{border-color:var(--violet);box-shadow:0 0 0 2px color-mix(in srgb,var(--violet) 22%,transparent)}
+.settings-tool-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.import-backup-btn{cursor:pointer;display:inline-flex;align-items:center}
+.help-expand-all{margin-left:auto;border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:var(--paper);color:var(--ink);font:600 11px 'DM Sans',sans-serif;cursor:pointer}
+.help-extra-card{margin:12px 0;padding:13px;border-radius:12px;background:rgba(255,255,255,.78);border:1px solid rgba(59,7,100,.18);color:#241044;font-size:12px}
+.help-extra-card strong{display:block;margin-bottom:6px}
+.help-extra-card ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.help-diagnostics{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.help-diagnostics small{display:block;color:#382052}
 .lesson-finish-card{position:relative;overflow:hidden}
 .lesson-finish-icon{position:relative;z-index:1;font-size:58px;animation:finish-pop .7s cubic-bezier(.2,1.8,.4,1) both}
 .lesson-finish-card h2,.lesson-finish-card p,.lesson-finish-card button{position:relative;z-index:1}

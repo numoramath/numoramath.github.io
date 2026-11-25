@@ -67,5 +67,14 @@ window.numoraHelpArticles = [
   {category:'Account',question:'Where is my progress stored?',answer:'This version saves progress in this browser, separated by its local account. Cloud syncing requires the account database integration.'},
   {category:'Account',question:'Will my progress move to another computer?',answer:'Browser-saved progress does not automatically move between devices. Use the same supported sign-in and cloud storage when enabled.'},
   {category:'Account',question:'Why do I see a guest profile?',answer:'Guest mode lets you browse without a signed-in account. Sign in to return to your saved account data.'},
-  {category:'Account',question:'How can I get help with a problem?',answer:'Search this Help Center for the feature name. If it continues, note the lesson and steps that caused the issue.'}
+  {category:'Account',question:'How can I get help with a problem?',answer:'Search this Help Center for the feature name. If it continues, note the lesson and steps that caused the issue.'},
+  {category:'Tools',question:'What can I do in the Scientific calculator?',answer:'Evaluate expressions with parentheses, powers (^), square roots (sqrt), trig functions (sin, cos, tan), logarithms, and Ans, with DEG/RAD mode and clickable history.'},
+  {category:'Tools',question:'How does the Coordinate grapher work?',answer:'Adjust slope (m) and y-intercept (b) sliders to graph lines, compare a second line to find intersections, and plot ordered pairs (x, y) on the -10 to 10 grid.'},
+  {category:'Tools',question:'How do I use the Percent visualizer?',answer:'Slide or click the 10×10 grid to see how percents connect to fractions and decimals, and compute discounts, tax, or tips with step-by-step math.'},
+  {category:'Tools',question:'What does the Factors, GCF & LCM lab show?',answer:'Enter any two whole numbers to see their prime factorizations, all factors, primality, Greatest Common Factor (GCF), and Least Common Multiple (LCM).'},
+  {category:'Tools',question:'How does the Probability lab work?',answer:'Pick a coin, die, or spinner, run 1, 10, or 100 spins, and compare theoretical vs. experimental probability in real time.'},
+  {category:'Settings',question:'How do I change the app accent color?',answer:'Open Settings and choose Violet, Teal, Ocean, Coral, or Amber under Accent color.'},
+  {category:'Settings',question:'What is Easy-read font style?',answer:'Open Settings and choose Easy-read (spaced) under Reading font style for wider letter spacing and clearer legibility.'},
+  {category:'Settings',question:'How do I restore a progress backup?',answer:'Open Settings and choose Import backup to load a previously downloaded numora-progress-backup.json file.'},
+  {category:'Settings',question:'Can I reset Settings without losing my XP?',answer:'Yes. Open Settings and choose Reset preferences to restore default look and sound options while keeping your progress.'}
 ];
