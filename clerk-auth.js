@@ -3,7 +3,7 @@
   const publishableKey = String(window.NUMORA_CLERK_PUBLISHABLE_KEY || '').trim();
   if (!publishableKey) return; // Leave the existing sign-in flow available until configured.
   if (window.numoraSharedWinMode) return; // Shared achievement pages are public guest views.
-  if (window.numoraGuestMode) return; // Guest exploration uses tab-only storage, never a signed-in Clerk session.
+  const isGuestSession = () => Boolean(window.numoraGuestMode || localStorage.getItem('numoraGuestSession') === '1');
 
   const modal = document.querySelector('#auth-modal');
   const modalBody = modal?.querySelector('.auth-modal');
@@ -16,14 +16,22 @@
   let clerkFailed = false;
   const previousMarkup = modalBody.innerHTML;
 
+  const guestBar = document.createElement('div');
+  guestBar.id = 'clerk-guest-bar';
+  guestBar.style.cssText = 'position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:2147483647;display:none;';
+  guestBar.innerHTML = '<button type="button" class="secondary-btn" data-use-guest-clerk style="box-shadow:0 8px 24px rgba(0,0,0,.22);background:#fff;color:#18263b;border:1px solid #d7dfec;padding:10px 18px;border-radius:999px;font-weight:700;cursor:pointer;">Use guest account (progress will not be saved)</button>';
+  document.body.appendChild(guestBar);
+
   function showAuth(mode = 'signIn', force = false) {
     if (!clerk || (!force && clerk.user)) return;
     modal.classList.add('hidden');
+    guestBar.style.display = 'block';
     try {
       const openPanel = mode === 'signUp' ? clerk.openSignUp : clerk.openSignIn;
       if (typeof openPanel !== 'function') throw new Error('The Clerk sign-in panel did not load.');
       openPanel.call(clerk);
     } catch (error) {
+      guestBar.style.display = 'none';
       modalBody.innerHTML = previousMarkup;
       modalBody.querySelector('.auth-error').textContent = 'Clerk could not open. Refresh this page and try again.';
       modalBody.querySelector('.auth-error').classList.add('show');
@@ -63,14 +71,22 @@
     if (typeof syncProfile === 'function') syncProfile();
   }
 
-  function applyClerkUser(user) {
+  function applyClerkUser(user, explicitAuthAction = false) {
     if (!user) {
       appliedClerkUserId = null;
       clearCurrentSession();
-      showAuth('signIn', true);
-      setTimeout(() => { if (!clerk?.user) showAuth('signIn', true); }, 50);
+      if (!isGuestSession()) showAuth('signIn', true);
       return;
     }
+
+    if (isGuestSession() && !explicitAuthAction) {
+      clearCurrentSession();
+      return;
+    }
+
+    localStorage.removeItem('numoraGuestSession');
+    window.numoraGuestMode = false;
+    guestBar.style.display = 'none';
 
     if (user.id && user.id === appliedClerkUserId) return;
 
@@ -128,6 +144,15 @@
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target : null;
     if (!target) return;
+    if (target.closest('[data-use-guest-clerk]')) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      guestBar.style.display = 'none';
+      clerk?.closeSignIn?.();
+      clerk?.closeSignUp?.();
+      window.enterNumoraGuestMode?.();
+      return;
+    }
     const authButton = target.closest('[data-clerk-open]');
     const signupClick = target.closest('.signup-btn') || authButton?.dataset.clerkOpen === 'signUp';
     const loginClick = target.closest('.login-btn') || (authButton && !signupClick);
@@ -135,8 +160,14 @@
       event.preventDefault();
       event.stopImmediatePropagation();
       const mode = signupClick ? 'signUp' : 'signIn';
+      localStorage.removeItem('numoraGuestSession');
+      window.numoraGuestMode = false;
       if (clerk) {
-        showAuth(mode, true);
+        if (clerk.user) {
+          clerk.signOut().finally(() => showAuth(mode, true));
+        } else {
+          showAuth(mode, true);
+        }
       } else if (clerkFailed && typeof window.openAuth === 'function') {
         window.openAuth(signupClick ? 'signup' : 'login');
       } else {
