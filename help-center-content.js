@@ -76,5 +76,9 @@ window.numoraHelpArticles = [
   {category:'Settings',question:'How do I change the app accent color?',answer:'Open Settings and choose Violet, Teal, Ocean, Coral, or Amber under Accent color.'},
   {category:'Settings',question:'What is Easy-read font style?',answer:'Open Settings and choose Easy-read (spaced) under Reading font style for wider letter spacing and clearer legibility.'},
   {category:'Settings',question:'How do I restore a progress backup?',answer:'Open Settings and choose Import backup to load a previously downloaded numora-progress-backup.json file.'},
-  {category:'Settings',question:'Can I reset Settings without losing my XP?',answer:'Yes. Open Settings and choose Reset preferences to restore default look and sound options while keeping your progress.'}
+  {category:'Settings',question:'Can I reset Settings without losing my XP?',answer:'Yes. Open Settings and choose Reset preferences to restore default look and sound options while keeping your progress.'},
+  {category:'Settings',question:'How do I change the voice reading speed?',answer:'Open Settings, scroll to Voice & speech rate, pick Slow, Normal, or Fast, and click Test to preview it.'},
+  {category:'Settings',question:'How do I filter or search Settings?',answer:'Use the Filter settings search box at the top of Settings to quickly find any option.'},
+  {category:'Tools',question:'What is the Daily math puzzle?',answer:'Open Daily math puzzle from the sidebar to solve a fresh logic and arithmetic challenge every day.'},
+  {category:'Tools',question:'How does the Weekly lesson plan work?',answer:'Open Study plan to schedule lessons across the week and track your weekly completion goal.'}
 ];

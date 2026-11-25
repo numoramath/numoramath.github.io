@@ -21,8 +21,19 @@
     document.body.dataset.fontStyle = style === 'friendly' ? 'friendly' : 'standard';
   }
 
+  function applyCompactSidebar(enabled) {
+    document.body.dataset.compactSidebar = enabled ? 'true' : 'false';
+  }
+
+  function applyStreakTip(show) {
+    const tip = document.querySelector('.tip-card');
+    if (tip) tip.classList.toggle('hidden', !show);
+  }
+
   applyAccent(localStorage.getItem('numoraAccentColor') || 'violet');
   applyFontStyle(localStorage.getItem('numoraFontStyle') || 'standard');
+  applyCompactSidebar(localStorage.getItem('numoraCompactSidebar') === 'true');
+  applyStreakTip(localStorage.getItem('numoraShowStreakTip') !== 'false');
 
   function enhanceSettings(panel) {
     if (!panel || panel.dataset.settingsEnhanced === 'true') return;
@@ -32,7 +43,48 @@
     const currentFont = localStorage.getItem('numoraFontStyle') || 'standard';
     const currentGrade = localStorage.getItem('numoraGrade') || 'Pre-K';
     const showTimer = localStorage.getItem('numoraShowTimer') === 'true';
+    const compactSidebar = localStorage.getItem('numoraCompactSidebar') === 'true';
+    const showStreakTip = localStorage.getItem('numoraShowStreakTip') !== 'false';
+    const speechRate = localStorage.getItem('numoraSpeechRate') || '1';
+    const displayName = localStorage.getItem('numoraUser') || 'Guest';
     const grades = Object.keys(window.gradeSkillNames || { 'Pre-K': [] });
+
+    const searchHtml = `<div class="settings-search-wrap">
+      <input type="search" class="help-search settings-filter-input" placeholder="${es ? 'Filtrar ajustes (ej. voz, tema, respaldo)…' : 'Filter settings (e.g. voice, theme, backup)…'}" aria-label="${es ? 'Filtrar ajustes' : 'Filter settings'}">
+    </div>`;
+    panel.querySelector('p')?.insertAdjacentHTML('afterend', searchHtml);
+
+    const profileHtml = `<div class="answer-setting">
+      <strong>${es ? 'Perfil y barra lateral' : 'Profile & layout'}</strong>
+      <label class="setting-row">${es ? 'Nombre visible' : 'Display name'}
+        <span class="setting-inline-group">
+          <input type="text" maxlength="20" value="${esc(displayName)}" data-display-name-input class="setting-text-input">
+          <button type="button" class="secondary-btn" data-save-display-name>${es ? 'Guardar' : 'Save'}</button>
+        </span>
+      </label>
+      <label class="setting-check">
+        <input type="checkbox" data-compact-sidebar ${compactSidebar ? 'checked' : ''}>
+        <span>${es ? 'Barra lateral compacta' : 'Compact sidebar spacing'}</span>
+      </label>
+      <label class="setting-check">
+        <input type="checkbox" data-show-streak-tip ${showStreakTip ? 'checked' : ''}>
+        <span>${es ? 'Mostrar tarjeta de recordatorio de racha' : 'Show streak reminder card in sidebar'}</span>
+      </label>
+    </div>`;
+
+    const voiceHtml = `<div class="answer-setting">
+      <strong>${es ? 'Velocidad de voz' : 'Voice & speech rate'}</strong>
+      <label class="setting-row">${es ? 'Velocidad al leer preguntas' : 'Read-aloud speed'}
+        <span class="setting-inline-group">
+          <select data-speech-rate>
+            <option value="0.8" ${speechRate === '0.8' ? 'selected' : ''}>${es ? 'Lenta (0.8×)' : 'Slow (0.8×)'}</option>
+            <option value="1" ${speechRate === '1' ? 'selected' : ''}>${es ? 'Normal (1.0×)' : 'Normal (1.0×)'}</option>
+            <option value="1.2" ${speechRate === '1.2' ? 'selected' : ''}>${es ? 'Rápida (1.2×)' : 'Fast (1.2×)'}</option>
+          </select>
+          <button type="button" class="secondary-btn" data-test-voice>${es ? '🔊 Probar' : '🔊 Test'}</button>
+        </span>
+      </label>
+    </div>`;
 
     const accentHtml = `<div class="answer-setting">
       <strong>${es ? 'Color de acento' : 'Accent color'}</strong>
@@ -72,7 +124,7 @@
       </div>
     </div>`;
 
-    panel.insertAdjacentHTML('beforeend', accentHtml + extraPrefsHtml + backupAndResetHtml);
+    panel.insertAdjacentHTML('beforeend', profileHtml + voiceHtml + accentHtml + extraPrefsHtml + backupAndResetHtml);
   }
 
   function enhanceHelp(panel) {
@@ -115,7 +167,24 @@
 
     const shortcuts = panel.querySelector('.help-shortcuts');
     if (shortcuts) {
-      shortcuts.insertAdjacentHTML('beforebegin', shortcutsBox + diagnosticsBox);
+      const tourBox = `<div class="help-extra-card help-tour-card">
+        <div class="help-tour-head">
+          <strong>${es ? '✦ Recorrido rápido de 4 pasos' : '✦ 4-step quick tour'}</strong>
+          <button type="button" class="secondary-btn" data-help-tour-next>${es ? 'Siguiente paso →' : 'Next step →'}</button>
+        </div>
+        <p class="help-tour-body" data-help-tour-step="0">${es ? '1/4 · Elige tu grado en la Biblioteca de habilidades y abre cualquier lección de 10 preguntas.' : '1/4 · Pick your grade in Skill library and open any 10-question lesson.'}</p>
+      </div>`;
+
+      const troubleshootBox = `<div class="help-extra-card">
+        <strong>${es ? '🛠 Solución rápida de problemas' : '🛠 Quick troubleshooting fixes'}</strong>
+        <div class="help-fix-grid">
+          <button type="button" class="secondary-btn" data-help-fix="large-text">${es ? 'Activar texto grande' : 'Turn on Large text'}</button>
+          <button type="button" class="secondary-btn" data-help-fix="both-controls">${es ? 'Activar Ratón + Espacio' : 'Enable Mouse + Space'}</button>
+          <button type="button" class="secondary-btn" data-help-fix="auto-read">${es ? 'Activar lectura en voz alta' : 'Enable Read aloud'}</button>
+        </div>
+      </div>`;
+
+      shortcuts.insertAdjacentHTML('beforebegin', shortcutsBox + tourBox + troubleshootBox + diagnosticsBox);
       shortcuts.insertAdjacentHTML('beforeend', `<button class="secondary-btn" data-help-nav="practice-queue">${es ? 'Lista de práctica' : 'Practice queue'}</button><button class="secondary-btn" data-help-nav="calculator-lab">${es ? 'Calculadora' : 'Calculator'}</button><button class="secondary-btn" data-help-nav="daily-puzzle">${es ? 'Reto diario' : 'Daily puzzle'}</button>`);
     }
   }
@@ -148,10 +217,12 @@
     }
 
     if (target.closest('[data-reset-settings]')) {
-      ['numoraTheme', 'numoraAccentColor', 'numoraFontStyle', 'numoraReadingSize', 'numoraReduceMotion', 'numoraHighContrast', 'numoraSoundEffects', 'numoraAutoRead', 'numoraAutoFocusAnswer', 'numoraAutoExplain', 'numoraShowTimer', 'numoraAnswerControl', 'numoraClickToTypeAnswer', 'numoraLessonCelebrations'].forEach(k => localStorage.removeItem(k));
+      ['numoraTheme', 'numoraAccentColor', 'numoraFontStyle', 'numoraReadingSize', 'numoraReduceMotion', 'numoraHighContrast', 'numoraSoundEffects', 'numoraAutoRead', 'numoraAutoFocusAnswer', 'numoraAutoExplain', 'numoraShowTimer', 'numoraAnswerControl', 'numoraClickToTypeAnswer', 'numoraLessonCelebrations', 'numoraSpeechRate', 'numoraCompactSidebar', 'numoraShowStreakTip'].forEach(k => localStorage.removeItem(k));
       window.applyTheme?.('light');
       applyAccent('violet');
       applyFontStyle('standard');
+      applyCompactSidebar(false);
+      applyStreakTip(true);
       document.body.dataset.readingSize = 'normal';
       document.body.dataset.reduceMotion = 'false';
       document.body.dataset.highContrast = 'false';
@@ -186,6 +257,74 @@
       } catch {
         window.showToast?.(isEs() ? 'No se pudo copiar.' : 'Could not copy right now.');
       }
+      return;
+    }
+
+    if (target.closest('[data-save-display-name]')) {
+      const input = document.querySelector('[data-display-name-input]');
+      const next = input?.value.trim().slice(0, 20);
+      if (!next || next.length < 2) {
+        window.showToast?.(isEs() ? 'Escribe un nombre de al menos 2 letras.' : 'Enter a name with at least 2 characters.');
+        return;
+      }
+      window.userName = next;
+      localStorage.setItem('numoraUser', next);
+      window.syncProfile?.();
+      window.saveCurrentAccountProgress?.();
+      window.showToast?.(isEs() ? 'Nombre actualizado.' : 'Display name updated.');
+      return;
+    }
+
+    if (target.closest('[data-test-voice]')) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(isEs() ? 'Hola, esta es una prueba de lectura de Numora.' : 'Hello! This is a Numora voice speed test.');
+        utter.lang = isEs() ? 'es-ES' : 'en-US';
+        utter.rate = Number(localStorage.getItem('numoraSpeechRate') || 1);
+        window.speechSynthesis.speak(utter);
+      } else {
+        window.showToast?.(isEs() ? 'Tu navegador no soporta voz.' : 'Speech synthesis is not supported in this browser.');
+      }
+      return;
+    }
+
+    const tourBtn = target.closest('[data-help-tour-next]');
+    if (tourBtn) {
+      const body = document.querySelector('[data-help-tour-step]');
+      if (!body) return;
+      const steps = isEs() ? [
+        '1/4 · Elige tu grado en la Biblioteca de habilidades y abre cualquier lección de 10 preguntas.',
+        '2/4 · Usa Pistas, Mostrar explicación y el Borrador para resolver paso a paso.',
+        '3/4 · Gana XP y mantén tu racha diaria; canjea XP en Usa tus XP.',
+        '4/4 · Explora los laboratorios: Calculadora, Plano cartesiano, Porcentajes, Factores y Probabilidad.'
+      ] : [
+        '1/4 · Pick your grade in Skill library and open any 10-question lesson.',
+        '2/4 · Use Hints, Show explanation, and the Math scratchpad to work step by step.',
+        '3/4 · Earn XP and build your daily streak; spend XP in the reward shop.',
+        '4/4 · Explore the interactive labs: Calculator, Grapher, Percent, Factors, and Probability.'
+      ];
+      const next = (Number(body.dataset.helpTourStep || 0) + 1) % steps.length;
+      body.dataset.helpTourStep = String(next);
+      body.textContent = steps[next];
+      return;
+    }
+
+    const fixBtn = target.closest('[data-help-fix]');
+    if (fixBtn) {
+      const fix = fixBtn.dataset.helpFix;
+      if (fix === 'large-text') {
+        localStorage.setItem('numoraReadingSize', 'large');
+        document.body.dataset.readingSize = 'large';
+        window.showToast?.(isEs() ? 'Texto grande activado.' : 'Large text turned on.');
+      } else if (fix === 'both-controls') {
+        localStorage.setItem('numoraAnswerControl', 'both');
+        localStorage.setItem('numoraClickToTypeAnswer', 'true');
+        window.showToast?.(isEs() ? 'Controles Ratón + Espacio activados.' : 'Mouse + Space controls enabled.');
+      } else if (fix === 'auto-read') {
+        localStorage.setItem('numoraAutoRead', 'true');
+        window.showToast?.(isEs() ? 'Lectura automática activada.' : 'Automatic read-aloud enabled.');
+      }
+      window.saveCurrentAccountProgress?.();
     }
   });
 
@@ -198,6 +337,18 @@
       applyFontStyle(target.value);
       window.saveCurrentAccountProgress?.();
       window.showToast?.(isEs() ? 'Estilo de letra actualizado.' : 'Reading font style updated.');
+    } else if (target.matches('[data-compact-sidebar]')) {
+      localStorage.setItem('numoraCompactSidebar', String(target.checked));
+      applyCompactSidebar(target.checked);
+      window.saveCurrentAccountProgress?.();
+    } else if (target.matches('[data-show-streak-tip]')) {
+      localStorage.setItem('numoraShowStreakTip', String(target.checked));
+      applyStreakTip(target.checked);
+      window.saveCurrentAccountProgress?.();
+    } else if (target.matches('[data-speech-rate]')) {
+      localStorage.setItem('numoraSpeechRate', target.value);
+      window.saveCurrentAccountProgress?.();
+      window.showToast?.(isEs() ? `Velocidad de voz: ${target.value}×` : `Voice speed set to ${target.value}×`);
     } else if (target.matches('[data-default-grade]')) {
       const grade = target.value;
       window.selectedGrade = grade;
@@ -231,5 +382,13 @@
         window.showToast?.(isEs() ? 'Archivo de respaldo no válido.' : 'Invalid Numora backup file.');
       }
     }
+  });
+  document.addEventListener('input', event => {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement) || !target.matches('.settings-filter-input')) return;
+    const q = target.value.trim().toLowerCase();
+    document.querySelectorAll('.settings-panel .answer-setting').forEach(section => {
+      section.classList.toggle('hidden', Boolean(q) && !section.textContent.toLowerCase().includes(q));
+    });
   });
 })();

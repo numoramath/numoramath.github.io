@@ -48,6 +48,16 @@ body[data-font-style="friendly"] .question-card,body[data-font-style="friendly"]
 .help-extra-card ul{margin:0;padding-left:18px;display:grid;gap:4px}
 .help-diagnostics{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .help-diagnostics small{display:block;color:#382052}
+.settings-search-wrap{margin:10px 0 4px}
+.setting-inline-group{display:flex;align-items:center;gap:6px}
+.setting-text-input{width:130px;min-height:36px;padding:6px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);font:600 12px 'DM Sans',sans-serif}
+body[data-compact-sidebar="true"] .sidebar .nav-item{padding:7px 10px;font-size:13px}
+body[data-compact-sidebar="true"] .sidebar .nav-label{margin:10px 0 4px}
+.help-tour-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.help-tour-head strong{margin:0!important}
+.help-tour-body{margin:0!important;color:#241044!important}
+.help-fix-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.help-fix-grid button{font-size:11px;padding:7px 10px}
 .lesson-finish-card{position:relative;overflow:hidden}
 .lesson-finish-icon{position:relative;z-index:1;font-size:58px;animation:finish-pop .7s cubic-bezier(.2,1.8,.4,1) both}
 .lesson-finish-card h2,.lesson-finish-card p,.lesson-finish-card button{position:relative;z-index:1}
