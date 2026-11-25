@@ -80,5 +80,8 @@ window.numoraHelpArticles = [
   {category:'Settings',question:'How do I change the voice reading speed?',answer:'Open Settings, scroll to Voice & speech rate, pick Slow, Normal, or Fast, and click Test to preview it.'},
   {category:'Settings',question:'How do I filter or search Settings?',answer:'Use the Filter settings search box at the top of Settings to quickly find any option.'},
   {category:'Tools',question:'What is the Daily math puzzle?',answer:'Open Daily math puzzle from the sidebar to solve a fresh logic and arithmetic challenge every day.'},
-  {category:'Tools',question:'How does the Weekly lesson plan work?',answer:'Open Study plan to schedule lessons across the week and track your weekly completion goal.'}
+  {category:'Tools',question:'How does the Weekly lesson plan work?',answer:'Open Study plan to schedule lessons across the week and track your weekly completion goal.'},
+  {category:'Settings',question:'What does Focus mode do?',answer:'Focus mode hides external game links in the sidebar so you can concentrate on your math lessons and labs.'},
+  {category:'Settings',question:'How do I change my weekly question goal?',answer:'Open Settings and choose 15, 25, 40, 60, or 100 questions under Weekly question goal.'},
+  {category:'Settings',question:'How do I see how many skills and notes I have saved?',answer:'Open Settings and scroll to Saved account data to see your counts for Saved skills, Practice queue, and Mistakes.'}
 ];

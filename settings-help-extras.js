@@ -30,10 +30,15 @@
     if (tip) tip.classList.toggle('hidden', !show);
   }
 
+  function applyFocusMode(enabled) {
+    document.body.dataset.focusMode = enabled ? 'true' : 'false';
+  }
+
   applyAccent(localStorage.getItem('numoraAccentColor') || 'violet');
   applyFontStyle(localStorage.getItem('numoraFontStyle') || 'standard');
   applyCompactSidebar(localStorage.getItem('numoraCompactSidebar') === 'true');
   applyStreakTip(localStorage.getItem('numoraShowStreakTip') !== 'false');
+  applyFocusMode(localStorage.getItem('numoraFocusMode') === 'true');
 
   function enhanceSettings(panel) {
     if (!panel || panel.dataset.settingsEnhanced === 'true') return;
@@ -45,9 +50,17 @@
     const showTimer = localStorage.getItem('numoraShowTimer') === 'true';
     const compactSidebar = localStorage.getItem('numoraCompactSidebar') === 'true';
     const showStreakTip = localStorage.getItem('numoraShowStreakTip') !== 'false';
+    const focusMode = localStorage.getItem('numoraFocusMode') === 'true';
+    const defaultLessonLen = Number(localStorage.getItem('numoraDefaultLessonLength') || 10);
+    const weeklyGoal = Number(localStorage.getItem('numoraWeeklyGoal') || 25);
     const speechRate = localStorage.getItem('numoraSpeechRate') || '1';
     const displayName = localStorage.getItem('numoraUser') || 'Guest';
     const grades = Object.keys(window.gradeSkillNames || { 'Pre-K': [] });
+
+    let savedSkillsCount = 0, mistakesCount = 0, queueCount = 0;
+    try { savedSkillsCount = JSON.parse(localStorage.getItem('numoraSavedSkills') || '[]').length || 0; } catch {}
+    try { mistakesCount = JSON.parse(localStorage.getItem('numoraMistakes') || '[]').length || 0; } catch {}
+    try { queueCount = JSON.parse(localStorage.getItem('numoraPracticeQueue') || '[]').length || 0; } catch {}
 
     const searchHtml = `<div class="settings-search-wrap">
       <input type="search" class="help-search settings-filter-input" placeholder="${es ? 'Filtrar ajustes (ej. voz, tema, respaldo)…' : 'Filter settings (e.g. voice, theme, backup)…'}" aria-label="${es ? 'Filtrar ajustes' : 'Filter settings'}">
@@ -69,6 +82,10 @@
       <label class="setting-check">
         <input type="checkbox" data-show-streak-tip ${showStreakTip ? 'checked' : ''}>
         <span>${es ? 'Mostrar tarjeta de recordatorio de racha' : 'Show streak reminder card in sidebar'}</span>
+      </label>
+      <label class="setting-check">
+        <input type="checkbox" data-focus-mode ${focusMode ? 'checked' : ''}>
+        <span>${es ? 'Modo enfoque (ocultar enlaces externos de la barra)' : 'Focus mode (hide external game links in sidebar)'}</span>
       </label>
     </div>`;
 
@@ -110,6 +127,29 @@
         <input type="checkbox" data-show-timer ${showTimer ? 'checked' : ''}>
         <span>${es ? 'Mostrar cronómetro durante las lecciones' : 'Show elapsed timer during lessons'}</span>
       </label>
+      <label class="setting-row">${es ? 'Preguntas por lección' : 'Default lesson length'}
+        <select data-default-lesson-len>
+          ${[5, 10, 15, 20].map(v => `<option value="${v}" ${defaultLessonLen === v ? 'selected' : ''}>${v} ${es ? 'preguntas' : 'questions'}</option>`).join('')}
+        </select>
+      </label>
+      <label class="setting-row">${es ? 'Meta semanal de preguntas' : 'Weekly question goal'}
+        <select data-weekly-goal-setting>
+          ${[15, 25, 40, 60, 100].map(v => `<option value="${v}" ${weeklyGoal === v ? 'selected' : ''}>${v} ${es ? 'preguntas' : 'questions'}</option>`).join('')}
+        </select>
+      </label>
+      <div class="setting-row">
+        <span>${es ? 'Probar sonido de acierto' : 'Preview correct-answer chime'}</span>
+        <button type="button" class="secondary-btn" data-test-chime>${es ? '♪ Probar' : '♪ Play chime'}</button>
+      </div>
+    </div>`;
+
+    const dataSummaryHtml = `<div class="answer-setting">
+      <strong>${es ? 'Resumen de datos guardados' : 'Saved account data'}</strong>
+      <div class="settings-data-grid">
+        <div><strong>${savedSkillsCount}</strong><small>${es ? 'Guardadas' : 'Saved skills'}</small></div>
+        <div><strong>${queueCount}</strong><small>${es ? 'En lista' : 'In queue'}</small></div>
+        <div><strong>${mistakesCount}</strong><small>${es ? 'Errores' : 'Mistakes'}</small></div>
+      </div>
     </div>`;
 
     const backupAndResetHtml = `<div class="answer-setting settings-backup-tools">
@@ -124,7 +164,7 @@
       </div>
     </div>`;
 
-    panel.insertAdjacentHTML('beforeend', profileHtml + voiceHtml + accentHtml + extraPrefsHtml + backupAndResetHtml);
+    panel.insertAdjacentHTML('beforeend', profileHtml + voiceHtml + accentHtml + extraPrefsHtml + dataSummaryHtml + backupAndResetHtml);
   }
 
   function enhanceHelp(panel) {
@@ -140,6 +180,8 @@
       toggleBtn.dataset.helpToggleAll = 'expand';
       toggleBtn.textContent = es ? 'Expandir todo' : 'Expand all';
       filterRow.appendChild(toggleBtn);
+      const tags = ['XP', 'Calculator', 'Grapher', 'Backup', 'Voice', 'Streak'];
+      filterRow.insertAdjacentHTML('afterend', `<div class="help-quick-tags" aria-label="${es ? 'Temas populares' : 'Popular topics'}"><span>${es ? 'Populares:' : 'Popular:'}</span>${tags.map(t => `<button type="button" data-help-tag="${esc(t)}">${esc(t)}</button>`).join('')}</div>`);
     }
 
     const shortcutsBox = `<div class="help-extra-card">
@@ -184,7 +226,15 @@
         </div>
       </div>`;
 
-      shortcuts.insertAdjacentHTML('beforebegin', shortcutsBox + tourBox + troubleshootBox + diagnosticsBox);
+      const whatsNewBox = `<div class="help-extra-card">
+        <strong>${es ? '✨ Novedades en Numora' : '✨ What’s new in Numora'}</strong>
+        <ul>
+          <li>${es ? '5 nuevos laboratorios: Calculadora científica, Plano cartesiano, Porcentajes, Factores/MCD/MCM y Probabilidad.' : '5 new interactive labs: Scientific calculator, Coordinate grapher, Percent visualizer, Factors/GCF/LCM, and Probability lab.'}</li>
+          <li>${es ? 'Nuevos ajustes: Colores de acento, letra de lectura fácil, velocidad de voz, modo enfoque e importar respaldo.' : 'New Settings: Accent colors, easy-read font, voice speed, focus mode, and JSON backup import.'}</li>
+        </ul>
+      </div>`;
+
+      shortcuts.insertAdjacentHTML('beforebegin', shortcutsBox + tourBox + troubleshootBox + whatsNewBox + diagnosticsBox);
       shortcuts.insertAdjacentHTML('beforeend', `<button class="secondary-btn" data-help-nav="practice-queue">${es ? 'Lista de práctica' : 'Practice queue'}</button><button class="secondary-btn" data-help-nav="calculator-lab">${es ? 'Calculadora' : 'Calculator'}</button><button class="secondary-btn" data-help-nav="daily-puzzle">${es ? 'Reto diario' : 'Daily puzzle'}</button>`);
     }
   }
@@ -217,12 +267,13 @@
     }
 
     if (target.closest('[data-reset-settings]')) {
-      ['numoraTheme', 'numoraAccentColor', 'numoraFontStyle', 'numoraReadingSize', 'numoraReduceMotion', 'numoraHighContrast', 'numoraSoundEffects', 'numoraAutoRead', 'numoraAutoFocusAnswer', 'numoraAutoExplain', 'numoraShowTimer', 'numoraAnswerControl', 'numoraClickToTypeAnswer', 'numoraLessonCelebrations', 'numoraSpeechRate', 'numoraCompactSidebar', 'numoraShowStreakTip'].forEach(k => localStorage.removeItem(k));
+      ['numoraTheme', 'numoraAccentColor', 'numoraFontStyle', 'numoraReadingSize', 'numoraReduceMotion', 'numoraHighContrast', 'numoraSoundEffects', 'numoraAutoRead', 'numoraAutoFocusAnswer', 'numoraAutoExplain', 'numoraShowTimer', 'numoraAnswerControl', 'numoraClickToTypeAnswer', 'numoraLessonCelebrations', 'numoraSpeechRate', 'numoraCompactSidebar', 'numoraShowStreakTip', 'numoraFocusMode', 'numoraDefaultLessonLength'].forEach(k => localStorage.removeItem(k));
       window.applyTheme?.('light');
       applyAccent('violet');
       applyFontStyle('standard');
       applyCompactSidebar(false);
       applyStreakTip(true);
+      applyFocusMode(false);
       document.body.dataset.readingSize = 'normal';
       document.body.dataset.reduceMotion = 'false';
       document.body.dataset.highContrast = 'false';
@@ -309,6 +360,37 @@
       return;
     }
 
+    const helpTag = target.closest('[data-help-tag]');
+    if (helpTag) {
+      const search = document.querySelector('#help-search');
+      if (search) {
+        search.value = helpTag.dataset.helpTag;
+        search.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      return;
+    }
+
+    if (target.closest('[data-test-chime]')) {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.09);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.29);
+      } catch {
+        window.showToast?.(isEs() ? 'Audio no disponible.' : 'Audio preview unavailable.');
+      }
+      return;
+    }
+
     const fixBtn = target.closest('[data-help-fix]');
     if (fixBtn) {
       const fix = fixBtn.dataset.helpFix;
@@ -345,6 +427,19 @@
       localStorage.setItem('numoraShowStreakTip', String(target.checked));
       applyStreakTip(target.checked);
       window.saveCurrentAccountProgress?.();
+    } else if (target.matches('[data-focus-mode]')) {
+      localStorage.setItem('numoraFocusMode', String(target.checked));
+      applyFocusMode(target.checked);
+      window.saveCurrentAccountProgress?.();
+      window.showToast?.(target.checked ? (isEs() ? 'Modo enfoque activado.' : 'Focus mode enabled.') : (isEs() ? 'Modo enfoque desactivado.' : 'Focus mode turned off.'));
+    } else if (target.matches('[data-default-lesson-len]')) {
+      localStorage.setItem('numoraDefaultLessonLength', target.value);
+      window.saveCurrentAccountProgress?.();
+      window.showToast?.(isEs() ? `Longitud predeterminada: ${target.value} preguntas.` : `Default lesson length set to ${target.value} questions.`);
+    } else if (target.matches('[data-weekly-goal-setting]')) {
+      localStorage.setItem('numoraWeeklyGoal', target.value);
+      window.saveCurrentAccountProgress?.();
+      window.showToast?.(isEs() ? `Meta semanal: ${target.value} preguntas.` : `Weekly goal set to ${target.value} questions.`);
     } else if (target.matches('[data-speech-rate]')) {
       localStorage.setItem('numoraSpeechRate', target.value);
       window.saveCurrentAccountProgress?.();
