@@ -81,6 +81,7 @@
 
     if (isGuestSession() && !explicitAuthAction) {
       clearCurrentSession();
+      if (user) Promise.resolve(clerk?.signOut?.()).catch(() => {});
       return;
     }
 
@@ -151,6 +152,7 @@
       clerk?.closeSignIn?.();
       clerk?.closeSignUp?.();
       window.enterNumoraGuestMode?.();
+      if (clerk?.user) Promise.resolve(clerk.signOut()).catch(() => {});
       return;
     }
     const authButton = target.closest('[data-clerk-open]');
