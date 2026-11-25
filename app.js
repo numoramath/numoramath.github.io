@@ -205,6 +205,16 @@ document.addEventListener('click',async event=>{const button=event.target.closes
 
 function homeView(){
  pageTitle.textContent='Today';
+ const isGuest=Boolean(window.numoraGuestMode||localStorage.getItem('numoraGuestSession')==='1'||!localStorage.getItem('numoraUser'));
+ if(isGuest){
+  pageTitle.textContent='Guest';
+  const clerkEnabled=Boolean(String(window.NUMORA_CLERK_PUBLISHABLE_KEY||'').trim());
+  const loginAttr=clerkEnabled?'data-clerk-open="signIn"':'data-open-local-auth="login"';
+  const signupAttr=clerkEnabled?'data-clerk-open="signUp"':'data-open-local-auth="signup"';
+  content.innerHTML=`<div class="page-wrap"><section class="card empty-state guest-explore-card"><div style="font-size:48px">✦</div><h2>Guest account</h2><p>You are not logged in. Log in or create an account to save your progress — guest account data cannot be saved.</p><div class="guest-cta-row" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px"><button type="button" class="primary-btn" ${loginAttr}>Log in</button><button type="button" class="secondary-btn" ${signupAttr}>Sign up</button><button type="button" class="secondary-btn" data-view="skills">Browse lessons →</button></div></section></div>`;
+  syncProfile();
+  return;
+ }
  const fresh=freshStart;
  const names=gradeSkillNames[selectedGrade]||gradeSkillNames['Grade 6'];
  const lesson=fresh?names[0]:resumeLessonName();
