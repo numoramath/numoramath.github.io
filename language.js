@@ -39,20 +39,156 @@
   const phrases = Object.entries(es).filter(([english])=>english.length>8).sort((a,b)=>b[0].length-a[0].length);
   const phraseLookup=Object.fromEntries(phrases);
   const phrasePattern=new RegExp(phrases.map(([english])=>english.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|'),'g');
+  const extraLanguages = {
+    fr: {
+      'LEARN':'APPRENDRE','YOUR SPACE':'TON ESPACE','QUICK LINKS':'LIENS RAPIDES','MATH GAMES':'JEUX DE MATHS',
+      'My learning':'Mon apprentissage','Skill library':'Bibliothèque','Saved skills':'Compétences sauvées','Practice queue':'File de pratique',
+      'Math reference':'Référence math','Math vocabulary':'Vocabulaire','Word problem workshop':'Problèmes écrits','Fraction studio':'Studio fractions',
+      'Equation balance lab':'Balance d’équations','Multiplication array lab':'Tableaux de multiplication','Area & perimeter builder':'Aire et périmètre',
+      'Decimal place-value lab':'Décimales','Number line lab':'Droite numérique','Money & change lab':'Monnaie','Math facts':'Calcul mental',
+      'Data explorer':'Explorateur de données','Geometry explorer':'Géométrie','Unit converter':'Convertisseur','Scientific calculator':'Calculatrice scientifique',
+      'Coordinate grapher':'Plan cartésien','Percent visualizer':'Pourcentages','Factors, GCF & LCM':'Facteurs, PGCD & PPCM','Probability lab':'Probabilités',
+      'Progress':'Progrès','Timed challenge':'Défi chrono','Review lessons':'Réviser','Daily math puzzle':'Énigme du jour',
+      'Daily goal':'Objectif du jour','Study plan':'Plan d’étude','Custom quiz':'Quiz personnalisé','Leaderboard':'Classement',
+      'Badges':'Badges','Mistake notebook':'Cahier d’erreurs','Saved questions':'Questions sauvées','Flashcard review':'Cartes mémoire',
+      'My notes':'Mes notes','Spend your XP':'Dépenser XP','Settings':'Paramètres','Help center':'Centre d’aide',
+      'Today':'Aujourd’hui','Continue learning':'Continuer','Start learning':'Commencer','Recent activity':'Activité récente',
+      'Log in':'Connexion','Sign up':'S’inscrire','Log out':'Déconnexion','Language':'Langue','Color theme':'Thème','Light':'Clair','Dark':'Sombre',
+      'Explore math labs':'Explorer les labos','Study & review':'Étude et révision','Check answer':'Vérifier','Show explanation':'Voir l’explication'
+    },
+    de: {
+      'LEARN':'LERNEN','YOUR SPACE':'DEIN BEREICH','QUICK LINKS':'SCHNELLZUGRIFF','MATH GAMES':'MATHESPIELE',
+      'My learning':'Mein Lernen','Skill library':'Themenbibliothek','Saved skills':'Gespeichert','Practice queue':'Übungsliste',
+      'Math reference':'Formelsammlung','Math vocabulary':'Vokabular','Word problem workshop':'Textaufgaben','Fraction studio':'Bruch-Studio',
+      'Equation balance lab':'Gleichungswaage','Multiplication array lab':'Einmaleins-Felder','Area & perimeter builder':'Fläche & Umfang',
+      'Decimal place-value lab':'Dezimalzahlen','Number line lab':'Zahlenstrahl','Money & change lab':'Geld & Wechselgeld','Math facts':'Kopfrechnen',
+      'Data explorer':'Daten-Explorer','Geometry explorer':'Geometrie','Unit converter':'Einheitenrechner','Scientific calculator':'Taschenrechner',
+      'Coordinate grapher':'Koordinatensystem','Percent visualizer':'Prozentrechner','Factors, GCF & LCM':'Teiler, ggT & kgV','Probability lab':'Wahrscheinlichkeit',
+      'Progress':'Fortschritt','Timed challenge':'Zeitchallenge','Review lessons':'Wiederholen','Daily math puzzle':'Tagesrätsel',
+      'Daily goal':'Tagesziel','Study plan':'Lernplan','Custom quiz':'Eigenes Quiz','Leaderboard':'Bestenliste',
+      'Badges':'Abzeichen','Mistake notebook':'Fehlerheft','Saved questions':'Gespeicherte Fragen','Flashcard review':'Lernkarten',
+      'My notes':'Notizen','Spend your XP':'XP einlösen','Settings':'Einstellungen','Help center':'Hilfe',
+      'Today':'Heute','Continue learning':'Weiterlernen','Start learning':'Starten','Recent activity':'Letzte Aktivität',
+      'Log in':'Anmelden','Sign up':'Registrieren','Log out':'Abmelden','Language':'Sprache','Color theme':'Farbthema','Light':'Hell','Dark':'Dunkel',
+      'Explore math labs':'Mathe-Labore entdecken','Study & review':'Lernen & Wiederholen','Check answer':'Prüfen','Show explanation':'Erklärung zeigen'
+    },
+    pt: {
+      'LEARN':'APRENDER','YOUR SPACE':'SEU ESPAÇO','QUICK LINKS':'ATALHOS','MATH GAMES':'JOGOS DE MATEMÁTICA',
+      'My learning':'Meu aprendizado','Skill library':'Biblioteca','Saved skills':'Salvos','Practice queue':'Fila de prática',
+      'Math reference':'Referência','Math vocabulary':'Vocabulário','Word problem workshop':'Problemas','Fraction studio':'Estúdio de frações',
+      'Equation balance lab':'Balança de equações','Multiplication array lab':'Multiplicação','Area & perimeter builder':'Área e perímetro',
+      'Decimal place-value lab':'Decimais','Number line lab':'Reta numérica','Money & change lab':'Dinheiro','Math facts':'Fatos matemáticos',
+      'Data explorer':'Dados','Geometry explorer':'Geometria','Unit converter':'Conversor','Scientific calculator':'Calculadora científica',
+      'Coordinate grapher':'Plano cartesiano','Percent visualizer':'Porcentagem','Factors, GCF & LCM':'Fatores, MDC e MMC','Probability lab':'Probabilidade',
+      'Progress':'Progresso','Timed challenge':'Desafio cronometrado','Review lessons':'Revisar','Daily math puzzle':'Desafio diário',
+      'Daily goal':'Meta diária','Study plan':'Plano de estudo','Custom quiz':'Quiz personalizado','Leaderboard':'Ranking',
+      'Badges':'Medalhas','Mistake notebook':'Caderno de erros','Saved questions':'Questões salvas','Flashcard review':'Cartões',
+      'My notes':'Minhas notas','Spend your XP':'Gastar XP','Settings':'Configurações','Help center':'Central de ajuda',
+      'Today':'Hoje','Continue learning':'Continuar','Start learning':'Começar','Recent activity':'Atividade recente',
+      'Log in':'Entrar','Sign up':'Cadastrar','Log out':'Sair','Language':'Idioma','Color theme':'Tema','Light':'Claro','Dark':'Escuro',
+      'Explore math labs':'Explorar laboratórios','Study & review':'Estudo e revisão','Check answer':'Verificar','Show explanation':'Ver explicação'
+    },
+    it: {
+      'LEARN':'IMPARA','YOUR SPACE':'IL TUO SPAZIO','QUICK LINKS':'LINK RAPIDI','MATH GAMES':'GIOCHI DI MATEMATICA',
+      'My learning':'Il mio studio','Skill library':'Libreria','Saved skills':'Salvati','Practice queue':'Coda di pratica',
+      'Progress':'Progressi','Daily goal':'Obiettivo','Study plan':'Piano di studio','Badges':'Distintivi',
+      'My notes':'Note','Settings':'Impostazioni','Help center':'Centro assistenza','Today':'Oggi',
+      'Scientific calculator':'Calcolatrice scientifica','Coordinate grapher':'Piano cartesiano','Percent visualizer':'Percentuali',
+      'Factors, GCF & LCM':'Fattori, MCD e mcm','Probability lab':'Probabilità','Language':'Lingua','Color theme':'Tema',
+      'Light':'Chiaro','Dark':'Scuro','Log in':'Accedi','Sign up':'Registrati','Log out':'Esci'
+    },
+    zh: {
+      'LEARN':'学习','YOUR SPACE':'个人空间','QUICK LINKS':'快捷链接','MATH GAMES':'数学游戏',
+      'My learning':'我的学习','Skill library':'技能库','Saved skills':'已保存','Practice queue':'练习队列',
+      'Scientific calculator':'科学计算器','Coordinate grapher':'坐标绘图','Percent visualizer':'百分比演示',
+      'Factors, GCF & LCM':'因数与公倍数','Probability lab':'概率实验室','Progress':'学习进度','Daily goal':'每日目标',
+      'Study plan':'学习计划','Badges':'徽章','Mistake notebook':'错题本','My notes':'我的笔记','Spend your XP':'兑换经验值',
+      'Settings':'设置','Help center':'帮助中心','Today':'今天','Continue learning':'继续学习','Start learning':'开始学习',
+      'Recent activity':'最近活动','Language':'语言','Color theme':'颜色主题','Light':'浅色','Dark':'深色',
+      'Log in':'登录','Sign up':'注册','Log out':'退出登录','Check answer':'检查答案','Show explanation':'查看解析'
+    },
+    ja: {
+      'LEARN':'学ぶ','YOUR SPACE':'マイスペース','QUICK LINKS':'クイックリンク','MATH GAMES':'算数ゲーム',
+      'My learning':'マイ学習','Skill library':'スキル一覧','Saved skills':'保存済み','Practice queue':'練習キュー',
+      'Scientific calculator':'関数電卓','Coordinate grapher':'座標グラフ','Percent visualizer':'割合ラボ',
+      'Factors, GCF & LCM':'約数・倍数','Probability lab':'確率ラボ','Progress':'進捗','Daily goal':'今日の目標',
+      'Study plan':'学習計画','Badges':'バッジ','Mistake notebook':'間違いノート','My notes':'ノート','Spend your XP':'XPを使う',
+      'Settings':'設定','Help center':'ヘルプ','Today':'今日','Continue learning':'学習を続ける','Start learning':'始める',
+      'Recent activity':'最近のアクティビティ','Language':'言語','Color theme':'テーマ','Light':'ライト','Dark':'ダーク',
+      'Log in':'ログイン','Sign up':'新規登録','Log out':'ログアウト','Check answer':'答え合わせ','Show explanation':'解説を見る'
+    },
+    ko: {
+      'LEARN':'학습','YOUR SPACE':'내 공간','QUICK LINKS':'빠른 링크','MATH GAMES':'수학 게임',
+      'My learning':'내 학습','Skill library':'스킬 라이브러리','Saved skills':'저장된 스킬','Practice queue':'연습 대기열',
+      'Scientific calculator':'공학용 계산기','Coordinate grapher':'좌표 그래프','Percent visualizer':'백분율 시각화',
+      'Factors, GCF & LCM':'약수와 배수','Probability lab':'확률 실험실','Progress':'진도','Daily goal':'일일 목표',
+      'Study plan':'학습 계획','Badges':'배지','Mistake notebook':'오답 노트','My notes':'내 메모','Spend your XP':'XP 사용',
+      'Settings':'설정','Help center':'도움말','Today':'오늘','Continue learning':'계속 학습하기','Start learning':'시작하기',
+      'Recent activity':'최근 활동','Language':'언어','Color theme':'색상 테마','Light':'라이트','Dark':'다크',
+      'Log in':'로그인','Sign up':'회원가입','Log out':'로그아웃','Check answer':'정답 확인','Show explanation':'해설 보기'
+    },
+    hi: {
+      'LEARN':'सीखें','YOUR SPACE':'आपका स्थान','QUICK LINKS':'त्वरित लिंक','MATH GAMES':'गणित खेल',
+      'My learning':'मेरी पढ़ाई','Skill library':'कौशल पुस्तकालय','Saved skills':'सहेजे गए','Practice queue':'अभ्यास कतार',
+      'Scientific calculator':'वैज्ञानिक कैलकुलेटर','Coordinate grapher':'निर्देशांक ग्राफ़','Percent visualizer':'प्रतिशत लैब',
+      'Factors, GCF & LCM':'गुणनखंड और ल.स.','Probability lab':'प्रायिकता लैब','Progress':'प्रगति','Daily goal':'दैनिक लक्ष्य',
+      'Study plan':'अध्ययन योजना','Badges':'बैज','Mistake notebook':'गलती नोटबुक','My notes':'मेरे नोट्स','Spend your XP':'XP खर्च करें',
+      'Settings':'सेटिंग्स','Help center':'सहायता केंद्र','Today':'आज','Continue learning':'अभ्यास जारी रखें','Start learning':'शुरू करें',
+      'Recent activity':'हाल की गतिविधि','Language':'भाषा','Color theme':'रंग थीम','Light':'लाइट','Dark':'डार्क',
+      'Log in':'लॉग इन','Sign up':'साइन अप','Log out':'लॉग आउट','Check answer':'उत्तर जांचें','Show explanation':'व्याख्या देखें'
+    },
+    ar: {
+      'LEARN':'تعلّم','YOUR SPACE':'مساحتك','QUICK LINKS':'روابط سريعة','MATH GAMES':'ألعاب الرياضيات',
+      'My learning':'تعلّمي','Skill library':'مكتبة المهارات','Saved skills':'المحفوظة','Practice queue':'قائمة التدريب',
+      'Scientific calculator':'الآلة الحاسبة العلمية','Coordinate grapher':'راسم الإحداثيات','Percent visualizer':'مختبر النسب المئوية',
+      'Factors, GCF & LCM':'العوامل والمضاعفات','Probability lab':'مختبر الاحتمالات','Progress':'التقدم','Daily goal':'الهدف اليومي',
+      'Study plan':'خطة الدراسة','Badges':'الشارات','Mistake notebook':'دفتر الأخطاء','My notes':'ملاحظاتي','Spend your XP':'استخدم XP',
+      'Settings':'الإعدادات','Help center':'مركز المساعدة','Today':'اليوم','Continue learning':'متابعة التعلم','Start learning':'ابدأ التعلم',
+      'Recent activity':'النشاط الأخير','Language':'اللغة','Color theme':'المظهر','Light':'فاتح','Dark':'داكن',
+      'Log in':'تسجيل الدخول','Sign up':'إنشاء حساب','Log out':'تسجيل الخروج','Check answer':'تحقق','Show explanation':'عرض الشرح'
+    },
+    ru: {
+      'LEARN':'ОБУЧЕНИЕ','YOUR SPACE':'ЛИЧНОЕ','QUICK LINKS':'ССЫЛКИ','MATH GAMES':'МАТЕМАТИЧЕСКИЕ ИГРЫ',
+      'My learning':'Моё обучение','Skill library':'Библиотека навыков','Saved skills':'Сохранённое','Practice queue':'Очередь практики',
+      'Scientific calculator':'Научный калькулятор','Coordinate grapher':'Координатная плоскость','Percent visualizer':'Проценты',
+      'Factors, GCF & LCM':'Множители, НОД и НОК','Probability lab':'Вероятность','Progress':'Прогресс','Daily goal':'Цель дня',
+      'Study plan':'План занятий','Badges':'Значки','Mistake notebook':'Работа над ошибками','My notes':'Заметки','Spend your XP':'Потратить XP',
+      'Settings':'Настройки','Help center':'Справка','Today':'Сегодня','Continue learning':'Продолжить','Start learning':'Начать',
+      'Recent activity':'Недавняя активность','Language':'Язык','Color theme':'Тема','Light':'Светлая','Dark':'Тёмная',
+      'Log in':'Войти','Sign up':'Регистрация','Log out':'Выйти','Check answer':'Проверить','Show explanation':'Показать решение'
+    },
+    nl: {'My learning':'Mijn leren','Skill library':'Vaardigheden','Settings':'Instellingen','Help center':'Helpcentrum','Language':'Taal','Today':'Vandaag','Progress':'Voortgang','Daily goal':'Dagdoel','Log in':'Inloggen','Sign up':'Aanmelden','Log out':'Uitloggen','Light':'Licht','Dark':'Donker'},
+    tr: {'My learning':'Öğrenimim','Skill library':'Beceri kütüphanesi','Settings':'Ayarlar','Help center':'Yardım merkezi','Language':'Dil','Today':'Bugün','Progress':'İlerleme','Daily goal':'Günlük hedef','Log in':'Giriş yap','Sign up':'Kaydol','Log out':'Çıkış yap','Light':'Açık','Dark':'Koyu'},
+    pl: {'My learning':'Moja nauka','Skill library':'Biblioteka','Settings':'Ustawienia','Help center':'Centrum pomocy','Language':'Język','Today':'Dzisiaj','Progress':'Postępy','Daily goal':'Cel dzienny','Log in':'Zaloguj się','Sign up':'Zarejestruj się','Log out':'Wyloguj','Light':'Jasny','Dark':'Ciemny'},
+    vi: {'My learning':'Học tập của tôi','Skill library':'Thư viện kỹ năng','Settings':'Cài đặt','Help center':'Trung tâm trợ giúp','Language':'Ngôn ngữ','Today':'Hôm nay','Progress':'Tiến độ','Daily goal':'Mục tiêu ngày','Log in':'Đăng nhập','Sign up':'Đăng ký','Log out':'Đăng xuất','Light':'Sáng','Dark':'Tối'},
+    ta: {'My learning':'என் கற்றல்','Skill library':'திறன் நூலகம்','Settings':'அமைப்புகள்','Help center':'உதவி மையம்','Language':'மொழி','Today':'இன்று','Progress':'முன்னேற்றம்','Daily goal':'தினசரி இலக்கு','Log in':'உள்நுழைக','Sign up':'பதிவு செய்க','Log out':'வெளியேறு','Light':'வெளிச்சம்','Dark':'இருள்'},
+    te: {'My learning':'నా అభ్యాసం','Skill library':'నైపుణ్యాల లైబ్రరీ','Settings':'సెట్టింగులు','Help center':'సహాయ కేంద్రం','Language':'భాష','Today':'ఈరోజు','Progress':'పురోగతి','Daily goal':'రోజువారీ లక్ష్యం','Log in':'లాగిన్','Sign up':'సైన్ అప్','Log out':'లాగ్ అవుట్','Light':'లైట్','Dark':'డార్క్'}
+  };
   const language = () => localStorage.getItem('numoraLanguage') || 'en';
-  const spanish = (value) => {
-    if (!value || !value.trim()) return value;
-    const trimmed=value.trim();
-    const translated=lessonNames[trimmed]||es[trimmed];
-    if(translated)return value.replace(trimmed,translated);
-    let result=trimmed;
+  const translateText = (value) => {
+    const lang = language();
+    if (lang === 'en' || !value || !value.trim()) return value;
+    const trimmed = value.trim();
+    if (lang !== 'es') {
+      const dict = extraLanguages[lang];
+      const hit = dict?.[trimmed];
+      return hit ? value.replace(trimmed, hit) : value;
+    }
+    const spanish = (val) => {
+      if (!val || !val.trim()) return val;
+      const t = val.trim();
+    const translated=lessonNames[t]||es[t];
+    if(translated)return val.replace(t,translated);
+    let result=t;
     result=result.replace(/^(What is) (.+)\?$/,'¿Cuánto es $2?').replace(/^(What number comes after) (.+)\?$/,'¿Qué número viene después de $2?').replace(/^(What comes next)[: ]+(.+)\?$/,'¿Qué sigue: $2?').replace(/^(Which is greater|Which number is greater)[: ]+(.+)\?$/,'¿Cuál es mayor: $2?').replace(/^Question (\d+) of (\d+)$/,'Pregunta $1 de $2').replace(/^([0-9]+) of ([0-9]+)$/,'$1 de $2').replace(/^(Grade \d+) Explorer$/,'Explorador de $1');
     result=result.replace(/^(Pre-K|Kindergarten|Grade 1[0-2]|Grade [1-9]|College)( Explorer)?$/,(match,grade)=>`${({ 'Pre-K':'Preescolar','Kindergarten':'Jardín de infancia','College':'Universidad'})[grade]||grade.replace('Grade ','Grado ')}${match.endsWith('Explorer')?' Explorador':''}`);
     result=result.replace(/^(Pre-K|Kindergarten|Grade 1[0-2]|Grade [1-9]|College) · MATH$/,(match,grade)=>`${({ 'Pre-K':'Preescolar','Kindergarten':'Jardín de infancia','College':'Universidad'})[grade]||grade.replace('Grade ','Grado ')} · MATEMÁTICAS`);
     result=result.replace(/^(Pre-K|Kindergarten|Grade 1[0-2]|Grade [1-9]|College) Math · (\d+) lessons$/,(match,grade,count)=>`${({ 'Pre-K':'Matemáticas de preescolar','Kindergarten':'Matemáticas de jardín de infancia','College':'Matemáticas universitarias'})[grade]||`Matemáticas de ${grade.replace('Grade ','grado ')}`} · ${count} lecciones`);
     if(phrasePattern.test(result)){phrasePattern.lastIndex=0;result=result.replace(phrasePattern,english=>phraseLookup[english]);}
     phrasePattern.lastIndex=0;
-    return value.replace(trimmed,result);
+    return val.replace(t,result);
+    };
+    return spanish(value);
   };
   Object.assign(es,{
     'Keep a copy of your learning':'Guarda una copia de tu aprendizaje','Download your progress and preferences as a backup file. Passwords are never included.':'Descarga tu progreso y tus preferencias en un archivo de respaldo. Nunca se incluyen contraseñas.','Download my progress backup':'Descargar copia de seguridad de mi progreso','Your progress backup downloaded.':'Se descargó la copia de seguridad de tu progreso.','How do I download a copy of my progress?':'¿Cómo descargo una copia de mi progreso?','Open Settings and choose Download my progress backup. The JSON file contains your learning progress and preferences, but never your password.':'Abre Configuración y elige Descargar copia de seguridad de mi progreso. El archivo contiene tu progreso y preferencias, pero nunca tu contraseña.','What keyboard controls can I use in a lesson?':'¿Qué controles del teclado puedo usar en una lección?','Choose Space bar or Both under Answer controls. When the answer box is ready, Space submits your answer. Use Tab to move between lesson controls.':'Elige Barra espaciadora o Ambos en Controles de respuesta. Cuando el cuadro esté listo, pulsa Espacio para enviar tu respuesta. Usa Tab para moverte entre los controles.','What should I do if a lesson or page stops responding?':'¿Qué hago si una lección o página deja de responder?','Close the frozen tab, reopen Numora, and refresh the page. If one lesson keeps freezing, note its grade and title so you can find it again.':'Cierra la pestaña bloqueada, vuelve a abrir Numora y actualiza la página. Si una lección sigue bloqueándose, anota su grado y título para encontrarla.'
@@ -73,7 +209,7 @@
       const previous=translatedText.get(node);
       const source=originalText.has(node)&&previous===current?originalText.get(node):current;
       if(!originalText.has(node)||previous!==current)originalText.set(node,source);
-      const next=spanish(source);
+      const next=translateText(source);
       translatedText.set(node,next);
       if(next!==current)node.nodeValue=next;
       return;
@@ -90,7 +226,7 @@
       }else{
         const source=Object.hasOwn(saved,attr)&&translated[attr]===current?saved[attr]:current;
         saved[attr]=source;
-        const next=spanish(source);
+        const next=translateText(source);
         translated[attr]=next;
         originalAttributes.set(el,saved);
         translatedAttributes.set(el,translated);
@@ -101,9 +237,10 @@
   };
   const translatePage = () => {
     const selected=language();
-    const wasSpanish=document.documentElement.lang==='es';
-    if(selected==='en'&&wasSpanish){location.reload();return;}
-    document.documentElement.lang=selected==='es'?'es':'en';
+    const prevLang=document.documentElement.lang||'en';
+    if(selected==='en'&&prevLang!=='en'){location.reload();return;}
+    document.documentElement.lang=selected;
+    document.documentElement.dir=selected==='ar'?'rtl':'ltr';
     translateNode(document.body);
     const select=document.querySelector('[data-language-select]');if(select)select.value=selected;
     const title=document.querySelector('title');if(title)translateNode(title);
@@ -127,5 +264,5 @@
     for(const record of records){if(record.type==='characterData')translateNode(record.target);else record.addedNodes.forEach(translateNode);}
   });
   observer.observe(document.body,{childList:true,subtree:true,characterData:true});
-  if(language()==='es')translatePage();
+  if(language()!=='en')translatePage();
 })();
