@@ -123,6 +123,82 @@
     { k:'numoraConfirmClear', cat:'data', type:'check', label:'49. Confirm before clearing queue or notes', def:'true' }
   ];
 
+  const coreSettingKeys = [
+    'numoraTheme', 'numoraAccentColor', 'numoraFontStyle', 'numoraReadingSize',
+    'numoraReduceMotion', 'numoraHighContrast', 'numoraSoundEffects', 'numoraAutoRead',
+    'numoraAutoFocusAnswer', 'numoraAutoExplain', 'numoraShowTimer', 'numoraAnswerControl',
+    'numoraClickToTypeAnswer', 'numoraLessonCelebrations', 'numoraSpeechRate',
+    'numoraCompactSidebar', 'numoraShowStreakTip', 'numoraFocusMode',
+    'numoraDefaultLessonLength', 'numoraDailyGoal', 'numoraWeeklyGoal', 'numoraLanguage'
+  ];
+  const allSettingKeys = [...new Set([...coreSettingKeys, ...extra50Schema.map(i => i.k)])];
+  const allowedSettingSet = new Set(allSettingKeys);
+
+  function encodeSettingsCode() {
+    const payload = {};
+    allSettingKeys.forEach(k => {
+      const v = localStorage.getItem(k);
+      if (v !== null) payload[k] = v;
+    });
+    const json = JSON.stringify(payload);
+    const b64 = btoa(unescape(encodeURIComponent(json)));
+    return `NUMORA-${b64}`;
+  }
+
+  function refreshSettingsCodeDisplay() {
+    const field = document.querySelector('#settings-share-code');
+    if (field) field.value = encodeSettingsCode();
+  }
+
+  function applyAllVisualSettings() {
+    window.applyTheme?.(localStorage.getItem('numoraTheme') === 'dark' ? 'dark' : 'light');
+    applyAccent(localStorage.getItem('numoraAccentColor') || 'violet');
+    applyFontStyle(localStorage.getItem('numoraFontStyle') || 'standard');
+    applyCompactSidebar(localStorage.getItem('numoraCompactSidebar') === 'true');
+    applyStreakTip(localStorage.getItem('numoraShowStreakTip') !== 'false');
+    applyFocusMode(localStorage.getItem('numoraFocusMode') === 'true');
+    document.body.dataset.readingSize = localStorage.getItem('numoraReadingSize') === 'large' ? 'large' : 'normal';
+    document.body.dataset.reduceMotion = localStorage.getItem('numoraReduceMotion') === 'true' ? 'true' : 'false';
+    document.body.dataset.highContrast = localStorage.getItem('numoraHighContrast') === 'true' ? 'true' : 'false';
+    applySettingVars();
+  }
+
+  function resetAllSettingsToDefault() {
+    allSettingKeys.forEach(k => localStorage.removeItem(k));
+    localStorage.setItem('numoraTheme', 'light');
+    localStorage.setItem('numoraLanguage', 'en');
+    localStorage.setItem('numoraAnswerControl', 'both');
+    localStorage.setItem('numoraClickToTypeAnswer', 'true');
+    applyAllVisualSettings();
+    window.applyNumoraLanguage?.();
+    window.syncProfile?.();
+    window.saveCurrentAccountProgress?.();
+    window.openUtilityPanel?.('settings');
+  }
+
+  function applySettingsCode(raw) {
+    const trimmed = String(raw || '').trim();
+    if (!trimmed.startsWith('NUMORA-')) return false;
+    try {
+      const b64 = trimmed.slice(7);
+      const json = decodeURIComponent(escape(atob(b64)));
+      const parsed = JSON.parse(json);
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return false;
+      allSettingKeys.forEach(k => localStorage.removeItem(k));
+      Object.entries(parsed).forEach(([k, v]) => {
+        if (allowedSettingSet.has(k) && typeof v === 'string') localStorage.setItem(k, v);
+      });
+      applyAllVisualSettings();
+      window.applyNumoraLanguage?.();
+      window.syncProfile?.();
+      window.saveCurrentAccountProgress?.();
+      window.openUtilityPanel?.('settings');
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   function enhanceSettings(panel) {
     if (!panel || panel.dataset.settingsEnhanced === 'true') return;
     panel.dataset.settingsEnhanced = 'true';
@@ -244,15 +320,26 @@
       </div>
     </div>`;
 
-    const backupAndResetHtml = `<div class="answer-setting settings-backup-tools">
-      <strong>${es ? 'Restaurar o restablecer' : 'Restore & reset'}</strong>
-      <p>${es ? 'Importa un archivo de respaldo JSON o restablece solo tus preferencias visuales.' : 'Import a JSON backup file or reset your visual/audio preferences without losing progress.'}</p>
+    const backupAndResetHtml = `<div class="answer-setting settings-backup-tools" data-setting-cat="data">
+      <strong>${es ? 'Código de ajustes (rastrear y compartir)' : 'Settings code (track & share)'}</strong>
+      <p>${es ? 'Copia tu código actual para guardarlo o compártelo. Pega el código de otra persona para obtener sus ajustes.' : 'Copy your live settings code to keep or share it. Paste another person’s code below to get their exact settings.'}</p>
+      <div class="settings-code-row">
+        <input type="text" id="settings-share-code" class="setting-code-input" readonly value="${esc(encodeSettingsCode())}" aria-label="Your settings code">
+        <button type="button" class="secondary-btn" data-copy-settings-code>${es ? 'Copiar código' : 'Copy code'}</button>
+      </div>
+      <div class="settings-code-row" style="margin-top:8px">
+        <input type="text" id="settings-paste-code" class="setting-code-input" placeholder="${es ? 'Pega aquí un código NUMORA-...' : 'Paste a NUMORA-... settings code here'}" aria-label="Paste settings code">
+        <button type="button" class="primary-btn" data-apply-settings-code>${es ? 'Aplicar código' : 'Apply code'}</button>
+      </div>
+      <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
+      <strong>${es ? 'Restaurar o restablecer' : 'Restore & default settings'}</strong>
+      <p>${es ? 'Importa un respaldo JSON o cambia todos los ajustes a los valores predeterminados.' : 'Import a JSON backup file or change all settings back to the app defaults without losing progress.'}</p>
       <div class="settings-tool-buttons">
         <label class="secondary-btn import-backup-btn">
           ${es ? '⬆ Importar respaldo' : '⬆ Import backup'}
           <input type="file" accept="application/json,.json" data-import-progress hidden>
         </label>
-        <button type="button" class="secondary-btn" data-reset-settings>${es ? '↺ Restablecer ajustes' : '↺ Reset preferences'}</button>
+        <button type="button" class="secondary-btn" data-reset-settings>${es ? '↺ Cambiar ajustes a predeterminados' : '↺ Change settings to default'}</button>
       </div>
     </div>`;
 
@@ -403,23 +490,37 @@
       window.saveCurrentAccountProgress?.();
       document.querySelectorAll('[data-accent-choice]').forEach(btn => btn.classList.toggle('active', btn === accentBtn));
       window.showToast?.(isEs() ? 'Color de acento actualizado.' : 'Accent color updated.');
+      refreshSettingsCodeDisplay();
+      return;
+    }
+
+    if (target.closest('[data-copy-settings-code]')) {
+      const code = encodeSettingsCode();
+      try {
+        await navigator.clipboard.writeText(code);
+        window.showToast?.(isEs() ? 'Código de ajustes copiado.' : 'Settings code copied!');
+      } catch {
+        const field = document.querySelector('#settings-share-code');
+        field?.select();
+        document.execCommand?.('copy');
+        window.showToast?.(isEs() ? 'Código de ajustes copiado.' : 'Settings code copied!');
+      }
+      return;
+    }
+
+    if (target.closest('[data-apply-settings-code]')) {
+      const input = document.querySelector('#settings-paste-code');
+      if (applySettingsCode(input?.value)) {
+        window.showToast?.(isEs() ? 'Ajustes aplicados desde el código.' : 'Settings applied from code!');
+      } else {
+        window.showToast?.(isEs() ? 'Código de ajustes no válido.' : 'Invalid settings code. Make sure it starts with NUMORA-.');
+      }
       return;
     }
 
     if (target.closest('[data-reset-settings]')) {
-      ['numoraTheme', 'numoraAccentColor', 'numoraFontStyle', 'numoraReadingSize', 'numoraReduceMotion', 'numoraHighContrast', 'numoraSoundEffects', 'numoraAutoRead', 'numoraAutoFocusAnswer', 'numoraAutoExplain', 'numoraShowTimer', 'numoraAnswerControl', 'numoraClickToTypeAnswer', 'numoraLessonCelebrations', 'numoraSpeechRate', 'numoraCompactSidebar', 'numoraShowStreakTip', 'numoraFocusMode', 'numoraDefaultLessonLength'].forEach(k => localStorage.removeItem(k));
-      window.applyTheme?.('light');
-      applyAccent('violet');
-      applyFontStyle('standard');
-      applyCompactSidebar(false);
-      applyStreakTip(true);
-      applyFocusMode(false);
-      document.body.dataset.readingSize = 'normal';
-      document.body.dataset.reduceMotion = 'false';
-      document.body.dataset.highContrast = 'false';
-      window.saveCurrentAccountProgress?.();
-      window.openUtilityPanel?.('settings');
-      window.showToast?.(isEs() ? 'Preferencias restablecidas.' : 'Preferences reset to defaults.');
+      resetAllSettingsToDefault();
+      window.showToast?.(isEs() ? 'Ajustes cambiados a predeterminados.' : 'Settings changed to default.');
       return;
     }
 
@@ -560,6 +661,7 @@
       localStorage.setItem(key, val);
       applySettingVars();
       window.saveCurrentAccountProgress?.();
+      refreshSettingsCodeDisplay();
       window.showToast?.('Setting saved.');
       return;
     }

@@ -84,6 +84,8 @@ body[data-bold-questions="true"] .question-card h1{font-weight:800}
 body[data-focus-ring="true"] :focus-visible{outline:3px solid var(--violet)!important;outline-offset:2px}
 body[data-mono-mode="true"]{filter:grayscale(1)}
 body[data-hide-quotes="true"] .fp-quote-bar{display:none}
+.settings-code-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.setting-code-input{flex:1 1 200px;min-height:38px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);font:600 12px monospace}
 .lesson-finish-card{position:relative;overflow:hidden}
 .lesson-finish-icon{position:relative;z-index:1;font-size:58px;animation:finish-pop .7s cubic-bezier(.2,1.8,.4,1) both}
 .lesson-finish-card h2,.lesson-finish-card p,.lesson-finish-card button{position:relative;z-index:1}
