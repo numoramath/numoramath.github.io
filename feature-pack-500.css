@@ -1,0 +1,15 @@
+.fp500-btn { padding: 5px 9px; font-size: 11px; }
+.fp500-btn strong { color: var(--violet, #6356eb); }
+.fp500-modal { width: min(720px, 100%); max-height: 82vh; overflow: auto; padding: 20px; }
+.fp500-mini-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.fp500-tile { padding: 14px; border: 1px solid var(--line, #dfe5ef); border-radius: 12px; background: var(--wash, #f8f9fc); color: var(--ink, #192433); text-align: left; cursor: pointer; display: grid; gap: 4px; }
+.fp500-tile:hover { border-color: var(--violet, #6356eb); }
+.fp500-tile strong { font: 700 14px 'Space Grotesk', sans-serif; color: var(--violet, #6356eb); }
+.fp500-tile small { font-size: 12px; color: var(--muted, #6f7b8c); }
+.fp500-aids { margin-top: 12px; padding: 14px; text-align: left; }
+.fp500-aids-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.fp500-aids-grid > div { padding: 10px; border: 1px solid var(--line, #e7ebf0); border-radius: 10px; background: var(--wash, #f8f9fc); }
+.fp500-aids-grid strong { display: block; font-size: 12px; margin-bottom: 3px; }
+.fp500-aids-grid small { font-size: 11px; color: var(--muted, #6f7b8c); }
+.fp500-analytics-toggle { margin-top: 14px; }
+.fp500-analytics-panel { margin-top: 10px; padding: 16px; }
