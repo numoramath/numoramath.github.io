@@ -1,5 +1,6 @@
+.fp200-hub-btn { padding: 5px 9px; font-size: 11px; }
 .fp200-hub-btn strong { color: var(--violet, #6356eb); }
-.fp200-hub { width: min(760px, 100%); max-height: 88vh; overflow: auto; padding: 22px; }
+.fp200-hub { width: min(640px, 100%); max-height: 78vh; overflow: auto; padding: 18px; }
 .fp200-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
 .fp200-tabs .secondary-btn.active { background: var(--violet, #6356eb); color: #fff; border-color: var(--violet, #6356eb); }
 .fp200-cats { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }

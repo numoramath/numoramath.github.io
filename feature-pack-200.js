@@ -117,7 +117,7 @@
     hubBtn.className = 'fp-pill fp200-hub-btn';
     hubBtn.dataset.fp200 = 'open-hub';
     hubBtn.title = 'Open 200+ Tools & Formulas Hub (Ctrl+J)';
-    hubBtn.innerHTML = '✦ <strong>Tools Hub</strong>';
+    hubBtn.innerHTML = '✦ <strong>Hub</strong>';
     topTools.insertBefore(hubBtn, topTools.firstChild);
   }
 
