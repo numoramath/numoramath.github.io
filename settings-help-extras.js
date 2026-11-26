@@ -50,6 +50,79 @@
   applyStreakTip(localStorage.getItem('numoraShowStreakTip') !== 'false');
   applyFocusMode(localStorage.getItem('numoraFocusMode') === 'true');
 
+  function applySettingVars() {
+    const b = document.body.dataset;
+    b.cardRadius = localStorage.getItem('numoraCardRadius') || 'rounded';
+    b.cardShadow = localStorage.getItem('numoraCardShadow') || 'soft';
+    b.pageWidth = localStorage.getItem('numoraPageWidth') || 'standard';
+    b.bgTint = localStorage.getItem('numoraBgTint') || 'default';
+    b.lineSpacing = localStorage.getItem('numoraLineSpacing') || 'normal';
+    b.bigButtons = localStorage.getItem('numoraBigButtons') === 'true' ? 'true' : 'false';
+    b.boldQuestions = localStorage.getItem('numoraBoldQuestions') === 'true' ? 'true' : 'false';
+    b.focusRing = localStorage.getItem('numoraFocusRing') === 'true' ? 'true' : 'false';
+    b.monoMode = localStorage.getItem('numoraMonoMode') === 'true' ? 'true' : 'false';
+    b.hideQuotes = localStorage.getItem('numoraShowQuotes') === 'false' ? 'true' : 'false';
+  }
+  applySettingVars();
+
+  const extra50Schema = [
+    // Appearance (10)
+    { k:'numoraCardRadius', cat:'appearance', type:'select', label:'1. Card corner style', opts:[['rounded','Rounded'],['sharp','Sharp'],['pill','Extra soft']] },
+    { k:'numoraCardShadow', cat:'appearance', type:'select', label:'2. Card shadow depth', opts:[['soft','Soft'],['flat','Flat'],['elevated','Elevated']] },
+    { k:'numoraPageWidth', cat:'appearance', type:'select', label:'3. Page width', opts:[['standard','Standard'],['wide','Wide'],['compact','Compact']] },
+    { k:'numoraBgTint', cat:'appearance', type:'select', label:'4. Background tint', opts:[['default','Default'],['warm','Warm'],['cool','Cool'],['mint','Mint']] },
+    { k:'numoraTopbarBlur', cat:'appearance', type:'check', label:'5. Topbar glass blur effect', def:'true' },
+    { k:'numoraShowTopAvatar', cat:'appearance', type:'check', label:'6. Show avatar in topbar', def:'true' },
+    { k:'numoraShowProfileGrade', cat:'appearance', type:'check', label:'7. Show grade label under profile name', def:'true' },
+    { k:'numoraNavHighlight', cat:'appearance', type:'select', label:'8. Active sidebar item style', opts:[['fill','Filled pill'],['border','Left accent border']] },
+    { k:'numoraCompactModals', cat:'appearance', type:'check', label:'9. Compact dialog spacing', def:'false' },
+    { k:'numoraBackdropDim', cat:'appearance', type:'select', label:'10. Modal backdrop darkness', opts:[['medium','Medium'],['light','Light'],['dark','Dark']] },
+    // Practice (12)
+    { k:'numoraAutoClearWrong', cat:'practice', type:'check', label:'11. Auto-clear input on wrong answer', def:'false' },
+    { k:'numoraShowQCounter', cat:'practice', type:'check', label:'12. Show question counter (e.g. 3 of 10)', def:'true' },
+    { k:'numoraShowLessonBar', cat:'practice', type:'check', label:'13. Show progress bar in lessons', def:'true' },
+    { k:'numoraShowTryAnother', cat:'practice', type:'check', label:'14. Show "Try another question" button', def:'true' },
+    { k:'numoraShowHintCount', cat:'practice', type:'check', label:'15. Show remaining hint count on button', def:'true' },
+    { k:'numoraAutoScratchpad', cat:'practice', type:'check', label:'16. Auto-open scratchpad on multi-step lessons', def:'false' },
+    { k:'numoraPenColor', cat:'practice', type:'select', label:'17. Default scratchpad pen color', opts:[['#26324a','Black'],['#4263eb','Blue'],['#e05b48','Red']] },
+    { k:'numoraPenSize', cat:'practice', type:'select', label:'18. Default scratchpad pen size', opts:[['3','Medium'],['2','Thin'],['5','Thick']] },
+    { k:'numoraShowCombo', cat:'practice', type:'check', label:'19. Show combo multiplier badge', def:'true' },
+    { k:'numoraShowSymBar', cat:'practice', type:'check', label:'20. Show math symbol bar in lessons', def:'true' },
+    { k:'numoraAutoFocusNext', cat:'practice', type:'check', label:'21. Focus Next button after correct answer', def:'false' },
+    { k:'numoraConfirmLeaveLesson', cat:'practice', type:'check', label:'22. Confirm before leaving active lesson', def:'false' },
+    // Audio & Voice (8)
+    { k:'numoraChimePitch', cat:'audio', type:'select', label:'23. Correct-answer chime pitch', opts:[['medium','Medium'],['low','Low'],['high','High']] },
+    { k:'numoraClickSound', cat:'audio', type:'check', label:'24. Subtle click sound on buttons', def:'false' },
+    { k:'numoraFinishFanfare', cat:'audio', type:'check', label:'25. Play chime when finishing a lesson', def:'true' },
+    { k:'numoraWrongTone', cat:'audio', type:'check', label:'26. Play gentle tone on wrong answer', def:'false' },
+    { k:'numoraVoicePitch', cat:'audio', type:'select', label:'27. Read-aloud voice pitch', opts:[['1','Normal (1.0)'],['0.8','Lower (0.8)'],['1.2','Higher (1.2)']] },
+    { k:'numoraStopVoiceSubmit', cat:'audio', type:'check', label:'28. Stop speech when submitting answer', def:'true' },
+    { k:'numoraVoiceAutoSubmit', cat:'audio', type:'check', label:'29. Auto-check after speaking answer', def:'false' },
+    { k:'numoraMasterMute', cat:'audio', type:'check', label:'30. Mute all app sound effects', def:'false' },
+    // Accessibility (8)
+    { k:'numoraBigButtons', cat:'accessibility', type:'check', label:'31. Extra-large touch buttons', def:'false' },
+    { k:'numoraBoldQuestions', cat:'accessibility', type:'check', label:'32. Bold question headings', def:'false' },
+    { k:'numoraFocusRing', cat:'accessibility', type:'check', label:'33. High-visibility keyboard focus ring', def:'false' },
+    { k:'numoraLineSpacing', cat:'accessibility', type:'select', label:'34. Reading line spacing', opts:[['normal','Normal'],['relaxed','Relaxed'],['wide','Wide']] },
+    { k:'numoraSolidCards', cat:'accessibility', type:'check', label:'35. Solid high-clarity card borders', def:'false' },
+    { k:'numoraHideHeadingEmoji', cat:'accessibility', type:'check', label:'36. Hide decorative emojis in headings', def:'false' },
+    { k:'numoraKeyHints', cat:'accessibility', type:'check', label:'37. Show keyboard shortcut hints', def:'true' },
+    { k:'numoraMonoMode', cat:'accessibility', type:'check', label:'38. Monochrome / grayscale display mode', def:'false' },
+    // Goals & Alerts (6)
+    { k:'numoraStreakAlerts', cat:'goals', type:'check', label:'39. Show streak milestone alerts', def:'true' },
+    { k:'numoraXpToasts', cat:'goals', type:'check', label:'40. Show "+10 XP" toast popups', def:'true' },
+    { k:'numoraToastDuration', cat:'goals', type:'select', label:'41. Notification toast duration', opts:[['3000','Normal (3s)'],['1800','Short (1.8s)'],['5000','Long (5s)']] },
+    { k:'numoraDailyReminder', cat:'goals', type:'check', label:'42. Show daily goal reminder banner', def:'true' },
+    { k:'numoraWeekendMult', cat:'goals', type:'select', label:'43. Weekend practice goal boost', opts:[['1','1× (Same)'],['1.5','1.5×'],['2','2×']] },
+    { k:'numoraShowQuotes', cat:'goals', type:'check', label:'44. Show daily math quote on Home', def:'true' },
+    // Data & Profile (6)
+    { k:'numoraGreetingStyle', cat:'data', type:'select', label:'45. Home greeting style', opts:[['time','Time of day'],['welcome','Welcome back'],['learn','Ready to learn']] },
+    { k:'numoraShowJoinDate', cat:'data', type:'check', label:'46. Show account join date on Home', def:'true' },
+    { k:'numoraShowRecentXp', cat:'data', type:'check', label:'47. Show recent XP feed on Home', def:'true' },
+    { k:'numoraAutoSaveNotes', cat:'data', type:'check', label:'48. Auto-save lesson notes while typing', def:'true' },
+    { k:'numoraConfirmClear', cat:'data', type:'check', label:'49. Confirm before clearing queue or notes', def:'true' }
+  ];
+
   function enhanceSettings(panel) {
     if (!panel || panel.dataset.settingsEnhanced === 'true') return;
     panel.dataset.settingsEnhanced = 'true';
@@ -72,7 +145,16 @@
     try { mistakesCount = JSON.parse(localStorage.getItem('numoraMistakes') || '[]').length || 0; } catch {}
     try { queueCount = JSON.parse(localStorage.getItem('numoraPracticeQueue') || '[]').length || 0; } catch {}
 
-    const searchHtml = `<div class="settings-search-wrap">
+    const searchHtml = `<div class="settings-cat-tabs" role="group" aria-label="${es ? 'Categorías de ajustes' : 'Settings categories'}">
+      <button type="button" class="secondary-btn active" data-settings-cat="all">${es ? 'Todo' : 'All'}</button>
+      <button type="button" class="secondary-btn" data-settings-cat="appearance">${es ? 'Apariencia' : 'Appearance'}</button>
+      <button type="button" class="secondary-btn" data-settings-cat="practice">${es ? 'Práctica' : 'Practice'}</button>
+      <button type="button" class="secondary-btn" data-settings-cat="audio">${es ? 'Voz y sonido' : 'Audio & Voice'}</button>
+      <button type="button" class="secondary-btn" data-settings-cat="accessibility">${es ? 'Accesibilidad' : 'Accessibility'}</button>
+      <button type="button" class="secondary-btn" data-settings-cat="goals">${es ? 'Metas y avisos' : 'Goals & Alerts'}</button>
+      <button type="button" class="secondary-btn" data-settings-cat="data">${es ? 'Datos y perfil' : 'Data & Profile'}</button>
+    </div>
+    <div class="settings-search-wrap">
       <input type="search" class="help-search settings-filter-input" placeholder="${es ? 'Filtrar ajustes (ej. voz, tema, respaldo)…' : 'Filter settings (e.g. voice, theme, backup)…'}" aria-label="${es ? 'Filtrar ajustes' : 'Filter settings'}">
     </div>`;
     panel.querySelector('p')?.insertAdjacentHTML('afterend', searchHtml);
@@ -174,7 +256,35 @@
       </div>
     </div>`;
 
-    panel.insertAdjacentHTML('beforeend', profileHtml + voiceHtml + accentHtml + extraPrefsHtml + dataSummaryHtml + backupAndResetHtml);
+    const catMap = {
+      appearance: 'Appearance', practice: 'Practice', audio: 'Audio & Voice',
+      accessibility: 'Accessibility', goals: 'Goals & Alerts', data: 'Data & Profile'
+    };
+    const extra50Html = Object.entries(catMap).map(([catId, catTitle]) => {
+      const rows = extra50Schema.filter(item => item.cat === catId).map(item => {
+        const cur = localStorage.getItem(item.k);
+        if (item.type === 'check') {
+          const checked = cur !== null ? cur === 'true' : item.def === 'true';
+          return `<label class="setting-check"><input type="checkbox" data-extra-setting="${item.k}" ${checked ? 'checked' : ''}><span>${esc(item.label)}</span></label>`;
+        }
+        const val = cur ?? item.opts[0][0];
+        return `<label class="setting-row">${esc(item.label)}<select data-extra-setting="${item.k}">${item.opts.map(([ov, ol]) => `<option value="${esc(ov)}" ${val === ov ? 'selected' : ''}>${esc(ol)}</option>`).join('')}</select></label>`;
+      }).join('');
+      const extraBtn = catId === 'data' ? `<div class="settings-tool-buttons" style="margin-top:10px"><button type="button" class="secondary-btn" data-export-settings-only>50. Export settings JSON</button></div>` : '';
+      return `<div class="answer-setting" data-setting-cat="${catId}"><strong>${esc(catTitle)}</strong>${rows}${extraBtn}</div>`;
+    }).join('');
+
+    panel.insertAdjacentHTML('beforeend', profileHtml + voiceHtml + accentHtml + extraPrefsHtml + extra50Html + dataSummaryHtml + backupAndResetHtml);
+
+    // Tag existing core setting sections by category for the category filter buttons
+    panel.querySelectorAll('.answer-setting:not([data-setting-cat])').forEach(sec => {
+      const txt = sec.textContent.toLowerCase();
+      if (txt.includes('language') || txt.includes('backup') || txt.includes('saved account') || txt.includes('profile')) sec.dataset.settingCat = 'data';
+      else if (txt.includes('accent') || txt.includes('theme')) sec.dataset.settingCat = 'appearance';
+      else if (txt.includes('voice') || txt.includes('accessibility') || txt.includes('contrast') || txt.includes('font')) sec.dataset.settingCat = 'accessibility';
+      else if (txt.includes('goal')) sec.dataset.settingCat = 'goals';
+      else sec.dataset.settingCat = 'practice';
+    });
   }
 
   function enhanceHelp(panel) {
@@ -264,6 +374,26 @@
   document.addEventListener('click', async event => {
     const target = event.target instanceof Element ? event.target : null;
     if (!target) return;
+
+    const catBtn = target.closest('[data-settings-cat]');
+    if (catBtn) {
+      const cat = catBtn.dataset.settingsCat;
+      document.querySelectorAll('[data-settings-cat]').forEach(b => b.classList.toggle('active', b === catBtn));
+      document.querySelectorAll('.settings-panel .answer-setting').forEach(sec => {
+        sec.classList.toggle('hidden', cat !== 'all' && sec.dataset.settingCat !== cat);
+      });
+      return;
+    }
+
+    if (target.closest('[data-export-settings-only]')) {
+      const keys = Object.keys(localStorage).filter(k => k.startsWith('numora') && !k.includes('Password') && !k.includes('Accounts'));
+      const data = Object.fromEntries(keys.map(k => [k, localStorage.getItem(k)]));
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'numora-settings.json'; a.click();
+      URL.revokeObjectURL(a.href);
+      window.showToast?.('Settings JSON exported.');
+      return;
+    }
 
     const accentBtn = target.closest('[data-accent-choice]');
     if (accentBtn) {
@@ -423,6 +553,16 @@
   document.addEventListener('change', async event => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
+
+    if (target.matches('[data-extra-setting]')) {
+      const key = target.dataset.extraSetting;
+      const val = target instanceof HTMLInputElement && target.type === 'checkbox' ? String(target.checked) : target.value;
+      localStorage.setItem(key, val);
+      applySettingVars();
+      window.saveCurrentAccountProgress?.();
+      window.showToast?.('Setting saved.');
+      return;
+    }
 
     if (target.matches('[data-font-style]')) {
       localStorage.setItem('numoraFontStyle', target.value);
