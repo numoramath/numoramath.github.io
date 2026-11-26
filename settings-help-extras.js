@@ -1,10 +1,20 @@
 (() => {
   const accentOptions = [
     { id: 'violet', label: 'Violet', labelEs: 'Violeta', color: '#6356eb' },
+    { id: 'indigo', label: 'Indigo', labelEs: 'Índigo', color: '#4f46e5' },
     { id: 'teal', label: 'Teal', labelEs: 'Verde azulado', color: '#0e9f7e' },
+    { id: 'emerald', label: 'Emerald', labelEs: 'Esmeralda', color: '#10b981' },
+    { id: 'mint', label: 'Mint', labelEs: 'Menta', color: '#14b8a6' },
     { id: 'ocean', label: 'Ocean', labelEs: 'Océano', color: '#2563eb' },
+    { id: 'sky', label: 'Sky', labelEs: 'Cielo', color: '#0284c7' },
     { id: 'coral', label: 'Coral', labelEs: 'Coral', color: '#e05b48' },
-    { id: 'amber', label: 'Amber', labelEs: 'Ámbar', color: '#d97706' }
+    { id: 'crimson', label: 'Crimson', labelEs: 'Carmesí', color: '#dc2626' },
+    { id: 'rose', label: 'Rose', labelEs: 'Rosa', color: '#e11d48' },
+    { id: 'magenta', label: 'Magenta', labelEs: 'Magenta', color: '#c026d3' },
+    { id: 'plum', label: 'Plum', labelEs: 'Ciruela', color: '#7c3aed' },
+    { id: 'amber', label: 'Amber', labelEs: 'Ámbar', color: '#d97706' },
+    { id: 'gold', label: 'Gold', labelEs: 'Dorado', color: '#ca8a04' },
+    { id: 'slate', label: 'Slate', labelEs: 'Pizarra', color: '#475569' }
   ];
 
   const isEs = () => localStorage.getItem('numoraLanguage') === 'es';
