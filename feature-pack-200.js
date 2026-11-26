@@ -181,7 +181,7 @@
 
   function enhanceHome200() {
     const extras = content.querySelector('.fp-home-extras');
-    if (!extras || extras.querySelector('.fp200-home-panel')) return;
+    if (!extras || extras.querySelector('.fp200-organized')) return;
     const completed = Number(localStorage.getItem('numoraCompleted') || 0);
     const accAttempts = Number(localStorage.getItem('numoraAccuracyAttempts') || 0);
     const accCorrect = Number(localStorage.getItem('numoraAccuracyCorrect') || 0);
@@ -191,29 +191,58 @@
     let checks = [];
     try { checks = JSON.parse(localStorage.getItem('numoraDailyChecks') || '[]'); } catch {}
 
-    const panel = document.createElement('div');
-    panel.className = 'fp200-home-panel';
-    panel.innerHTML = `
-      <section class="card fp-widget">
-        <div class="fp-widget-head"><strong>⚡ 10-Mode Challenge</strong><span>${esc(challengeModes[activeModeIdx].label)}</span></div>
-        <div class="fp200-mode-pills">${challengeModes.map((m, i) => `<button type="button" class="fp-chip ${i===activeModeIdx?'active':''}" data-fp200-mode="${i}">${esc(m.label)}</button>`).join('')}</div>
-        <div class="fp-inline-row" style="margin-top:8px">
-          <strong class="fp-warmup-q" id="fp200-mp">${esc(modePrompt)} =</strong>
-          <input type="number" step="any" id="fp200-ma" class="fp-input-sm" placeholder="?">
-          <button type="button" class="primary-btn" data-fp200="check-mode">Go (+5 XP)</button>
+    const baseWidgets = extras.querySelector('.fp-home-widgets');
+    const org = document.createElement('section');
+    org.className = 'card fp200-organized';
+    org.innerHTML = `
+      <div class="fp200-org-head">
+        <div><span class="eyebrow">DAILY WORKSPACE</span><h2>Practice, Progress &amp; Habits</h2></div>
+        <div class="fp200-org-tabs" role="tablist">
+          <button type="button" class="secondary-btn active" data-fp200-hometab="practice">⚡ Quick Practice</button>
+          <button type="button" class="secondary-btn" data-fp200-hometab="progress">📊 Mastery &amp; XP</button>
+          <button type="button" class="secondary-btn" data-fp200-hometab="habits">✅ Checklist &amp; Moods</button>
         </div>
-      </section>
-      <section class="card fp-widget">
-        <div class="fp-widget-head"><strong>🏆 10-Point Study Checklist</strong><span>${checks.length}/10</span></div>
-        <div class="fp200-checklist">${checklistItems.map((it, i) => `<label class="fp200-chk"><input type="checkbox" data-fp200-chk="${i}" ${checks.includes(i)?'checked':''}><span>${esc(it)}</span></label>`).join('')}</div>
-      </section>
-      <section class="card fp-widget">
-        <div class="fp-widget-head"><strong>🎨 10 Mood Themes &amp; Rank</strong><span>Lv.${level} · ${acc}%</span></div>
-        <div class="fp200-moods">${moods.map(([name, col]) => `<button type="button" class="fp200-mood-dot" style="background:${col}" title="${esc(name)}" data-fp200-mood="${col}"></button>`).join('')}</div>
-        <small class="fp-muted">Solved: ${completed} · XP to next lv: ${100 - (xp % 100)}</small>
-      </section>
+      </div>
+      <div class="fp200-org-pane" data-fp200-pane="practice">
+        <div class="fp200-pane-grid">
+          <div class="fp200-subcard">
+            <div class="fp-widget-head"><strong>⚡ 10-Mode Challenge</strong><span>${esc(challengeModes[activeModeIdx].label)}</span></div>
+            <div class="fp200-mode-pills">${challengeModes.map((m, i) => `<button type="button" class="fp-chip ${i===activeModeIdx?'active':''}" data-fp200-mode="${i}">${esc(m.label)}</button>`).join('')}</div>
+            <div class="fp-inline-row" style="margin-top:10px">
+              <strong class="fp-warmup-q" id="fp200-mp">${esc(modePrompt)} =</strong>
+              <input type="number" step="any" id="fp200-ma" class="fp-input-sm" placeholder="?">
+              <button type="button" class="primary-btn" data-fp200="check-mode">Go (+5 XP)</button>
+            </div>
+          </div>
+          <div class="fp200-subcard fp200-warmup-slot"></div>
+        </div>
+      </div>
+      <div class="fp200-org-pane hidden" data-fp200-pane="progress">
+        <div class="fp200-pane-grid fp200-progress-slot"></div>
+      </div>
+      <div class="fp200-org-pane hidden" data-fp200-pane="habits">
+        <div class="fp200-pane-grid">
+          <div class="fp200-subcard">
+            <div class="fp-widget-head"><strong>🏆 10-Point Study Checklist</strong><span>${checks.length}/10</span></div>
+            <div class="fp200-checklist">${checklistItems.map((it, i) => `<label class="fp200-chk"><input type="checkbox" data-fp200-chk="${i}" ${checks.includes(i)?'checked':''}><span>${esc(it)}</span></label>`).join('')}</div>
+          </div>
+          <div class="fp200-subcard">
+            <div class="fp-widget-head"><strong>🎨 10 Mood Themes &amp; Rank</strong><span>Lv.${level} · ${acc}%</span></div>
+            <div class="fp200-moods">${moods.map(([name, col]) => `<button type="button" class="fp200-mood-dot" style="background:${col}" title="${esc(name)}" data-fp200-mood="${col}"></button>`).join('')}</div>
+            <small class="fp-muted">Solved: ${completed} · XP to next lv: ${100 - (xp % 100)}</small>
+          </div>
+        </div>
+      </div>
     `;
-    extras.appendChild(panel);
+
+    if (baseWidgets) {
+      const cards = [...baseWidgets.querySelectorAll('.fp-widget')];
+      if (cards[0]) { cards[0].className = 'fp200-subcard'; org.querySelector('.fp200-warmup-slot')?.replaceWith(cards[0]); }
+      if (cards[1]) { cards[1].className = 'fp200-subcard'; org.querySelector('.fp200-progress-slot')?.appendChild(cards[1]); }
+      if (cards[2]) { cards[2].className = 'fp200-subcard'; org.querySelector('.fp200-progress-slot')?.appendChild(cards[2]); }
+      baseWidgets.remove();
+    }
+    extras.appendChild(org);
   }
 
   /* ====== PRACTICE 111–145 ====== */
@@ -324,6 +353,13 @@
 
     const tabBtn = t.closest('[data-fp200-tab]');
     if (tabBtn) { hubTab = tabBtn.dataset.fp200Tab; renderHub(); return; }
+    const homeTab = t.closest('[data-fp200-hometab]');
+    if (homeTab) {
+      const targetPane = homeTab.dataset.fp200Hometab;
+      document.querySelectorAll('[data-fp200-hometab]').forEach(b => b.classList.toggle('active', b === homeTab));
+      document.querySelectorAll('[data-fp200-pane]').forEach(p => p.classList.toggle('hidden', p.dataset.fp200Pane !== targetPane));
+      return;
+    }
     const catBtn = t.closest('[data-fp200-cat]');
     if (catBtn) { hubCat = catBtn.dataset.fp200Cat; renderHub(); return; }
     const toolBtn = t.closest('[data-fp200-tool]');
