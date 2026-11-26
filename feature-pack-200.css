@@ -1,0 +1,31 @@
+.fp200-hub-btn strong { color: var(--violet, #6356eb); }
+.fp200-hub { width: min(760px, 100%); max-height: 88vh; overflow: auto; padding: 22px; }
+.fp200-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.fp200-tabs .secondary-btn.active { background: var(--violet, #6356eb); color: #fff; border-color: var(--violet, #6356eb); }
+.fp200-cats { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.fp200-tools-layout { display: grid; grid-template-columns: minmax(210px, .9fr) minmax(0, 1.1fr); gap: 14px; }
+.fp200-tool-list { display: grid; gap: 6px; max-height: 360px; overflow-y: auto; }
+.fp200-tool-list .fp-jump-item.active { border-color: var(--violet, #6356eb); background: color-mix(in srgb, var(--violet, #6356eb) 10%, var(--paper, #fff)); }
+.fp200-tool-runner { padding: 18px; display: grid; gap: 12px; align-content: start; }
+.fp200-tool-runner h4 { margin: 0; font: 700 18px 'Space Grotesk', sans-serif; }
+.fp200-runner-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+.fp200-runner-inputs label { display: grid; gap: 5px; font-size: 12px; font-weight: 700; color: var(--muted, #6f7b8c); }
+.fp200-runner-inputs input { padding: 8px 10px; border: 1px solid var(--line, #dfe5ef); border-radius: 9px; background: var(--paper, #fff); color: var(--ink, #192433); font: inherit; }
+.fp200-runner-out { padding: 14px; border-radius: 12px; background: color-mix(in srgb, var(--violet, #6356eb) 10%, var(--paper, #fff)); font: 700 18px 'Space Grotesk', sans-serif; color: var(--violet, #6356eb); overflow-wrap: anywhere; }
+.fp200-formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 12px; max-height: 360px; overflow-y: auto; }
+.fp200-formula-card { padding: 12px; border: 1px solid var(--line, #e7ebf0); border-radius: 11px; display: grid; gap: 6px; font-size: 13px; }
+.fp200-formula-card code { font-size: 12px; color: var(--violet, #6356eb); }
+.fp200-directory ul { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 6px; font-size: 13px; }
+.fp200-home-panel { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.fp200-mode-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+.fp200-checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; font-size: 11px; }
+.fp200-chk { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+.fp200-moods { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0; }
+.fp200-mood-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,.18); cursor: pointer; }
+.fp200-sym-bar { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin-top: 10px; }
+.fp200-combo { font-size: 12px; font-weight: 700; color: #b76a22; padding: 3px 8px; border-radius: 999px; background: #fff6e9; }
+.fp200-skill-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: -6px 0 16px; }
+.fp200-analytics { padding: 18px; margin-top: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.fp200-analytics small { display: block; color: var(--muted, #6f7b8c); font-size: 12px; }
+.fp200-note-templates { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 10px; font-size: 12px; color: var(--muted, #6f7b8c); }
+@media (max-width: 900px) { .fp200-home-panel, .fp200-tools-layout { grid-template-columns: 1fr; } }
