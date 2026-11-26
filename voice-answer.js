@@ -44,7 +44,13 @@
   }
   function ensureButton() {
     const input = content.querySelector('.practice-shell .question-card .answer-input');
-    if (!input || content.querySelector('[data-voice-answer]') || content.querySelector('[data-challenge-time]')) return;
+    const solved = Boolean(content.querySelector('.practice-shell .feedback.success, .practice-shell .answer-input.correct'));
+    const existing = content.querySelector('[data-voice-answer]');
+    if (!input || solved || content.querySelector('[data-challenge-time]')) {
+      existing?.remove();
+      return;
+    }
+    if (existing) return;
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'secondary-btn voice-answer-btn';
@@ -85,6 +91,6 @@
     };
     try { recognition.start(); } catch { button.disabled = false; button.textContent = isSpanish() ? '🎙 Responder hablando' : '🎙 Speak answer'; }
   });
-  new MutationObserver(ensureButton).observe(content, {childList:true, subtree:true});
+  new MutationObserver(ensureButton).observe(content, {childList:true, subtree:true, attributes:true, attributeFilter:['class']});
   ensureButton();
 })();
