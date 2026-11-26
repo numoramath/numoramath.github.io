@@ -35,4 +35,7 @@
 .fp200-org-tabs .secondary-btn.active { background: var(--violet, #6356eb); color: #fff; border-color: var(--violet, #6356eb); }
 .fp200-pane-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .fp200-subcard { padding: 16px; border: 1px solid var(--line, #e7ebf0); border-radius: 14px; background: var(--wash, #f8f9fc); display: grid; gap: 10px; align-content: start; }
+.fp200-dir-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); gap: 8px; margin-top: 12px; max-height: 390px; overflow-y: auto; }
+.fp200-dir-btn { text-align: left; padding: 9px 11px; border: 1px solid var(--line, #dfe5ef); border-radius: 10px; background: var(--paper, #fff); color: var(--ink, #192433); font: 600 12px/1.3 'DM Sans', sans-serif; cursor: pointer; }
+.fp200-dir-btn:hover { border-color: var(--violet, #6356eb); background: color-mix(in srgb, var(--violet, #6356eb) 8%, var(--paper, #fff)); }
 @media (max-width: 900px) { .fp200-home-panel, .fp200-tools-layout, .fp200-pane-grid { grid-template-columns: 1fr; } }

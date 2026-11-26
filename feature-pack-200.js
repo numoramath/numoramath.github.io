@@ -92,6 +92,23 @@
     ['Sky Bright', '#0284c7'], ['Rose Pop', '#e11d48'], ['Mint Fresh', '#14b8a6'], ['Slate Pro', '#475569']
   ];
 
+  /* ====== 1–200 CLICKABLE DIRECTORY ITEMS ====== */
+  function buildAll200Items() {
+    const items = [];
+    microTools.forEach(m => items.push({ label: m.name, type: 'tool', val: m.id }));
+    formulas.forEach(([title]) => items.push({ label: title, type: 'formula', val: title.replace(/^\d+\.\s*/, '') }));
+    challengeModes.forEach((m, i) => items.push({ label: m.label, type: 'home-mode', val: String(i) }));
+    ['81. Learner Rank & Level','82. XP to Next Level','83. Answer Accuracy %','84. Total Questions Solved','85. Grade Mastery Bar','86. 7-Day Streak Dots','87. Nearby Grade Switcher','88. Recent XP Feed','89. Surprise Lab Launcher','90. Daily Math Quote'].forEach(l => items.push({ label: l, type: 'home-tab', val: 'progress' }));
+    checklistItems.forEach(l => items.push({ label: l, type: 'home-tab', val: 'habits' }));
+    moods.forEach(([name], i) => items.push({ label: `${101 + i}. Mood: ${name}`, type: 'home-tab', val: 'habits' }));
+    ['111. Symbol +','112. Symbol −','113. Symbol ×','114. Symbol ÷','115. Symbol /','116. Symbol .','117. Symbol -','118. Symbol (','119. Symbol )','120. Symbol ^','121. Question Timer','122. Session Accuracy Pill','123. Copy Question','124. On-Screen Keypad','125. Queue & Skip','126. Operation Nudge','127. Formula Peek','128. Live Combo Streak','129. Speak Answer','130. Read Question Aloud','131. Step-by-Step Scratchpad','132. Calculator Offer (4 Misses)','133. Mini Lesson Calculator','134. Lesson Preview Modal','135. Hint Token Button','136. Auto-Explain Toggle','137. Auto-Focus Input','138. Celebration Animations','139. Lesson Notes','140. Confidence & Practice Flow','141. Replay Lesson','142. Share Win Link','143. Next Queued Lesson','144. Keyboard Enter Submit','145. Spacebar Answer Control'].forEach(l => items.push({ label: l, type: 'lesson', val: '' }));
+    ['All','Add','Subtract','Multiply','Divide','Fraction','Decimal','Percent','Ratio','Equation','Geometry','Graph','Time','Money','Pattern'].forEach((tp, i) => items.push({ label: `${146 + i}. Skill Filter: ${tp}`, type: 'skill-topic', val: tp }));
+    ['161. Grade Rating (A+–F)','162. Export CSV Report','163. Estimated Study Time','164. Print / Save PDF','165. Monthly Practice Calendar','166. Weekly Goal Tracker','167. Accuracy Snapshot','168. Streak History','169. Lessons Finished Count','170. Questions Today Count','171. Download Progress Backup','172. Grade Progress Bar','173. Next Badge Spotlight','174. Badge Filter: Earned','175. Badge Filter: Locked'].forEach((l, i) => items.push({ label: l, type: i >= 12 ? 'view' : 'view', val: i >= 12 ? 'badges' : 'reports' }));
+    ['176. Mistake Study Sheet Export','177. Mistake Notebook Review','178. Spaced Flashcard Review','179. Review All Flashcards','180. Quick Study Note','181. Note Template: Slope','182. Note Template: Pythagoras','183. Note Template: Circle','184. Note Template: Quadratic','185. Export Lesson Notes','186. Saved Skills Search','187. Remove Finished Saved','188. Practice Queue Builder','189. Shuffle Queue','190. Save Queue as Plan'].forEach((l, i) => items.push({ label: l, type: 'view', val: i < 2 ? 'mistakes' : i < 4 ? 'flashcards' : i < 10 ? 'notes' : i < 12 ? 'saved' : 'practice-queue' }));
+    ['191. Accent Colors (15)','192. Easy-Read Font Style','193. Voice & Speech Rate','194. Focus Mode','195. Compact Sidebar','196. Import Progress Backup','197. Reset Preferences','198. XP Shop Search & Afford Filter','199. Quick Jump (Ctrl+K)','200. Keyboard Shortcuts (?)'].forEach((l, i) => items.push({ label: l, type: i < 7 ? 'action' : i === 7 ? 'action' : i === 8 ? 'quick-jump' : 'shortcuts', val: i < 7 ? 'settings' : 'spend-xp' }));
+    return items;
+  }
+
   /* ====== HUB BUTTON IN TOPBAR (NO SIDEBAR ADDITIONS) ====== */
   const topTools = document.querySelector('.fp-topbar-tools');
   if (topTools && !topTools.querySelector('[data-fp200="open-hub"]')) {
@@ -143,21 +160,10 @@
         <div class="fp200-formula-grid">${formulas.map(([title, eq]) => `<article class="fp200-formula-card"><strong>${esc(title)}</strong><code>${esc(eq)}</code><button type="button" class="text-link" data-fp200-copy="${esc(eq)}">Copy</button></article>`).join('')}</div>
       ` : `
         <div class="fp200-directory">
-          <p><strong>200+ Distributed Features Active Across Numora (Zero Sidebar Clutter):</strong></p>
-          <ul>
-            <li><b>1–40:</b> 40 Interactive Micro-Calculators &amp; Converters (in Tools Hub → 40 Micro-Calculators)</li>
-            <li><b>41–70:</b> 30 Searchable &amp; Copyable Formulas (in Tools Hub → 30 Formula Bank)</li>
-            <li><b>71–80:</b> 10-Mode Daily Mental Challenge Strip (on Home Dashboard)</li>
-            <li><b>81–90:</b> 10 Live Learner Ranks &amp; Milestones Card (on Home Dashboard)</li>
-            <li><b>91–100:</b> 10-Item Interactive Daily Study Checklist (on Home Dashboard)</li>
-            <li><b>101–110:</b> 10 Quick Accent Mood Presets (on Home Dashboard)</li>
-            <li><b>111–120:</b> 10-Symbol Quick Math Bar (+, −, ×, ÷, /, ., (, ), ^, =) in Lesson Practice</li>
-            <li><b>121–145:</b> In-Lesson Confidence Tags, Combo Streak Multiplier, Formula Peek &amp; Post-Answer Actions</li>
-            <li><b>146–160:</b> 15 Topic &amp; Progress Quick-Filter Chips in Skill Library</li>
-            <li><b>161–175:</b> Progress CSV Export, Accuracy Grade (A+–F), Pace &amp; Consistency Analytics</li>
-            <li><b>176–190:</b> Mistake Filter/Export, Flashcard Shuffle, Note Formula Templates &amp; Word Counter</li>
-            <li><b>191–200:</b> Settings Extras (Compact Cards, Combo Alerts, Export All Study Data, Hub Shortcut Ctrl+J)</li>
-          </ul>
+          <input type="search" id="fp200-dir-search" class="fp-input" placeholder="Search all 200 features and click any button to jump there…">
+          <div class="fp200-dir-grid">
+            ${buildAll200Items().map(it => `<button type="button" class="fp200-dir-btn" data-fp200-goto="${esc(it.type)}" data-fp200-val="${esc(it.val)}">${esc(it.label)}</button>`).join('')}
+          </div>
         </div>
       `}
     </section>`;
@@ -410,6 +416,56 @@
       return;
     }
 
+    const gotoBtn = t.closest('[data-fp200-goto]');
+    if (gotoBtn) {
+      const gType = gotoBtn.dataset.fp200Goto;
+      const gVal = gotoBtn.dataset.fp200Val;
+      if (gType === 'tool') {
+        hubTab = 'tools';
+        activeTool = microTools.find(m => m.id === gVal) || microTools[0];
+        renderHub();
+      } else if (gType === 'formula') {
+        hubTab = 'formulas';
+        renderHub();
+        const fs = document.querySelector('#fp200-formula-search');
+        if (fs) { fs.value = gVal; fs.dispatchEvent(new Event('input', { bubbles: true })); }
+      } else if (gType === 'home-mode') {
+        hubModal.classList.add('hidden');
+        pickModeChallenge(Number(gVal));
+        document.querySelector('.nav-item[data-view="home"]')?.click();
+        setTimeout(() => document.querySelector('[data-fp200-hometab="practice"]')?.click(), 30);
+      } else if (gType === 'home-tab') {
+        hubModal.classList.add('hidden');
+        document.querySelector('.nav-item[data-view="home"]')?.click();
+        setTimeout(() => document.querySelector(`[data-fp200-hometab="${gVal}"]`)?.click(), 30);
+      } else if (gType === 'lesson') {
+        hubModal.classList.add('hidden');
+        const grade = localStorage.getItem('numoraGrade') || 'Pre-K';
+        const firstLesson = (window.gradeSkillNames?.[grade] || [])[0] || 'Counting to 10';
+        window.practiceView?.(firstLesson);
+      } else if (gType === 'skill-topic') {
+        hubModal.classList.add('hidden');
+        document.querySelector('.nav-item[data-view="skills"]')?.click();
+        setTimeout(() => {
+          const s = document.querySelector('#skill-search');
+          if (s) { s.value = gVal === 'All' ? '' : gVal; s.dispatchEvent(new Event('input', { bubbles: true })); }
+        }, 40);
+      } else if (gType === 'view') {
+        hubModal.classList.add('hidden');
+        document.querySelector(`.nav-item[data-view="${gVal}"]`)?.click();
+      } else if (gType === 'action') {
+        hubModal.classList.add('hidden');
+        window.openUtilityPanel?.(gVal);
+      } else if (gType === 'quick-jump') {
+        hubModal.classList.add('hidden');
+        document.querySelector('[data-fp="quick-jump"]')?.click();
+      } else if (gType === 'shortcuts') {
+        hubModal.classList.add('hidden');
+        document.querySelector('[data-fp="shortcuts"]')?.click();
+      }
+      return;
+    }
+
     if (t.closest('.practice-shell .check-btn') && !content.querySelector('[data-challenge-time]')) {
       setTimeout(() => {
         const fb = content.querySelector('.practice-shell .feedback');
@@ -446,6 +502,11 @@
       const q = t.value.trim().toLowerCase();
       document.querySelectorAll('.fp200-formula-card').forEach(c => {
         c.classList.toggle('hidden', Boolean(q) && !c.textContent.toLowerCase().includes(q));
+      });
+    } else if (t.id === 'fp200-dir-search') {
+      const q = t.value.trim().toLowerCase();
+      document.querySelectorAll('.fp200-dir-btn').forEach(b => {
+        b.classList.toggle('hidden', Boolean(q) && !b.textContent.toLowerCase().includes(q));
       });
     }
   });
